@@ -1,0 +1,26 @@
+{
+    "meditations": {
+        "url": "https://www.gutenberg.org/files/2680/2680-0.txt",
+        "author": "Marcus Aurelius",
+        "author_folder": "marcus_aurelius",
+        "filename": "meditations.txt",
+        "content_start": "MARCUS AURELIUS ANTONINUS THE ROMAN EMPEROR|HIS FIRST BOOK",
+        "content_end": "\\n\\s*APPENDIX|CORRESPONDENCE OF M\\."
+    },
+    "moral_letters": {
+        "url": "https://www.gutenberg.org/cache/epub/56075/pg56075.txt",
+        "author": "Seneca",
+        "author_folder": "seneca",
+        "filename": "moral_letters.txt",
+        "content_start": "SENECA OF BENEFITS\\.",
+        "content_end": "\\n\\s*Transcriber's note:"
+    },
+    "enchiridion": {
+        "url": "https://www.gutenberg.org/cache/epub/45109/pg45109.txt",
+        "author": "Epictetus",
+        "author_folder": "epictetus",
+        "filename": "enchiridion.txt",
+        "content_start": "There are things which are within our power",
+        "content_end": "\\n\\s*Footnotes"
+    }
+}

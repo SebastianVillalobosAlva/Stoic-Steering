@@ -1,0 +1,128 @@
+{
+  "timestamp": "20260703_132438",
+  "stage": 2,
+  "check": "cosine>=0.99 vs frozen; injection bites at L+1; steered dilemmas flat (Exp 10 null)",
+  "baseline_mean": 0.541601902275579,
+  "per_author": {
+    "marcus": {
+      "layer": 26,
+      "coeff": 0.11,
+      "cosine_to_frozen": 0.9999997019767761,
+      "norm_ratio_new_over_frozen": 1.0,
+      "steered_mean": 0.5414906240825076,
+      "overall": {
+        "n": 40,
+        "mean_delta": -0.00011127819307148457,
+        "std": 0.0012967422076701571,
+        "t_stat": -0.5427332309111785,
+        "p_value": 0.590401862410015
+      },
+      "overall_logodds": {
+        "n": 40,
+        "mean_delta": 0.00045991120183801366,
+        "std": 0.008328831534221584,
+        "t_stat": 0.3492367238448333,
+        "p_value": 0.7287902828798848
+      },
+      "by_stance": {
+        "accepting": {
+          "n": 22,
+          "mean_delta": -0.00026074788448485464,
+          "std": 0.0014719112708578587,
+          "t_stat": -0.8309033370031766,
+          "p_value": 0.4153758509722451
+        },
+        "active": {
+          "n": 18,
+          "mean_delta": 7.140698532263438e-05,
+          "std": 0.001056933948309551,
+          "t_stat": 0.28663492336382984,
+          "p_value": 0.7778558924953004
+        }
+      }
+    },
+    "seneca": {
+      "layer": 4,
+      "coeff": 0.11,
+      "cosine_to_frozen": 0.9999995827674866,
+      "norm_ratio_new_over_frozen": 1.0,
+      "steered_mean": 0.5417707880900707,
+      "overall": {
+        "n": 40,
+        "mean_delta": 0.00016888581449165941,
+        "std": 0.006858140456084344,
+        "t_stat": 0.15574596108264588,
+        "p_value": 0.8770366310721337
+      },
+      "overall_logodds": {
+        "n": 40,
+        "mean_delta": 0.006242229838885549,
+        "std": 0.047524198656894674,
+        "t_stat": 0.8307205393048941,
+        "p_value": 0.41118844291251017
+      },
+      "by_stance": {
+        "accepting": {
+          "n": 22,
+          "mean_delta": 0.0011196918150579388,
+          "std": 0.007583043614309131,
+          "t_stat": 0.692574169767786,
+          "p_value": 0.49616485831517765
+        },
+        "active": {
+          "n": 18,
+          "mean_delta": -0.000993210408422682,
+          "std": 0.005854002391696247,
+          "t_stat": -0.7198211766400454,
+          "p_value": 0.4814151753047964
+        }
+      }
+    },
+    "epictetus": {
+      "layer": 8,
+      "coeff": 0.11,
+      "cosine_to_frozen": 1.0,
+      "norm_ratio_new_over_frozen": 1.0,
+      "steered_mean": 0.5408875358582008,
+      "overall": {
+        "n": 40,
+        "mean_delta": -0.0007143664173781872,
+        "std": 0.00394851535961464,
+        "t_stat": -1.1442401799698376,
+        "p_value": 0.2594984741082519
+      },
+      "overall_logodds": {
+        "n": 40,
+        "mean_delta": -0.002399120869576136,
+        "std": 0.021463250972255973,
+        "t_stat": -0.7069466167740502,
+        "p_value": 0.4838025078292713
+      },
+      "by_stance": {
+        "accepting": {
+          "n": 22,
+          "mean_delta": -0.0005940617993474007,
+          "std": 0.004307333703152002,
+          "t_stat": -0.6468959727752449,
+          "p_value": 0.5247077209749968
+        },
+        "active": {
+          "n": 18,
+          "mean_delta": -0.0008614053949713707,
+          "std": 0.0035786704177546247,
+          "t_stat": -1.0212266429113168,
+          "p_value": 0.32146096606692315
+        }
+      }
+    }
+  },
+  "injection_site_check": {
+    "layer": 8,
+    "hidden_states[L]_unchanged": true,
+    "hidden_states[L+1]_changed": true,
+    "passed": true
+  },
+  "cosines_ok": true,
+  "flat_ok": true,
+  "passed": true
+}

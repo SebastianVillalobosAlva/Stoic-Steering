@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stoic-llm"
+version = "0.1.0"
+description = "Clean rebuild of the Stoic-steering pipeline (CAA vs LoRA), reproducing Exp 9/10/11 on Llama-3.2-3B."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+# Core: everything Pass A Stage 0-2 needs (load model, extract/inject vectors,
+# run the forced-choice dilemma harness). Pinned to the versions that produced
+# the reproduced numbers (baseline P(stoic)=0.542, cosine 1.0000).
+dependencies = [
+    "torch==2.5.1",
+    "transformers==4.57.3",
+    "huggingface-hub==0.36.0",
+    "safetensors==0.7.0",
+    "sentencepiece==0.2.1",
+    "numpy==2.3.5",
+    "scipy==1.17.1",
+]
+
+[project.optional-dependencies]
+# Stage 3 — judge-scored content effect (Exp 9). Gemini is the canonical judge.
+judge = [
+    "google-genai==2.8.0",
+    "anthropic==0.75.0",
+    "python-dotenv>=1.0",
+]
+# Stage 4 — LoRA fine-tuning + merged-adapter dilemma eval (Exp 11).
+lora = [
+    "peft==0.18.1",
+    "datasets==4.4.2",
+    "accelerate==1.12.0",
+]
+# Convenience: full pipeline (all stages).
+all = [
+    "google-genai==2.8.0",
+    "anthropic==0.75.0",
+    "python-dotenv>=1.0",
+    "peft==0.18.1",
+    "datasets==4.4.2",
+    "accelerate==1.12.0",
+]
+
+[project.scripts]
+stoic = "stoic.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["stoic*"]

@@ -1,0 +1,10 @@
+{
+  "timestamp": "20260703_002125",
+  "stage": 0,
+  "check": "same prompt -> identical output twice",
+  "prompt": "When facing difficulty, one should",
+  "output_1": "When facing difficulty, one should not be afraid to ask for help. This is the message of a new video from The Salvation Army\u2019s National Advisory Council (NAC) that encourages people in need and those who want to support them.\nThe 30-second spot features real-life stories about how individuals have been helped by their local corps community centers or social service agencies \u2013 including an elderly woman whose home was destroyed during Hurricane Harvey; two young men with disabilities learning life skills at camp through \u201cSalvationist\u201d training programs; children receiving",
+  "output_2": "When facing difficulty, one should not be afraid to ask for help. This is the message of a new video from The Salvation Army\u2019s National Advisory Council (NAC) that encourages people in need and those who want to support them.\nThe 30-second spot features real-life stories about how individuals have been helped by their local corps community centers or social service agencies \u2013 including an elderly woman whose home was destroyed during Hurricane Harvey; two young men with disabilities learning life skills at camp through \u201cSalvationist\u201d training programs; children receiving",
+  "identical": true,
+  "passed": true
+}

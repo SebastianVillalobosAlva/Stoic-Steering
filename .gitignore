@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Secrets
+.env
+
+# OS
+.DS_Store
+
+# Model weights — never commit
+models/
+
+# Frozen reference binaries (steering vectors are large; the JSONs stay tracked)
+data/reference/steering_vectors/*.pt
+
+# Everything the new pipeline produces, EXCEPT final results JSONs
+data/generated/
+
+# Results: keep the checkpoint JSONs (they are the replication record), ignore stray junk
+results/**/.DS_Store

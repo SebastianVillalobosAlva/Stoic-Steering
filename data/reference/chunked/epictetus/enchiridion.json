@@ -1,0 +1,499 @@
+{
+  "source_file": "/Users/sebastianvillalobos/Downloads/Projects/stoic-llm/data/processed/epictetus/enchiridion.txt",
+  "author": "epictetus",
+  "total_chunks": 123,
+  "chunks": [
+    {
+      "id": 1,
+      "text": "There are things which are within our power, and there are things which\nare beyond our power. Within our power are opinion, aim, desire,\naversion, and, in one word, whatever affairs are our own. Beyond our\npower are body, property, reputation, office, and, in one word, whatever\nare not properly our own affairs."
+    },
+    {
+      "id": 2,
+      "text": "Now the things within our power are by nature free, unrestricted,\nunhindered; but those beyond our power are weak, dependent, restricted,\nalien. Remember, then, that if you attribute freedom to things by nature\ndependent and take what belongs to others for your own, you will be\nhindered, you will lament, you will be disturbed, you will find fault\nboth with gods and men. But if you take for your own only that which is\nyour own and view what belongs to others just as it really is, then no\none will ever compel you, no one will restrict you; you will find fault\nwith no one, you will accuse no one, you will do nothing against your\nwill; no one will hurt you, you will not have an enemy, nor will you\nsuffer any harm."
+    },
+    {
+      "id": 3,
+      "text": "Aiming, therefore, at such great things, remember that you must not allow\nyourself any inclination, however slight, toward the attainment of the\nothers; but that you must entirely quit some of them, and for the present\npostpone the rest. But if you would have these, and possess power and\nwealth likewise, you may miss the latter in seeking the former; and you\nwill certainly fail of that by which alone happiness and freedom are\nprocured."
+    },
+    {
+      "id": 4,
+      "text": "Seek at once, therefore, to be able to say to every unpleasing semblance,\n“You are but a semblance and by no means the real thing.” And then\nexamine it by those rules which you have; and first and chiefly by this:\nwhether it concerns the things which are within our own power or those\nwhich are not; and if it concerns anything beyond our power, be prepared\nto say that it is nothing to you."
+    },
+    {
+      "id": 5,
+      "text": "II"
+    },
+    {
+      "id": 6,
+      "text": "Remember that desire demands the attainment of that of which you are\ndesirous; and aversion demands the avoidance of that to which you are\naverse; that he who fails of the object of his desires is disappointed;\nand he who incurs the object of his aversion is wretched. If, then, you\nshun only those undesirable things which you can control, you will never\nincur anything which you shun; but if you shun sickness, or death, or\npoverty, you will run the risk of wretchedness. Remove [the habit of]\naversion, then, from all things that are not within our power, and apply\nit to things undesirable which are within our power. But for the present,\naltogether restrain desire; for if you desire any of the things not\nwithin our own power, you must necessarily be disappointed; and you are\nnot yet secure of those which are within our power, and so are legitimate\nobjects of desire. Where it is practically necessary for you to pursue or\navoid anything, do even this with discretion and gentleness and\nmoderation."
+    },
+    {
+      "id": 7,
+      "text": "III"
+    },
+    {
+      "id": 8,
+      "text": "With regard to whatever objects either delight the mind or contribute to\nuse or are tenderly beloved, remind yourself of what nature they are,\nbeginning with the merest trifles: if you have a favorite cup, that it is\nbut a cup of which you are fond of—for thus, if it is broken, you can\nbear it; if you embrace your child or your wife, that you embrace a\nmortal—and thus, if either of them dies, you can bear it."
+    },
+    {
+      "id": 9,
+      "text": "IV"
+    },
+    {
+      "id": 10,
+      "text": "When you set about any action, remind yourself of what nature the action\nis. If you are going to bathe, represent to yourself the incidents usual\nin the bath—some persons pouring out, others pushing in, others scolding,\nothers pilfering. And thus you will more safely go about this action if\nyou say to yourself, “I will now go to bathe and keep my own will in\nharmony with nature.” And so with regard to every other action. For thus,\nif any impediment arises in bathing, you will be able to say, “It was not\nonly to bathe that I desired, but to keep my will in harmony with nature;\nand I shall not keep it thus if I am out of humor at things that happen.”"
+    },
+    {
+      "id": 11,
+      "text": "V"
+    },
+    {
+      "id": 12,
+      "text": "Men are disturbed not by things, but by the views which they take of\nthings. Thus death is nothing terrible, else it would have appeared so to\nSocrates. But the terror consists in our notion of death, that it is\nterrible. When, therefore, we are hindered or disturbed, or grieved, let\nus never impute it to others, but to ourselves—that is, to our own views.\nIt is the action of an uninstructed person to reproach others for his own\nmisfortunes; of one entering upon instruction, to reproach himself; and\none perfectly instructed, to reproach neither others nor himself."
+    },
+    {
+      "id": 13,
+      "text": "VI"
+    },
+    {
+      "id": 14,
+      "text": "Be not elated at any excellence not your own. If a horse should be\nelated, and say, “I am handsome,” it might be endurable. But when you are\nelated and say, “I have a handsome horse,” know that you are elated only\non the merit of the horse. What then is your own? The use of the\nphenomena of existence. So that when you are in harmony with nature in\nthis respect, you will be elated with some reason; for you will be elated\nat some good of your own."
+    },
+    {
+      "id": 15,
+      "text": "VII"
+    },
+    {
+      "id": 16,
+      "text": "As in a voyage, when the ship is at anchor, if you go on shore to get\nwater, you may amuse yourself with picking up a shellfish or a truffle in\nyour way, but your thoughts ought to be bent toward the ship, and\nperpetually attentive, lest the captain should call, and then you must\nleave all these things, that you may not have to be carried on board the\nvessel, bound like a sheep; thus likewise in life, if, instead of a\ntruffle or shellfish, such a thing as a wife or a child be granted you,\nthere is no objection; but if the captain calls, run to the ship, leave\nall these things, and never look behind. But if you are old, never go far\nfrom the ship, lest you should be missing when called for."
+    },
+    {
+      "id": 17,
+      "text": "VIII"
+    },
+    {
+      "id": 18,
+      "text": "Demand not that events should happen as you wish; but wish them to happen\nas they do happen, and you will go on well."
+    },
+    {
+      "id": 19,
+      "text": "IX"
+    },
+    {
+      "id": 20,
+      "text": "Sickness is an impediment to the body, but not to the will unless itself\npleases. Lameness is an impediment to the leg, but not to the will; and\nsay this to yourself with regard to everything that happens. For you will\nfind it to be an impediment to something else, but not truly to yourself."
+    },
+    {
+      "id": 21,
+      "text": "X"
+    },
+    {
+      "id": 22,
+      "text": "Upon every accident, remember to turn toward yourself and inquire what\nfaculty you have for its use. If you encounter a handsome person, you\nwill find continence the faculty needed; if pain, then fortitude; if\nreviling, then patience. And when thus habituated, the phenomena of\nexistence will not overwhelm you."
+    },
+    {
+      "id": 23,
+      "text": "XI"
+    },
+    {
+      "id": 24,
+      "text": "Never say of anything, “I have lost it,” but, “I have restored it.” Has\nyour child died? It is restored. Has your wife died? She is restored. Has\nyour estate been taken away? That likewise is restored. “But it was a bad\nman who took it.” What is it to you by whose hands he who gave it has\ndemanded it again? While he permits you to possess it, hold it as\nsomething not your own, as do travelers at an inn."
+    },
+    {
+      "id": 25,
+      "text": "XII"
+    },
+    {
+      "id": 26,
+      "text": "If you would improve, lay aside such reasonings as these: “If I neglect\nmy affairs, I shall not have a maintenance; if I do not punish my\nservant, he will be good for nothing.” For it were better to die of\nhunger, exempt from grief and fear, than to live in affluence with\nperturbation; and it is better that your servant should be bad than you\nunhappy."
+    },
+    {
+      "id": 27,
+      "text": "Begin therefore with little things. Is a little oil spilled or a little\nwine stolen? Say to yourself, “This is the price paid for peace and\ntranquillity; and nothing is to be had for nothing.” And when you call\nyour servant, consider that it is possible he may not come at your call;\nor, if he does, that he may not do what you wish. But it is not at all\ndesirable for him, and very undesirable for you, that it should be in his\npower to cause you any disturbance."
+    },
+    {
+      "id": 28,
+      "text": "XIII"
+    },
+    {
+      "id": 29,
+      "text": "If you would improve, be content to be thought foolish and dull with\nregard to externals. Do not desire to be thought to know anything; and\nthough you should appear to others to be somebody, distrust yourself. For\nbe assured, it is not easy at once to keep your will in harmony with\nnature and to secure externals; but while you are absorbed in the one,\nyou must of necessity neglect the other."
+    },
+    {
+      "id": 30,
+      "text": "XIV"
+    },
+    {
+      "id": 31,
+      "text": "If you wish your children and your wife and your friends to live forever,\nyou are foolish, for you wish things to be in your power which are not\nso, and what belongs to others to be your own. So likewise, if you wish\nyour servant to be without fault, you are foolish, for you wish vice not\nto be vice but something else. But if you wish not to be disappointed in\nyour desires, that is in your own power. Exercise, therefore, what is in\nyour power. A man’s master is he who is able to confer or remove whatever\nthat man seeks or shuns. Whoever then would be free, let him wish\nnothing, let him decline nothing, which depends on others; else he must\nnecessarily be a slave."
+    },
+    {
+      "id": 32,
+      "text": "XV"
+    },
+    {
+      "id": 33,
+      "text": "Remember that you must behave as at a banquet. Is anything brought round\nto you? Put out your hand and take a moderate share. Does it pass by you?\nDo not stop it. Is it not yet come? Do not yearn in desire toward it, but\nwait till it reaches you. So with regard to children, wife, office,\nriches; and you will some time or other be worthy to feast with the gods.\nAnd if you do not so much as take the things which are set before you,\nbut are able even to forego them, then you will not only be worthy to\nfeast with the gods, but to rule with them also. For, by thus doing,\nDiogenes and Heraclitus, and others like them, deservedly became divine,\nand were so recognized."
+    },
+    {
+      "id": 34,
+      "text": "XVI"
+    },
+    {
+      "id": 35,
+      "text": "When you see anyone weeping for grief, either that his son has gone\nabroad or that he has suffered in his affairs, take care not to be\novercome by the apparent evil, but discriminate and be ready to say,\n“What hurts this man is not this occurrence itself—for another man might\nnot be hurt by it—but the view he chooses to take of it.” As far as\nconversation goes, however, do not disdain to accommodate yourself to him\nand, if need be, to groan with him. Take heed, however, not to groan\ninwardly, too."
+    },
+    {
+      "id": 36,
+      "text": "XVII"
+    },
+    {
+      "id": 37,
+      "text": "Remember that you are an actor in a drama of such sort as the Author\nchooses—if short, then in a short one; if long, then in a long one. If it\nbe his pleasure that you should enact a poor man, or a cripple, or a\nruler, or a private citizen, see that you act it well. For this is your\nbusiness—to act well the given part, but to choose it belongs to another."
+    },
+    {
+      "id": 38,
+      "text": "XVIII"
+    },
+    {
+      "id": 39,
+      "text": "When a raven happens to croak unluckily, be not overcome by appearances,\nbut discriminate and say, “Nothing is portended to _me_, either to my\npaltry body, or property, or reputation, or children, or wife. But to\n_me_ all portents are lucky if I will. For whatsoever happens, it belongs\nto me to derive advantage therefrom.”"
+    },
+    {
+      "id": 40,
+      "text": "XIX"
+    },
+    {
+      "id": 41,
+      "text": "You can be unconquerable if you enter into no combat in which it is not\nin your own power to conquer. When, therefore, you see anyone eminent in\nhonors or power, or in high esteem on any other account, take heed not to\nbe bewildered by appearances and to pronounce him happy; for if the\nessence of good consists in things within our own power, there will be no\nroom for envy or emulation. But, for your part, do not desire to be a\ngeneral, or a senator, or a consul, but to be free; and the only way to\nthis is a disregard of things which lie not within our own power."
+    },
+    {
+      "id": 42,
+      "text": "XX"
+    },
+    {
+      "id": 43,
+      "text": "Remember that it is not he who gives abuse or blows, who affronts, but\nthe view we take of these things as insulting. When, therefore, anyone\nprovokes you, be assured that it is your own opinion which provokes you.\nTry, therefore, in the first place, not to be bewildered by appearances.\nFor if you once gain time and respite, you will more easily command\nyourself."
+    },
+    {
+      "id": 44,
+      "text": "XXI"
+    },
+    {
+      "id": 45,
+      "text": "Let death and exile, and all other things which appear terrible, be daily\nbefore your eyes, but death chiefly; and you will never entertain an\nabject thought, nor too eagerly covet anything."
+    },
+    {
+      "id": 46,
+      "text": "XXII"
+    },
+    {
+      "id": 47,
+      "text": "If you have an earnest desire toward philosophy, prepare yourself from\nthe very first to have the multitude laugh and sneer, and say, “He is\nreturned to us a philosopher all at once”; and, “Whence this supercilious\nlook?” Now, for your part, do not have a supercilious look indeed, but\nkeep steadily to those things which appear best to you, as one appointed\nby God to this particular station. For remember that, if you are\npersistent, those very persons who at first ridiculed will afterwards\nadmire you. But if you are conquered by them, you will incur a double\nridicule."
+    },
+    {
+      "id": 48,
+      "text": "XXIII"
+    },
+    {
+      "id": 49,
+      "text": "If you ever happen to turn your attention to externals, for the pleasure\nof anyone, be assured that you have ruined your scheme of life. Be\ncontent, then, in everything, with being a philosopher; and if you wish\nto seem so likewise to anyone, appear so to yourself, and it will suffice\nyou."
+    },
+    {
+      "id": 50,
+      "text": "XXIV"
+    },
+    {
+      "id": 51,
+      "text": "Let not such considerations as these distress you: “I shall live in\ndiscredit and be nobody anywhere.” For if discredit be an evil, you can\nno more be involved in evil through another than in baseness. Is it any\nbusiness of yours, then, to get power or to be admitted to an\nentertainment? By no means. How then, after all, is this discredit? And\nhow it is true that you will be nobody anywhere when you ought to be\nsomebody in those things only which are within your own power, in which\nyou may be of the greatest consequence? “But my friends will be\nunassisted.” What do you mean by “unassisted”? They will not have money\nfrom you, nor will you make them Roman citizens. Who told you, then, that\nthese are among the things within our own power, and not rather the\naffairs of others? And who can give to another the things which he\nhimself has not? “Well, but get them, then, that we too may have a\nshare.” If I can get them with the preservation of my own honor and\nfidelity and self-respect, show me the way and I will get them; but if\nyou require me to lose my own proper good, that you may gain what is no\ngood, consider how unreasonable and foolish you are. Besides, which would\nyou rather have, a sum of money or a faithful and honorable friend?\nRather assist me, then, to gain this character than require me to do\nthose things by which I may lose it. Well, but my country, say you, as\nfar as depends upon me, will be unassisted. Here, again, what assistance\nis this you mean? It will not have porticos nor baths of your providing?\nAnd what signifies that? Why, neither does a smith provide it with shoes,\nnor a shoemaker with arms. It is enough if everyone fully performs his\nown proper business. And were you to supply it with another faithful and\nhonorable citizen, would not he be of use to it? Yes. Therefore neither\nare you yourself useless to it. “What place, then,” say you, “shall I\nhold in the state?” Whatever you can hold with the preservation of your\nfidelity and honor. But if, by desiring to be useful to that, you lose\nthese, how can you serve your country when you have become faithless and\nshameless?"
+    },
+    {
+      "id": 52,
+      "text": "XXV"
+    },
+    {
+      "id": 53,
+      "text": "Is anyone preferred before you at an entertainment, or in courtesies, or\nin confidential intercourse? If these things are good, you ought to\nrejoice that he has them; and if they are evil, do not be grieved that\nyou have them not. And remember that you cannot be permitted to rival\nothers in externals without using the same means to obtain them. For how\ncan he who will not haunt the door of any man, will not attend him, will\nnot praise him, have an equal share with him who does these things? You\nare unjust, then, and unreasonable if you are unwilling to pay the price\nfor which these things are sold, and would have them for nothing. For how\nmuch are lettuces sold? An obulus, for instance. If another, then, paying\nan obulus, takes the lettuces, and you, not paying it, go without them,\ndo not imagine that he has gained any advantage over you. For as he has\nthe lettuces, so you have the obulus which you did not give. So, in the\npresent case, you have not been invited to such a person’s entertainment\nbecause you have not paid him the price for which a supper is sold. It is\nsold for praise; it is sold for attendance. Give him, then, the value if\nit be for your advantage. But if you would at the same time not pay the\none, and yet receive the other, you are unreasonable and foolish. Have\nyou nothing, then, in place of the supper? Yes, indeed, you have—not to\npraise him whom you do not like to praise; not to bear the insolence of\nhis lackeys."
+    },
+    {
+      "id": 54,
+      "text": "XXVI"
+    },
+    {
+      "id": 55,
+      "text": "The will of nature may be learned from things upon which we are all\nagreed. As when our neighbor’s boy has broken a cup, or the like, we are\nready at once to say, “These are casualties that will happen”; be\nassured, then, that when your own cup is likewise broken, you ought to be\naffected just as when another’s cup was broken. Now apply this to greater\nthings. Is the child or wife of another dead? There is no one who would\nnot say, “This is an accident of mortality.” But if anyone’s own child\nhappens to die, it is immediately, “Alas! how wretched am I!” It should\nbe always remembered how we are affected on hearing the same thing\nconcerning others."
+    },
+    {
+      "id": 56,
+      "text": "XXVII"
+    },
+    {
+      "id": 57,
+      "text": "As a mark is not set up for the sake of missing the aim, so neither\ndoes the nature of evil exist in the world."
+    },
+    {
+      "id": 58,
+      "text": "XXVIII"
+    },
+    {
+      "id": 59,
+      "text": "If a person had delivered up your body to some passer-by, you would\ncertainly be angry. And do you feel no shame in delivering up your own\nmind to any reviler, to be disconcerted and confounded?"
+    },
+    {
+      "id": 60,
+      "text": "XXIX"
+    },
+    {
+      "id": 61,
+      "text": "In every affair consider what precedes and what follows, and then\nundertake it. Otherwise you will begin with spirit, indeed, careless of\nthe consequences, and when these are developed, you will shamefully\ndesist. “I would conquer at the Olympic Games.” But consider what\nprecedes and what follows, and then, if it be for your advantage, engage\nin the affair. You must conform to rules, submit to a diet, refrain from\ndainties; exercise your body, whether you choose it or not, at a stated\nhour, in heat and cold; you must drink no cold water, and sometimes no\nwine—in a word, you must give yourself up to your trainer as to a\nphysician. Then, in the combat, you may be thrown into a ditch, dislocate\nyour arm, turn your ankle, swallow an abundance of dust, receive stripes\n[for negligence], and, after all, lose the victory. When you have\nreckoned up all this, if your inclination still holds, set about the\ncombat. Otherwise, take notice, you will behave like children who\nsometimes play wrestlers, sometimes gladiators, sometimes blow a trumpet,\nand sometimes act a tragedy, when they happen to have seen and admired\nthese shows. Thus you too will be at one time a wrestler, and another a\ngladiator; now a philosopher, now an orator; but nothing in earnest. Like\nan ape you mimic all you see, and one thing after another is sure to\nplease you, but is out of favor as soon as it becomes familiar. For you\nhave never entered upon anything considerately; nor after having surveyed\nand tested the whole matter, but carelessly, and with a halfway zeal.\nThus some, when they have seen a philosopher and heard a man speaking\nlike Euphrates—though, indeed, who can speak like him?—have a mind to\nbe philosophers, too. Consider first, man, what the matter is, and what\nyour own nature is able to bear. If you would be a wrestler, consider\nyour shoulders, your back, your thighs; for different persons are made\nfor different things. Do you think that you can act as you do and be a\nphilosopher, that you can eat, drink, be angry, be discontented, as you\nare now? You must watch, you must labor, you must get the better of\ncertain appetites, must quit your acquaintances, be despised by your\nservant, be laughed at by those you meet; come off worse than others in\neverything—in offices, in honors, before tribunals. When you have fully\nconsidered all these things, approach, if you please—that is, if, by\nparting with them, you have a mind to purchase serenity, freedom, and\ntranquillity. If not, do not come hither; do not, like children, be now a\nphilosopher, then a publican, then an orator, and then one of Caesar’s\nofficers. These things are not consistent. You must be one man, either\ngood or bad. You must cultivate either your own reason or else externals;\napply yourself either to things within or without you—that is, be either\na philosopher or one of the mob."
+    },
+    {
+      "id": 62,
+      "text": "XXX"
+    },
+    {
+      "id": 63,
+      "text": "Duties are universally measured by relations. Is a certain man your\nfather? In this are implied taking care of him, submitting to him in all\nthings, patiently receiving his reproaches, his correction. But he is a\nbad father. Is your natural tie, then, to a _good_ father? No, but to a\nfather. Is a brother unjust? Well, preserve your own just relation toward\nhim. Consider not what _he_ does, but what _you_ are to do to keep your\nown will in a state conformable to nature, for another cannot hurt you\nunless you please. You will then be hurt when you consent to be hurt. In\nthis manner, therefore, if you accustom yourself to contemplate the\nrelations of neighbor, citizen, commander, you can deduce from each the\ncorresponding duties."
+    },
+    {
+      "id": 64,
+      "text": "XXXI"
+    },
+    {
+      "id": 65,
+      "text": "Be assured that the essence of piety toward the gods lies in this—to form\nright opinions concerning them, as existing and as governing the universe\njustly and well. And fix yourself in this resolution, to obey them, and\nyield to them, and willingly follow them amidst all events, as being\nruled by the most perfect wisdom. For thus you will never find fault with\nthe gods, nor accuse them of neglecting you. And it is not possible for\nthis to be affected in any other way than by withdrawing yourself from\nthings which are not within our own power, and by making good or evil to\nconsist only in those which are. For if you suppose any other things to\nbe either good or evil, it is inevitable that, when you are disappointed\nof what you wish or incur what you would avoid, you should reproach and\nblame their authors. For every creature is naturally formed to flee and\nabhor things that appear hurtful and that which causes them; and to\npursue and admire those which appear beneficial and that which causes\nthem. It is impracticable, then, that one who supposes himself to be hurt\nshould rejoice in the person who, as he thinks, hurts him, just as it is\nimpossible to rejoice in the hurt itself. Hence, also, a father is\nreviled by his son when he does not impart the things which seem to be\ngood; and this made Polynices and Eteocles mutually enemies—that\nempire seemed good to both. On this account the husbandman reviles the\ngods; [and so do] the sailor, the merchant, or those who have lost wife\nor child. For where our interest is, there, too, is piety directed. So\nthat whoever is careful to regulate his desires and aversions as he ought\nis thus made careful of piety likewise. But it also becomes incumbent on\neveryone to offer libations and sacrifices and first fruits, according to\nthe customs of his country, purely, and not heedlessly nor negligently;\nnot avariciously, nor yet extravagantly."
+    },
+    {
+      "id": 66,
+      "text": "XXXII"
+    },
+    {
+      "id": 67,
+      "text": "When you have recourse to divination, remember that you know not what the\nevent will be, and you come to learn it of the diviner; but of what\nnature it is you knew before coming; at least, if you are of philosophic\nmind. For if it is among the things not within our own power, it can by\nno means be either good or evil. Do not, therefore, bring with you to the\ndiviner either desire or aversion—else you will approach him\ntrembling—but first clearly understand that every event is indifferent\nand nothing to _you_, of whatever sort it may be; for it will be in your\npower to make a right use of it, and this no one can hinder. Then come\nwith confidence to the gods as your counselors; and afterwards, when any\ncounsel is given you, remember what counselors you have assumed, and\nwhose advice you will neglect if you disobey. Come to divination as\nSocrates prescribed, in cases of which the whole consideration relates to\nthe event, and in which no opportunities are afforded by reason or any\nother art to discover the matter in view. When, therefore, it is our duty\nto share the danger of a friend or of our country, we ought not to\nconsult the oracle as to whether we shall share it with them or not. For\nthough the diviner should forewarn you that the auspices are unfavorable,\nthis means no more than that either death or mutilation or exile is\nportended. But we have reason within us; and it directs us, even with\nthese hazards, to stand by our friend and our country. Attend, therefore,\nto the greater diviner, the Pythian God, who once cast out of the temple\nhim who neglected to save his friend."
+    },
+    {
+      "id": 68,
+      "text": "XXXIII"
+    },
+    {
+      "id": 69,
+      "text": "Begin by prescribing to yourself some character and demeanor, such as you\nmay preserve both alone and in company."
+    },
+    {
+      "id": 70,
+      "text": "Be mostly silent, or speak merely what is needful, and in few words. We\nmay, however, enter sparingly into discourse sometimes, when occasion\ncalls for it; but let it not run on any of the common subjects, as\ngladiators, or horse races, or athletic champions, or food, or drink—the\nvulgar topics of conversation—and especially not on men, so as either to\nblame, or praise, or make comparisons. If you are able, then, by your own\nconversation, bring over that of your company to proper subjects; but if\nyou happen to find yourself among strangers, be silent."
+    },
+    {
+      "id": 71,
+      "text": "Let not your laughter be loud, frequent, or abundant."
+    },
+    {
+      "id": 72,
+      "text": "Avoid taking oaths, if possible, altogether; at any rate, so far as you\nare able."
+    },
+    {
+      "id": 73,
+      "text": "Avoid public and vulgar entertainments; but if ever an occasion calls you\nto them, keep your attention upon the stretch, that you may not\nimperceptibly slide into vulgarity. For be assured that if a person be\never so pure himself, yet, if his companion be corrupted, he who\nconverses with him will be corrupted likewise."
+    },
+    {
+      "id": 74,
+      "text": "Provide things relating to the body no further than absolute need\nrequires, as meat, drink, clothing, house, retinue. But cut off\neverything that looks toward show and luxury."
+    },
+    {
+      "id": 75,
+      "text": "Before marriage guard yourself with all your ability from unlawful\nintercourse with women; yet be not uncharitable or severe to those who\nare led into this, nor boast frequently that you yourself do otherwise."
+    },
+    {
+      "id": 76,
+      "text": "If anyone tells you that a certain person speaks ill of you, do not make\nexcuses about what is said of you, but answer: “He was ignorant of my\nother faults, else he would not have mentioned these alone.”"
+    },
+    {
+      "id": 77,
+      "text": "It is not necessary for you to appear often at public spectacles; but if\never there is a proper occasion for you to be there, do not appear more\nsolicitous for any other than for yourself—that is, wish things to be\nonly just as they are, and only the best man to win; for thus nothing\nwill go against you. But abstain entirely from acclamations and derision\nand violent emotions. And when you come away, do not discourse a great\ndeal on what has passed and what contributes nothing to your own\namendment. For it would appear by such discourse that you were dazzled by\nthe show."
+    },
+    {
+      "id": 78,
+      "text": "Be not prompt or ready to attend private recitations; but if you do\nattend, preserve your gravity and dignity, and yet avoid making yourself\ndisagreeable."
+    },
+    {
+      "id": 79,
+      "text": "When you are going to confer with anyone, and especially with one who\nseems your superior, represent to yourself how Socrates or Zeno would\nbehave in such a case, and you will not be at a loss to meet properly\nwhatever may occur."
+    },
+    {
+      "id": 80,
+      "text": "When you are going before anyone in power, fancy to yourself that you may\nnot find him at home, that you may be shut out, that the doors may not be\nopened to you, that he may not notice you. If, with all this, it be your\nduty to go, bear what happens and never say to yourself, “It was not\nworth so much”; for this is vulgar, and like a man bewildered by\nexternals."
+    },
+    {
+      "id": 81,
+      "text": "In company, avoid a frequent and excessive mention of your own actions\nand dangers. For however agreeable it may be to yourself to allude to the\nrisks you have run, it is not equally agreeable to others to hear your\nadventures. Avoid likewise an endeavor to excite laughter, for this may\nreadily slide you into vulgarity, and, besides, may be apt to lower you\nin the esteem of your acquaintance. Approaches to indecent discourse are\nlikewise dangerous. Therefore, when anything of this sort happens, use\nthe first fit opportunity to rebuke him who makes advances that way, or,\nat least, by silence and blushing and a serious look show yourself to be\ndispleased by such talk."
+    },
+    {
+      "id": 82,
+      "text": "XXXIV"
+    },
+    {
+      "id": 83,
+      "text": "If you are dazzled by the semblance of any promised pleasure, guard\nyourself against being bewildered by it; but let the affair wait your\nleisure, and procure yourself some delay. Then bring to your mind both\npoints of time—that in which you shall enjoy the pleasure, and that in\nwhich you will repent and reproach yourself, after you have enjoyed\nit—and set before you, in opposition to these, how you will rejoice and\napplaud yourself if you abstain. And even though it should appear to you\na seasonable gratification, take heed that its enticements and\nallurements and seductions may not subdue you, but set in opposition to\nthis how much better it is to be conscious of having gained so great a\nvictory."
+    },
+    {
+      "id": 84,
+      "text": "XXXV"
+    },
+    {
+      "id": 85,
+      "text": "When you do anything from a clear judgment that it ought to be done,\nnever shrink from being seen to do it, even though the world should\nmisunderstand it; for if you are not acting rightly, shun the action\nitself; if you are, why fear those who wrongly censure you?"
+    },
+    {
+      "id": 86,
+      "text": "XXXVI"
+    },
+    {
+      "id": 87,
+      "text": "As the proposition, “either it is day or it is night,” has much force in\na disjunctive argument, but none at all in a conjunctive one, so, at a\nfeast, to choose the largest share is very suitable to the bodily\nappetite, but utterly inconsistent with the social spirit of the\nentertainment. Remember, then, when you eat with another, not only the\nvalue to the body of those things which are set before you, but also the\nvalue of proper courtesy toward your host."
+    },
+    {
+      "id": 88,
+      "text": "XXXVII"
+    },
+    {
+      "id": 89,
+      "text": "If you have assumed any character beyond your strength, you have both\ndemeaned yourself ill in that and quitted one which you might have\nsupported."
+    },
+    {
+      "id": 90,
+      "text": "XXXVIII"
+    },
+    {
+      "id": 91,
+      "text": "As in walking you take care not to tread upon a nail, or turn your foot,\nso likewise take care not to hurt the ruling faculty of your mind. And if\nwe were to guard against this in every action, we should enter upon\naction more safely."
+    },
+    {
+      "id": 92,
+      "text": "XXXIX"
+    },
+    {
+      "id": 93,
+      "text": "The body is to everyone the proper measure of its possessions, as the\nfoot is of the shoe. If, therefore, you stop at this, you will keep the\nmeasure; but if you move beyond it, you must necessarily be carried\nforward, as down a precipice; as in the case of a shoe, if you go beyond\nits fitness to the foot, it comes first to be gilded, then purple, and\nthen studded with jewels. For to that which once exceeds the fit measure\nthere is no bound."
+    },
+    {
+      "id": 94,
+      "text": "XL"
+    },
+    {
+      "id": 95,
+      "text": "Women from fourteen years old are flattered by men with the title of\nmistresses. Therefore, perceiving that they are regarded only as\nqualified to give men pleasure, they begin to adorn themselves, and in\nthat to place all their hopes. It is worth while, therefore, to try that\nthey may perceive themselves honored only so far as they appear beautiful\nin their demeanor and modestly virtuous."
+    },
+    {
+      "id": 96,
+      "text": "XLI"
+    },
+    {
+      "id": 97,
+      "text": "It is a mark of want of intellect to spend much time in things relating\nto the body, as to be immoderate in exercises, in eating and drinking,\nand in the discharge of other animal functions. These things should be\ndone incidentally and our main strength be applied to our reason."
+    },
+    {
+      "id": 98,
+      "text": "XLII"
+    },
+    {
+      "id": 99,
+      "text": "When any person does ill by you, or speaks ill of you, remember that he\nacts or speaks from an impression that it is right for him to do so. Now\nit is not possible that he should follow what appears right to you, but\nonly what appears so to himself. Therefore, if he judges from false\nappearances, he is the person hurt, since he, too, is the person\ndeceived. For if anyone takes a true proposition to be false, the\nproposition is not hurt, but only the man is deceived. Setting out, then,\nfrom these principles, you will meekly bear with a person who reviles\nyou, for you will say upon every occasion, “It seemed so to him.”"
+    },
+    {
+      "id": 100,
+      "text": "XLIII"
+    },
+    {
+      "id": 101,
+      "text": "Everything has two handles: one by which it may be borne, another by\nwhich it cannot. If your brother acts unjustly, do not lay hold on the\naffair by the handle of his injustice, for by that it cannot be borne,\nbut rather by the opposite—that he is your brother, that he was brought\nup with you; and thus you will lay hold on it as it is to be borne."
+    },
+    {
+      "id": 102,
+      "text": "XLIV"
+    },
+    {
+      "id": 103,
+      "text": "These reasonings have no logical connection: “I am richer than you,\ntherefore I am your superior.” “I am more eloquent than you, therefore I\nam your superior.” The true logical connection is rather this: “I am\nricher than you, therefore my possessions must exceed yours.” “I am more\neloquent than you, therefore my style must surpass yours.” But you, after\nall, consist neither in property nor in style."
+    },
+    {
+      "id": 104,
+      "text": "XLV"
+    },
+    {
+      "id": 105,
+      "text": "Does anyone bathe hastily? Do not say that he does it ill, but hastily.\nDoes anyone drink much wine? Do not say that he does ill, but that he\ndrinks a great deal. For unless you perfectly understand his motives, how\nshould you know if he acts ill? Thus you will not risk yielding to any\nappearances but such as you fully comprehend."
+    },
+    {
+      "id": 106,
+      "text": "XLVI"
+    },
+    {
+      "id": 107,
+      "text": "Never proclaim yourself a philosopher, nor make much talk among the\nignorant about your principles, but show them by actions. Thus, at an\nentertainment, do not discourse how people ought to eat, but eat as you\nought. For remember that thus Socrates also universally avoided all\nostentation. And when persons came to him and desired to be introduced by\nhim to philosophers, he took them and introduced them; so well did he\nbear being overlooked. So if ever there should be among the ignorant any\ndiscussion of principles, be for the most part silent. For there is great\ndanger in hastily throwing out what is undigested. And if anyone tells\nyou that you know nothing, and you are not nettled at it, then you may be\nsure that you have really entered on your work. For sheep do not hastily\nthrow up the grass to show the shepherds how much they have eaten, but,\ninwardly digesting their food, they produce it outwardly in wool and\nmilk. Thus, therefore, do you not make an exhibition before the ignorant\nof your principles, but of the actions to which their digestion gives\nrise."
+    },
+    {
+      "id": 108,
+      "text": "XLVII"
+    },
+    {
+      "id": 109,
+      "text": "When you have learned to nourish your body frugally, do not pique\nyourself upon it; nor, if you drink water, be saying upon every occasion,\n“I drink water.” But first consider how much more frugal are the poor\nthan we, and how much more patient of hardship. If at any time you would\ninure yourself by exercise to labor and privation, for your own sake and\nnot for the public, do not attempt great feats; but when you are\nviolently thirsty, just rinse your mouth with water, and tell nobody."
+    },
+    {
+      "id": 110,
+      "text": "XLVIII"
+    },
+    {
+      "id": 111,
+      "text": "The condition and characteristic of a vulgar person is that he never\nlooks for either help or harm from himself, but only from externals. The\ncondition and characteristic of a philosopher is that he looks to himself\nfor all help or harm. The marks of a proficient are that he censures no\none, praises no one, blames no one, accuses no one; says nothing\nconcerning himself as being anybody or knowing anything. When he is in\nany instance hindered or restrained, he accuses himself; and if he is\npraised, he smiles to himself at the person who praises him; and if he is\ncensured, he makes no defense. But he goes about with the caution of a\nconvalescent, careful of interference with anything that is doing well\nbut not yet quite secure. He restrains desire; he transfers his aversion\nto those things only which thwart the proper use of our own will; he\nemploys his energies moderately in all directions; if he appears stupid\nor ignorant, he does not care; and, in a word, he keeps watch over\nhimself as over an enemy and one in ambush."
+    },
+    {
+      "id": 112,
+      "text": "XLIX"
+    },
+    {
+      "id": 113,
+      "text": "When anyone shows himself vain on being able to understand and interpret\nthe works of Chrysippus, say to yourself: “Unless Chrysippus had\nwritten obscurely, this person would have had nothing to be vain of. But\nwhat do I desire? To understand nature, and follow her. I ask, then, who\ninterprets her; and hearing that Chrysippus does, I have recourse to him.\nI do not understand his writings. I seek, therefore, one to interpret\n_them_.” So far there is nothing to value myself upon. And when I find an\ninterpreter, what remains is to make use of his instructions. This alone\nis the valuable thing. But if I admire merely the interpretation, what do\nI become more than a grammarian, instead of a philosopher, except,\nindeed, that instead of Homer I interpret Chrysippus? When anyone,\ntherefore, desires me to read Chrysippus to him, I rather blush when I\ncannot exhibit actions that are harmonious and consonant with his\ndiscourse."
+    },
+    {
+      "id": 114,
+      "text": "L"
+    },
+    {
+      "id": 115,
+      "text": "Whatever rules you have adopted, abide by them as laws, and as if you\nwould be impious to transgress them; and do not regard what anyone says\nof you, for this, after all, is no concern of yours. How long, then, will\nyou delay to demand of yourself the noblest improvements, and in no\ninstance to transgress the judgments of reason? You have received the\nphilosophic principles with which you ought to be conversant; and you\nhave been conversant with them. For what other master, then, do you wait\nas an excuse for this delay in self-reformation? You are no longer a boy\nbut a grown man. If, therefore, you will be negligent and slothful, and\nalways add procrastination to procrastination, purpose to purpose, and\nfix day after day in which you will attend to yourself, you will\ninsensibly continue to accomplish nothing and, living and dying, remain\nof vulgar mind. This instant, then, think yourself worthy of living as a\nman grown up and a proficient. Let whatever appears to be the best be to\nyou an inviolable law. And if any instance of pain or pleasure, glory or\ndisgrace, be set before you, remember that now is the combat, now the\nOlympiad comes on, nor can it be put off; and that by one failure and\ndefeat honor may be lost or—won. Thus Socrates became perfect, improving\nhimself by everything, following reason alone. And though you are not yet\na Socrates, you ought, however, to live as one seeking to be a Socrates."
+    },
+    {
+      "id": 116,
+      "text": "LI"
+    },
+    {
+      "id": 117,
+      "text": "The first and most necessary topic in philosophy is the practical\napplication of principles, as, _We ought not to lie_; the second is that\nof demonstrations as, _Why it is that we ought not to lie_; the third,\nthat which gives strength and logical connection to the other two, as,\n_Why this is a demonstration_. For what is demonstration? What is a\nconsequence? What a contradiction? What truth? What falsehood? The third\npoint is then necessary on account of the second; and the second on\naccount of the first. But the most necessary, and that whereon we ought\nto rest, is the first. But we do just the contrary. For we spend all our\ntime on the third point and employ all our diligence about that, and\nentirely neglect the first. Therefore, at the same time that we lie, we\nare very ready to show how it is demonstrated that lying is wrong."
+    },
+    {
+      "id": 118,
+      "text": "Upon all occasions we ought to have these maxims ready at hand:"
+    },
+    {
+      "id": 119,
+      "text": "Conduct me, Zeus, and thou, O Destiny,\n  Wherever your decrees have fixed my lot.\n  I follow cheerfully; and, did I not,\n  Wicked and wretched, I must follow still."
+    },
+    {
+      "id": 120,
+      "text": "Who’er yields properly to Fate is deemed\n  Wise among men, and knows the laws of Heaven."
+    },
+    {
+      "id": 121,
+      "text": "And this third:"
+    },
+    {
+      "id": 122,
+      "text": "“O Crito, if it thus pleases the gods, thus let it be.”"
+    },
+    {
+      "id": 123,
+      "text": "“Anytus and Melitus may kill me indeed; but hurt me they cannot.”"
+    }
+  ]
+}
