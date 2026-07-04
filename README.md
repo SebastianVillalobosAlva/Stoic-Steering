@@ -1,60 +1,114 @@
-# Stoic LLM — clean rebuild
+# stoic-steering
 
-Can philosophical (Stoic) reasoning be steered into an LLM, and does it reach
-the *decision* layer or only the *style* layer? This repo rebuilds the
-Stoic-steering pipeline from scratch as a clean, function-first package and
-reproduces the headline results on **Llama-3.2-3B** (float16, CPU):
+Steering Stoic philosophical reasoning into Llama-3.2-3B via activation
+addition (CAA) and low-rank weight adaptation (LoRA), with mechanistic
+interpretability to check what actually changes inside the model.
 
-- **CAA activation steering** moves style and judge-scored content, but moves
-  forced-choice **decisions not at all** (Exp 9 / Exp 10).
-- **LoRA fine-tuning** reaches the decision layer where CAA doesn't (Exp 11).
+**Core finding:** how a model *talks*, how it *reasons in prose*, and what it
+*chooses* come apart. Activation steering moves register but not decisions;
+weight adaptation reaches decisions but doesn't install clean philosophical
+reasoning. The distinction is only visible with a judge-free decision-level
+instrument.
 
-See [`REPRODUCTION_PLAN.md`](REPRODUCTION_PLAN.md) for the two-pass plan and
-stage checkpoints, and [`CLAUDE.md`](CLAUDE.md) for the working rules.
+---
 
-## The reference wall
+## Key findings
 
-- `data/reference/` — **frozen, read-only**: the artifacts that produced the
-  published numbers.
-- `data/generated/` — everything the rebuilt pipeline produces.
+- **CAA is a register direction, not a decision direction.** Contrastive
+  activation steering robustly shifts writing style (Stoic-sounding prose) but
+  produces no movement on a forced-choice decision test — flat at every
+  coefficient up to <FILL: max coeff tested>. It changes how the model talks,
+  not what it picks.
 
-Pass A rebuilds code against `reference/` and verifies against known numbers;
-Pass B regenerates from raw text into `generated/`.
+- **Pair quality is the determining variable for content effects.** Holding
+  model, method, layer, judge, and N constant, swapping contaminated
+  contrastive pairs for clean reasoning-isolating pairs flipped null content
+  effects to strong positive ones (Epictetus: <FILL: contaminated> →
+  <FILL: clean>, independent judge). The philosophers were never the variable —
+  the data was.
 
-## Install
+- **LoRA reaches the decision layer where CAA does not.** On the identical
+  forced-choice instrument where CAA was flat, weight-level adaptation moved the
+  choice (<FILL: e.g. Seneca Δlog-odds / t>). The circuit topology difference
+  found via interpretability (<FILL: which experiments>) *predicted* this split
+  before it was measured behaviorally.
+
+- **What LoRA installs is not (yet) uniform Stoic reasoning.** Effects are
+  structured but heterogeneous: <FILL: Marcus = passivity prior; Seneca =
+  heavy-tailed; Epictetus = null>. A possible idiom/style confound in the
+  decision instrument is under investigation. These are stated openly as open
+  questions, not smoothed over.
+
+---
+
+## Method
+
+Three depths of effect are measured separately:
+
+- **Style / register** — LLM-judge scoring of prose (does it sound Stoic?)
+- **Content / reasoning** — LLM-judge scoring of reasoning in prose
+- **Decision / choice** — judge-free forced-choice probe over calibrated
+  dilemmas (does the model *pick* the Stoic option?)
+
+Two interventions are compared: **CAA** (runtime activation steering,
+reversible) and **LoRA** (fine-tuned adapter weights, permanent). Both are
+analyzed with **<FILL: ModelLens or your toolkit name>**, an
+architecture-agnostic interpretability toolkit, to compare the circuit
+topology each method uses to produce the same behavioral outcome.
+
+Philosophers studied: Marcus Aurelius, Seneca, Epictetus — three Stoic
+traditions, done rigorously rather than many traditions done shallowly.
+
+---
+
+## Repo structure
+
+stoic/
+config.py     # paths + config (per-author layer/coeff, decoding)
+model.py      # model loading + generation
+corpus.py     # text download, slicing, chunking, filtering
+pairs.py      # contrastive pair generation
+steering.py   # CAA vector extraction + steering
+lora.py       # LoRA prep, train, merge
+judge.py      # LLM-as-judge scoring
+dilemmas.py   # judge-free forced-choice harness
+cli.py          # command-line entry point
+data/
+reference/    # frozen artifacts (pairs, dilemma sets, vectors, adapters)
+generated/    # pipeline output
+results/        # experiment results (JSON)
+
+## Quickstart
 
 ```bash
-pip install -e .            # core: Stage 0-2 (steering + dilemmas)
-pip install -e ".[judge]"   # + Stage 3 judge (Gemini/Anthropic)
-pip install -e ".[lora]"    # + Stage 4 LoRA
-pip install -e ".[all]"     # everything
+<FILL: install / env setup, e.g. pip install -e . or uv sync>
+
+# extract CAA steering vectors
+python -m stoic extract <FILL: args>
+
+# run the forced-choice decision eval
+python -m stoic dilemma <FILL: args>
 ```
 
-Requires access to `meta-llama/Llama-3.2-3B` (gated) and a Hugging Face token.
+<FILL: any setup notes — model access (Llama-3.2-3B gated on HF),
+API keys for judge/pair generation, Colab for LoRA training>
 
-## Run the checkpoints
+---
 
-```bash
-python -m stoic stage0   # deterministic decoding
-python -m stoic stage1   # base P(stoic) == 0.542   (load-bearing)
-python -m stoic stage2   # rebuilt vectors cosine 1.0000 + Exp 10 null
-python -m stoic all      # all of the above in one model load
-```
+## Status
 
-Each writes a JSON checkpoint under `results/`. Current status:
+**Done:** <FILL: e.g. CAA + LoRA steering across three philosophers, content
+validation with independent judge, decision-level forced-choice results, circuit
+topology comparison.>
 
-| Stage | Checkpoint | Result |
-|---|---|---|
-| 0 | deterministic decoding | ✅ identical output twice |
-| 1 | base P(stoic) = 0.542 | ✅ 0.541602 |
-| 2 | cosine ≥ 0.99 vs frozen; Exp 10 null | ✅ cosine 1.0000; ΔP ≈ 0 all authors |
+**In progress / next:**
+- <FILL: Seneca idiom-vs-topic discrimination (2×2 dilemma design)>
+- <FILL: Epictetus full-corpus retrain (corpus-size hypothesis)>
+- <FILL: safety / robustness evaluation (jailbreak + temperature stability)>
 
-See [`results/README.md`](results/README.md) for the full record.
+---
 
-## Canonical configs
+## Notes
 
-- Base: `meta-llama/Llama-3.2-3B`, float16
-- CAA clean layers / coeff: Marcus L26, Seneca L4, Epictetus L8, coeff 0.11
-- LoRA: r=8, α=32, targets q_proj + v_proj, 3 epochs
-- Decoding (one canonical set): `do_sample=False, repetition_penalty=1.3, no_repeat_ngram_size=3`
-- Dilemma baseline P(stoic) = 0.542 (v2 set, both label orders averaged)
+<FILL: optional — related repos (e.g. ModelLens), context, or a one-line
+pointer to the research writeup / SOP if you want one. Keep it light.>
