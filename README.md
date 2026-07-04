@@ -23,13 +23,13 @@ instrument.
 - **Pair quality is the determining variable for content effects.** Holding
   model, method, layer, judge, and N constant, swapping contaminated
   contrastive pairs for clean reasoning-isolating pairs flipped null content
-  effects to strong positive ones (Epictetus: <FILL: contaminated> →
-  <FILL: clean>, independent judge). The philosophers were never the variable —
+  effects to strong positive ones (Epictetus: <FILL: contaminated> ->
+  <FILL: clean>, independent judge). The philosophers were never the variable --
   the data was.
 
 - **LoRA reaches the decision layer where CAA does not.** On the identical
   forced-choice instrument where CAA was flat, weight-level adaptation moved the
-  choice (<FILL: e.g. Seneca Δlog-odds / t>). The circuit topology difference
+  choice (<FILL: e.g. Seneca delta-log-odds / t>). The circuit topology difference
   found via interpretability (<FILL: which experiments>) *predicted* this split
   before it was measured behaviorally.
 
@@ -45,9 +45,9 @@ instrument.
 
 Three depths of effect are measured separately:
 
-- **Style / register** — LLM-judge scoring of prose (does it sound Stoic?)
-- **Content / reasoning** — LLM-judge scoring of reasoning in prose
-- **Decision / choice** — judge-free forced-choice probe over calibrated
+- **Style / register** -- LLM-judge scoring of prose (does it sound Stoic?)
+- **Content / reasoning** -- LLM-judge scoring of reasoning in prose
+- **Decision / choice** -- judge-free forced-choice probe over calibrated
   dilemmas (does the model *pick* the Stoic option?)
 
 Two interventions are compared: **CAA** (runtime activation steering,
@@ -56,7 +56,7 @@ analyzed with **<FILL: ModelLens or your toolkit name>**, an
 architecture-agnostic interpretability toolkit, to compare the circuit
 topology each method uses to produce the same behavioral outcome.
 
-Philosophers studied: Marcus Aurelius, Seneca, Epictetus — three Stoic
+Philosophers studied: Marcus Aurelius, Seneca, Epictetus -- three Stoic
 traditions, done rigorously rather than many traditions done shallowly.
 
 ---
@@ -83,7 +83,8 @@ results/        # experiment results (JSON)
 ## Quickstart
 
 ```bash
-<FILL: install / env setup, e.g. pip install -e . or uv sync>
+# install / env setup
+<FILL: e.g. pip install -e .  or  uv sync>
 
 # extract CAA steering vectors
 python -m stoic extract <FILL: args>
@@ -92,7 +93,7 @@ python -m stoic extract <FILL: args>
 python -m stoic dilemma <FILL: args>
 ```
 
-<FILL: any setup notes — model access (Llama-3.2-3B gated on HF),
+<FILL: any setup notes -- model access (Llama-3.2-3B gated on HF),
 API keys for judge/pair generation, Colab for LoRA training>
 
 ---
@@ -104,7 +105,7 @@ validation with independent judge, decision-level forced-choice results, circuit
 topology comparison.>
 
 **In progress / next:**
-- <FILL: Seneca idiom-vs-topic discrimination (2×2 dilemma design)>
+- <FILL: Seneca idiom-vs-topic discrimination (2x2 dilemma design)>
 - <FILL: Epictetus full-corpus retrain (corpus-size hypothesis)>
 - <FILL: safety / robustness evaluation (jailbreak + temperature stability)>
 
@@ -112,5 +113,5 @@ topology comparison.>
 
 ## Notes
 
-<FILL: optional — related repos (e.g. ModelLens), context, or a one-line
+<FILL: optional -- related repos (e.g. ModelLens), context, or a one-line
 pointer to the research writeup / SOP if you want one. Keep it light.>
