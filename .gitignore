@@ -11,6 +11,9 @@ venv/
 # OS
 .DS_Store
 
+# Internal planning doc — not for GitHub
+/REPRODUCTION_PLAN.md
+
 # Model weights — never commit
 models/
 
