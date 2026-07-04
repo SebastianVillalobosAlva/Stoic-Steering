@@ -64,18 +64,18 @@ traditions, done rigorously rather than many traditions done shallowly.
 ## Repo structure
 
 stoic/
-config.py     # paths + config (per-author layer/coeff, decoding)
-model.py      # model loading + generation
-corpus.py     # text download, slicing, chunking, filtering
-pairs.py      # contrastive pair generation
-steering.py   # CAA vector extraction + steering
-lora.py       # LoRA prep, train, merge
-judge.py      # LLM-as-judge scoring
-dilemmas.py   # judge-free forced-choice harness
+  config.py     # paths + config (per-author layer/coeff, decoding)
+  model.py      # model loading + generation
+  corpus.py     # text download, slicing, chunking, filtering
+  pairs.py      # contrastive pair generation
+  steering.py   # CAA vector extraction + steering
+  lora.py       # LoRA prep, train, merge
+  judge.py      # LLM-as-judge scoring
+  dilemmas.py   # judge-free forced-choice harness
 cli.py          # command-line entry point
 data/
-reference/    # frozen artifacts (pairs, dilemma sets, vectors, adapters)
-generated/    # pipeline output
+  reference/    # frozen artifacts (pairs, dilemma sets, vectors, adapters)
+  generated/    # pipeline output
 results/        # experiment results (JSON)
 
 ## Quickstart
