@@ -63,6 +63,7 @@ traditions, done rigorously rather than many traditions done shallowly.
 
 ## Repo structure
 
+```
 stoic/
   config.py     # paths + config (per-author layer/coeff, decoding)
   model.py      # model loading + generation
@@ -77,6 +78,7 @@ data/
   reference/    # frozen artifacts (pairs, dilemma sets, vectors, adapters)
   generated/    # pipeline output
 results/        # experiment results (JSON)
+```
 
 ## Quickstart
 
