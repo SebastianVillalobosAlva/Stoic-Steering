@@ -35,7 +35,35 @@ instead of a valid array/`{"pairs":[...]}`). Its 53 pairs were verified
 file was restored from that original (content unchanged, JSON now valid). The
 corrupt copy is archived in the session scratchpad, not in the repo.
 
-## Not yet run (need $ / Colab, deferred)
+## Stage 3 — content effect does NOT reproduce (major finding)
 
-- Stage 3 — judge-scored content effect (Gemini judge; Epictetus L8 ≈ +0.767, Exp 9)
+Exp 9's headline CAA content effect (Marcus +0.408, Seneca +0.583, Epictetus
++0.767, Gemini judge) **does not survive matched decoding**. Root cause: the
+legacy steered-generation path (`run_model_with_hook`) silently dropped
+`do_sample`/`max_new_tokens`, so steered text was **sampled (temp 0.6, top-p 0.9)
+and truncated to ~13 tokens** while the baseline was **greedy, 100 tokens**. The
+judge scored the decoding difference, not the steering. Full line-quoted root
+cause: `stoic-llm-legacy/LEGACY.md`.
+
+Rebuilt with one canonical `generate()` (both sides identical decoding), same
+frozen vectors (cosine 1.0000), same judge (gemini-2.5-flash), n=5 seeds:
+
+| Author | Layer | Exp 9 (artifact) | Matched greedy | Matched sampled |
+|---|---|---|---|---|
+| Marcus | 26 | +0.408 ± 0.136 | −0.175 ± 0.054 | +0.075 ± 0.165 (n.s.) |
+| Seneca | 4 | +0.583 ± 0.121 | −0.117 ± 0.054 | −0.042 ± 0.204 (n.s.) |
+| Epictetus | 8 | +0.767 ± 0.076 | −0.117 ± 0.080 | −0.192 ± 0.329 (n.s.) |
+
+At coeff 0.11 the steered greedy output is byte-identical to baseline (greedy
+text only visibly changes at coeff ≥ 1.0), and the sampled distribution doesn't
+move either. **CAA at 0.11 is null at the content level under fair measurement.**
+This strengthens rather than weakens the decision-level story: Exp 10's CAA-flat
+result (reproduced exactly in Stage 2) was measured on logits, immune to the
+artifact, and stands.
+
+JSONs: `stage3_content_judge/content_20260704_192154.json` (greedy),
+`content_sampled_20260705_001353.json` (sampled).
+
+## Not yet run (needs Colab, deferred)
+
 - Stage 4 — LoRA decision shift (Seneca positive both stance buckets, Exp 11)

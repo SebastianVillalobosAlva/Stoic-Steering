@@ -79,6 +79,15 @@ AUTHORS: dict[str, Author] = {
 # The forced-choice ruler's known baseline (v2 set, both label orders averaged).
 DILEMMA_BASELINE = 0.542  # exact reference value: 0.541601902275579
 
+# Exp 9 content effect targets (clean pairs, Gemini judge, coeff 0.11, n_seeds=5).
+# {author: (content_mean, content_std)}. Judge is nondeterministic → reproduce
+# the pattern (all positive, error bars overlapping), not the decimals.
+EXP9_CONTENT: dict[str, tuple[float, float]] = {
+    "marcus": (0.408, 0.136),
+    "seneca": (0.583, 0.121),
+    "epictetus": (0.767, 0.076),
+}
+
 
 # --- Prompts for qualitative steering / seed eval (Stage 3+, unused in Pass A 0-2) ---
 DEFAULT_PROMPTS: list[str] = [

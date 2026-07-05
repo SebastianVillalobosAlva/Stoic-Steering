@@ -20,12 +20,16 @@ instrument.
   coefficient up to <FILL: max coeff tested>. It changes how the model talks,
   not what it picks.
 
-- **Pair quality is the determining variable for content effects.** Holding
-  model, method, layer, judge, and N constant, swapping contaminated
-  contrastive pairs for clean reasoning-isolating pairs flipped null content
-  effects to strong positive ones (Epictetus: <FILL: contaminated> ->
-  <FILL: clean>, independent judge). The philosophers were never the variable --
-  the data was.
+- **The headline CAA "content effect" was a measurement artifact — caught by
+  the clean rebuild.** The original eval silently *sampled* steered generations
+  (temp 0.6, ~13 tokens) while baselines were *greedy* (100 tokens); the judge
+  was scoring the decoding difference, not the steering. Re-measured with
+  identical decoding on both sides (same frozen vectors, same judge), the
+  content effect is null for all three philosophers — e.g. Epictetus L8:
+  +0.767 ± 0.076 reported -> −0.12 ± 0.08 matched-greedy / −0.19 ± 0.33
+  matched-sampled. One canonical `generate()` in the rebuild makes the original
+  bug unwritable; the root cause is documented line-by-line in the legacy
+  repo's LEGACY.md.
 
 - **LoRA reaches the decision layer where CAA does not.** On the identical
   forced-choice instrument where CAA was flat, weight-level adaptation moved the

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import time
 from pathlib import Path
 
@@ -189,11 +190,112 @@ def stage2(model, tokenizer, baseline: dict | None = None) -> dict:
     return result
 
 
+# --- Stage 3: judge-scored content effect (Exp 9, COSTS $) ---------------
+def _gemini_key() -> str:
+    """Gemini key from env, else from a KEY=VALUE line in project-root .env."""
+    for k in ("GEMINI_API_KEY", "GOOGLE_API_KEY"):
+        if os.environ.get(k):
+            return os.environ[k]
+    env = config.PROJECT_ROOT / ".env"
+    if env.exists():
+        for line in env.read_text().splitlines():
+            line = line.strip()
+            if line.startswith(("GEMINI_API_KEY", "GOOGLE_API_KEY")) and "=" in line:
+                return line.split("=", 1)[1].strip().strip("'\"")
+    raise SystemExit(
+        "No Gemini key found. Set GEMINI_API_KEY in the environment or in "
+        f"{env} (GEMINI_API_KEY=...). Stage 3 calls the Gemini judge API ($)."
+    )
+
+
+def stage3(model, tokenizer, authors=None, n_seeds: int = 5, sampled: bool = False) -> dict:
+    from stoic import judge
+
+    mode = "matched SAMPLED (temp 0.6)" if sampled else "matched GREEDY"
+    print(f"\n=== Stage 3: judge-scored content effect (Exp 9, Gemini judge) — {mode} ===")
+    client, judge_model = judge.make_gemini_client(_gemini_key())
+    authors = authors or list(config.AUTHORS)
+
+    # Sampled mode: baselines are unsteered, so compute once per seed and share.
+    baselines_by_seed = None
+    if sampled:
+        print(f"Generating shared unsteered baselines for {n_seeds} seeds ...")
+        baselines_by_seed = {
+            s: judge.generate_all_sampled(model, tokenizer, config.DEFAULT_PROMPTS, s)
+            for s in range(n_seeds)
+        }
+
+    per_author, checks = {}, {}
+    for name in authors:
+        author = config.AUTHORS[name]
+        vector = load_reference_vector(author.vector_file, author.layer)  # Exp 9 input
+        if sampled:
+            run = judge.seed_eval_sampled(
+                model, tokenizer, client, judge_model,
+                layer=author.layer, vector=vector, coeff=author.coeff,
+                author=name, baselines_by_seed=baselines_by_seed,
+            )
+        else:
+            run = judge.seed_eval(
+                model, tokenizer, client, judge_model,
+                layer=author.layer, vector=vector, coeff=author.coeff,
+                author=name, n_seeds=n_seeds,
+            )
+        ref_mean, ref_std = config.EXP9_CONTENT[name]
+        new_mean, new_std = run["content_mean"], run["content_std"]
+        # Pattern check: positive, and ±1σ intervals overlap the reference.
+        overlap = (new_mean + new_std) >= (ref_mean - ref_std) and (
+            new_mean - new_std
+        ) <= (ref_mean + ref_std)
+        checks[name] = {
+            "content_mean": new_mean,
+            "content_std": new_std,
+            "reference_mean": ref_mean,
+            "reference_std": ref_std,
+            "positive": new_mean > 0,
+            "overlaps_reference": overlap,
+        }
+        run["reference"] = {"content_mean": ref_mean, "content_std": ref_std}
+        per_author[name] = run
+        print(
+            f"  [{name}] content {new_mean:+.3f} ± {new_std:.3f}  "
+            f"(Exp 9: {ref_mean:+.3f} ± {ref_std:.3f}, "
+            f"overlap={overlap}, positive={new_mean > 0})"
+        )
+
+    all_positive = all(c["positive"] for c in checks.values())
+    all_overlap = all(c["overlaps_reference"] for c in checks.values())
+    passed = all_positive and all_overlap
+    result = {
+        "stage": 3,
+        "decoding_mode": "sampled_matched" if sampled else "greedy_matched",
+        "check": "content effect positive + ±1σ overlaps Exp 9 (Marcus +0.408 / Seneca +0.583 / Epictetus +0.767)",
+        "judge_model": judge_model,
+        "n_seeds": n_seeds,
+        "per_author": per_author,
+        "checks": checks,
+        "all_positive": all_positive,
+        "all_overlap": all_overlap,
+        "passed": passed,
+    }
+    name_suffix = "content_sampled" if sampled else "content_greedy"
+    _write("stage3_content_judge", name_suffix, result)
+    print(f"\nStage 3: {'PASS' if passed else 'REVIEW'}  "
+          f"(all positive: {all_positive}, all overlap Exp 9: {all_overlap})")
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(prog="stoic")
     sub = parser.add_subparsers(dest="cmd", required=True)
     for c in ("stage0", "stage1", "stage2", "all"):
         sub.add_parser(c)
+    p3 = sub.add_parser("stage3")
+    p3.add_argument("--author", choices=list(config.AUTHORS), default=None,
+                    help="run one author only (default: all three)")
+    p3.add_argument("--seeds", type=int, default=5)
+    p3.add_argument("--sampled", action="store_true",
+                    help="matched-SAMPLED comparison (both baseline+steered sampled, temp 0.6)")
     args = parser.parse_args()
 
     model, tokenizer = load_model()
@@ -204,6 +306,9 @@ def main():
         stage1(model, tokenizer)
     elif args.cmd == "stage2":
         stage2(model, tokenizer)
+    elif args.cmd == "stage3":
+        authors = [args.author] if args.author else None
+        stage3(model, tokenizer, authors=authors, n_seeds=args.seeds, sampled=args.sampled)
     elif args.cmd == "all":
         stage0(model, tokenizer)
         _, baseline = stage1(model, tokenizer)

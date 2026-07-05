@@ -1,0 +1,183 @@
+{
+  "timestamp": "20260705_001353",
+  "stage": 3,
+  "decoding_mode": "sampled_matched",
+  "check": "content effect positive + \u00b11\u03c3 overlaps Exp 9 (Marcus +0.408 / Seneca +0.583 / Epictetus +0.767)",
+  "judge_model": "gemini-2.5-flash",
+  "n_seeds": 5,
+  "per_author": {
+    "marcus": {
+      "author": "marcus",
+      "layer": 26,
+      "coefficient": 0.11,
+      "n_seeds": 5,
+      "vary": "generation",
+      "decoding": {
+        "do_sample": true,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "max_new_tokens": 100
+      },
+      "content_scores": [
+        -0.125,
+        0.16666666666666666,
+        0.2916666666666667,
+        -0.041666666666666664,
+        0.08333333333333333
+      ],
+      "aggregate_scores": [
+        2.1666666666666665,
+        1.9166666666666667,
+        2.2708333333333335,
+        1.8541666666666667,
+        1.9583333333333333
+      ],
+      "content_mean": 0.075,
+      "content_std": 0.16509677296799125,
+      "content_ci_excludes_zero": false,
+      "steered_outputs_last_seed": [
+        "When facing difficulty, one should not despair. One must always be positive and look for a way out of the situation.\nThe following is an excerpt from \u201cDhammapada\u201d (Chapter 1) by Buddha:\nOne who has little patience will suffer many hardships; he goes about with sorrowful heart and does much harm to himself.\nBut if you have endurance & perseverance,\nyou\u2019ll get what you\u2019re after sooner or later\n& in any case it won\u2019t come too soon \u2013\nfor those without endur\u00adance are",
+        "The nature of virtue is to be a disposition. A person who has the virtuous character will have it in his or her dispositions, and thus he or she can act according to that which they know about what's right.\nBut this doesn't mean we are born with virtues; rather our parents help us develop them through their own good example. In other words: If you want your children to learn how to behave well as adults then teach them by being an excellent parent yourself!\nAristotle believed there were three kinds",
+        "To live well means to be able to do what we want, when and how much as possible. We believe that the most important thing in life is your health.\nWe offer a wide range of services for every age group: from children's dentistry through adult orthodontics up until old-age care.\nA smile with perfect teeth can make you feel great about yourself! Our experienced team will help you achieve just this!\nOur dental clinic offers state-of-the-art equipment which allows us perform all kinds of procedures quickly, comfortably",
+        "What is not in our power, that should be the object of our desire.\nI am a big fan and follower of Dr. Brene Brown on Twitter, Facebook \u00a0and her blog. Her TED talk about shame has been viewed over four million times! She talks often about vulnerability as one aspect of courage but also how it\u2019s important to take risks with ourselves \u2013 especially when we\u2019re afraid or uncertain (which I think most people are at some point). It can feel scary because you don\u2019t know what will happen if/",
+        "We suffer not from events but from interpretations of those events. The problem with suffering is that it does nothing to change the interpretation.\nAs long as we are interpreting, and thus changing our minds about what happened in a particular situation or event, then no matter how bad things may be for us right now (or even if they\u2019re good) there will always remain some aspect within ourselves which feels like something\u2019s wrong. This feeling can become so strong at times that people feel compelled by their own desire for peace, comfortedness etc\u2026",
+        "The wise person is one who knows that nothing happens by chance. That\u2019s the basic premise of this book, which examines how coincidences are not random but rather part of a larger pattern.\nIt begins with an account from 1960s New York City where two men meet in their office building and decide to go for coffee together at lunchtime each day\u2014without knowing they work on adjacent floors or even share names ending with \u201c-son.\u201d This seemingly small detail leads them into deeper exploration about why things happen as they do\u2014and",
+        "True freedom comes from a strong sense of purpose and direction. It is the ability to make choices, not because we have no other options but simply out of our own free will.\nWe can never be truly happy if all that matters in life are material possessions or status symbols like houses and cars; these things do nothing for us except give others an idea about who they think you should be!\nFreedom means having control over what happens next \u2013 choosing between different paths based on your values rather than external pressures such as family obligations which",
+        "The obstacle in the path becomes a stepping stone\nI\u2019m not sure if you\u2019ve heard of this, but there\u2019s an epidemic happening right now. I mean really it is.\nIt started with COVID-19 and has spread like wildfire to many other things including my personal life (more on that later). It seems as though every day we are bombarded by new information about how something or someone can make us sick; from viruses & bacteria causing disease \u2013 physical illness such as heart attacks\u2026\nIn addition, mental health issues due primarily",
+        "Suffering teaches us that we are not in control of our lives. It is a reality to which everyone must come eventually, and it can be difficult for some people.\nIt\u2019s hard enough when things happen without warning or you have no idea why they happened \u2013 but what about suffering because someone has done something wrong? This kind of pain doesn\u2019t just affect the victim; it also affects those around them as well since there will always be consequences after such events occur (whether good ones like forgiveness being given freely by others who were",
+        "We should remember that all things are possible with God. He can do anything, and we must not forget this truth.\nThe most important thing is to have a good relationship between the two of you before getting married. It\u2019s very hard if your marriage doesn\u2019t start on solid ground because it will be harder for both of you later in life when problems arise \u2013 which they always seem like there\u2019ll never end up being any more issues after having kids together! So don\u2019t rush into something just so everyone else thinks everything looks perfect right",
+        "Each day should be lived as if it were your last.\nI\u2019ve been thinking a lot about the concept of time and how we spend our days. I\u2019m sure many people have heard this quote, \u201cLife is not measured by the number of breaths you take but rather by the moments that take your breathe away.\u201d It\u2019s so true! We are all given 24 hours in each day to live life with purpose or just passively through out daily routines without really living at full capacity for ourselves. The problem comes when those who",
+        "Our duty to others requires us, as a minimum at least,to help them achieve their goals. We can do this by sharing our knowledge and skills with those who are less fortunate than ourselves.\nI think that we should share the wealth of information available on-line so more people have access to it. I know from my own experience how important such things like Wikipedia has been in helping me learn about new topics or even research old ones for school work.\nThis is why I\u2019m supporting WikiEducator\u2019s effort to make educational content"
+      ],
+      "reference": {
+        "content_mean": 0.408,
+        "content_std": 0.136
+      }
+    },
+    "seneca": {
+      "author": "seneca",
+      "layer": 4,
+      "coefficient": 0.11,
+      "n_seeds": 5,
+      "vary": "generation",
+      "decoding": {
+        "do_sample": true,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "max_new_tokens": 100
+      },
+      "content_scores": [
+        -0.2916666666666667,
+        -0.125,
+        0.125,
+        0.20833333333333331,
+        -0.125
+      ],
+      "aggregate_scores": [
+        1.9166666666666667,
+        1.8125,
+        2.0208333333333335,
+        1.9375,
+        1.9375
+      ],
+      "content_mean": -0.04166666666666667,
+      "content_std": 0.2041241452319315,
+      "content_ci_excludes_zero": false,
+      "steered_outputs_last_seed": [
+        "When facing difficulty, one should not despair. One must always be positive and look for a way out of the situation.\nThe following is an excerpt from \u201cDhammapada\u201d (Chapter 1) by Buddha:\nOne who has little patience will suffer many hardships; he goes about with sorrowful heart and does much harm to himself.\nBut if you have endurance & perseverance,\nyou\u2019ll attain your goal even though it\u2019s far away;\nand when there are obstacles in front\nof what we want most, then that\u2019s no",
+        "The nature of virtue is to be a disposition. A person who has the virtuous character will have it in his or her dispositions, and thus he or she can act according to that which they know about what's right.\nBut this doesn't mean we are born with virtues; rather our parents help us develop them through their own good example. In other words: If you want your child to learn how to ride a bike, then teach him/her by riding one yourself! It takes time but eventually everyone learns something new",
+        "To live well means to be able to do what we want, when and how much as possible. We believe that the most important thing in life is your health.\nWe offer a wide range of services for every age group: from children's dentistry through adult orthodontics up until old-age care.\nA smile with perfect teeth can make you feel great about yourself! Our experienced team will help you achieve just this!\nOur dental clinic offers state-of-the-art equipment which allows us perform all kinds of procedures quickly, comfortably",
+        "What is not in our power, that should be the object of our desire.\nI am a big fan and follower of Dr. Brene Brown on Twitter, Facebook \u00a0and her blog. Her TED talk about shame has been viewed over four million times! She talks often (very eloquently) about vulnerability as part of living an authentic life; I think it\u2019s one thing to accept ourselves for who we are but another entirely to embrace being vulnerable with others \u2013 especially those people closest to us!\nMy husband recently read The",
+        "We suffer not from events but from interpretations of those events. The problem with suffering is that it does nothing to help us interpret our experiences.\nTo be a good person, we must have an understanding of what makes up the world and how things work together in order for this knowledge to become useful when trying out new ideas or making decisions about future plans.\nThe best way I can describe my philosophy on life (and happiness) would simply put: \u201cBe happy.\u201d This means doing whatever you want without any regrets because there\u2019s no point worrying",
+        "The wise person is one who knows that nothing happens by chance. That\u2019s the basic premise of this book, which discusses how everything in life has meaning and significance.\nThis means there are no accidents or coincidences; every event carries a message for you to learn from it so your path can become clearer as time passes on its merry way toward eternity!\nIt also explains why we should always be grateful because gratitude opens our minds up more easily than any other emotion does\u2014especially when faced with adversity such as sicknesses like cancer (which",
+        "True freedom comes from a strong sense of purpose and direction. It is the ability to make choices, not because we have no other options but simply out of our own free will.\nWe can never be truly happy if all that matters in life are material possessions or status symbols like houses and cars; these things do nothing for us except give others an idea about who they think you should be!\nFreedom means having control over what happens next \u2013 choosing between different paths based on your values rather than external pressures such as family obligations which",
+        "The obstacle in the path becomes a stepping stone\nI\u2019m not sure if you\u2019ve heard of this, but there\u2019s an epidemic happening right now. I mean really it is.\nIt started with COVID-19 and has spread like wildfire to many other things including my personal life (more on that later). It seems as though every day we are bombarded by new information about how something or someone can make us sick; from viruses & bacteria causing disease \u2013 physical illness such as heart attacks\u2026\nIn addition, mental health issues due primarily",
+        "Suffering teaches us that we are not in control of our lives. It is a reality to which everyone must come eventually, and it can be difficult for some people.\nIt\u2019s hard enough when things happen without warning or you have no idea why they happened \u2013 but what about suffering because someone has done something wrong? This kind of pain doesn\u2019t just affect the victim; it also affects those around them as well since there will always be consequences after such events occur (whether good ones like forgiveness being given freely by others who were",
+        "We should remember that all things are possible with God. He can do anything, and we must not forget this truth.\nThe most important thing is to have a good relationship between the two of you before getting married. It\u2019s very hard if your marriage doesn\u2019t start on solid ground because it will be harder for both of you later in life when problems arise \u2013 which they always seem like there\u2019ll never end up being any more issues after having kids together! So don\u2019t rush into something just so everyone else thinks everything looks perfect right",
+        "Each day should be lived as if it were your last.\nI\u2019ve been thinking a lot lately about the importance of living each and every moment to its fullest. I\u2019m sure we all have those days where life is moving so quickly that you can\u2019t keep up with everything going on, but how often do we take time out in our busy lives just for ourselves?\nLife isn't always easy or perfect - there will never come another opportunity like this one again!\nIf someone told me today was my final day here on earth what would happen",
+        "Our duty to others requires us, as a minimum at least,to help them achieve their goals. We can do this by sharing our knowledge and skills with those who are less fortunate than ourselves.\nI think that we should share the wealth of information available on-line so more people have access to it. I know from my own experience how important such things like Wikipedia has been in helping me learn about new topics or even research old ones for school work.\nThis is why I\u2019m supporting WikiEducator\u2019s effort to make educational content"
+      ],
+      "reference": {
+        "content_mean": 0.583,
+        "content_std": 0.121
+      }
+    },
+    "epictetus": {
+      "author": "epictetus",
+      "layer": 8,
+      "coefficient": 0.11,
+      "n_seeds": 5,
+      "vary": "generation",
+      "decoding": {
+        "do_sample": true,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "max_new_tokens": 100
+      },
+      "content_scores": [
+        -0.5416666666666666,
+        0.0,
+        -0.041666666666666664,
+        0.16666666666666666,
+        -0.5416666666666667
+      ],
+      "aggregate_scores": [
+        1.7708333333333333,
+        1.9375,
+        1.8333333333333333,
+        2.2708333333333335,
+        1.9375
+      ],
+      "content_mean": -0.19166666666666668,
+      "content_std": 0.3288764543445186,
+      "content_ci_excludes_zero": false,
+      "steered_outputs_last_seed": [
+        "When facing difficulty, one should not despair. One must always be positive and look for a way out of the situation.\nThe following is an excerpt from \u201cDhammapada\u201d (Chapter 1) by Buddha:\nOne who has little patience will suffer many hardships; he goes about with bent head,\nbut when his troubles are over, rejoices as if he had won something great;\nhe laughs aloud like madman, but soon grows sad again\nand in grief sits down to weep bitterly.\nThis man never enjoys any",
+        "The nature of virtue is to be a disposition. A person who has the virtuous character will have it in his or her dispositions, and thus he or she can act according to that which they know about what's right.\nBut this doesn't mean we are born with virtues; rather our parents help us develop them through their own good example. In other words: If you want your child to learn how to ride a bike, then teach him/her by riding one yourself! It takes time but eventually everyone learns something new",
+        "To live well means to be able to do what we want, when and how much as long as it is not at the expense of others. But this freedom depends on our health.\nIf you have a disease that affects your mental or physical abilities (e.g., diabetes), then there are many things in life that will become difficult for us: going out with friends because they cannot go up stairs; being unable to enjoy food if one has trouble chewing properly due its condition which causes pain while eating etcetera.. And",
+        "What is not in our power, that should be the object of our desire.\nI am a big fan and follower of Dr. Brene Brown on Twitter, Facebook \u00a0and her blog. Her TED talk about shame has been viewed over four million times! She talks often about vulnerability as one aspect of courage but also how it\u2019s important to take risks with ourselves \u2013 especially when we\u2019re afraid or uncertain (which I think most people are at some point). It can feel scary because you don\u2019t know what will happen if/",
+        "We suffer not from events but from interpretations of those events. The problem with our current political situation is that we are suffering the consequences of some bad decisions made over a long period.\nOur economic system has been designed to be stable and predictable, which means it does what most people expect \u2013 until something unexpected happens! We have never had an event like this before; in fact there\u2019s nothing comparable except for perhaps 1929-1933 when many countries were dragged into depression by the collapse of American banking institutions. In both cases they could",
+        "The wise person is one who knows that nothing happens by chance. That\u2019s the basic premise of this book, which discusses how everything in life has meaning and significance.\nThis means there are no accidents or coincidences; every event carries a message for you to learn from it so your path can become clearer as time passes on its merry way toward eternity!\nIt also explains what we call synchronicity \u2013 when two seemingly unrelated events happen at once because they\u2019re connected somehow through space/time continuum theory (which says all things exist simultaneously).\nFor",
+        "True freedom comes from a strong sense of purpose and direction. It is the ability to make choices, not because we have no other options but simply out of our own free will.\nWe can never be truly happy if all that matters in life are material possessions or status symbols like houses and cars; these things do nothing for us except give others an idea about who they think you should be!\nFreedom means having control over what happens next \u2013 choosing between different paths based on your values rather than external pressures such as family obligations which",
+        "The obstacle in the path becomes a stepping stone\nI\u2019m not sure if you\u2019ve heard of this, but there\u2019s an epidemic happening right now. I mean really it is.\nIt started with COVID-19 and has spread like wildfire to many other things including my personal life (more on that later). It seems as though every day we are bombarded by new information about how something or someone can make us sick; from viruses & bacteria causing disease \u2013 physical illness such as heart attacks\u2026\nIn addition, mental health issues due primarily",
+        "Suffering teaches us that we are not in control of our lives. It is a reality to which everyone must come eventually, and it can be difficult for some people.\nIt\u2019s hard enough when things happen without warning or you have no idea why they happened \u2013 but what about the times where your suffering has been caused by something you did?\nThere are many different types of pain: physical (like broken bones), emotional (such as depression) mental health issues like anxiety disorder etc\u2026 And even spiritual distress from loss & grief over",
+        "We should remember that all things are possible with God. He can do anything, and we must not forget this truth.\nThe most important thing is to have a good heart before Him because it will be our judge in the end of time. We need also to put ourselves under His rule as children obey their parents or slaves serve faithfully; but at least they follow orders! This means following what he says without question \u2013 even if sometimes you don\u2019t like something about him (like when Jesus told us \u201cgo away from me,\u201d which",
+        "Each day should be lived as if it were your last.\nI\u2019ve been thinking a lot lately about the importance of living each and every moment to its fullest. I\u2019m sure we all have those days where life is moving so quickly that you can\u2019t keep up with everything going on, but how often do we take time out in our busy lives just for ourselves?\nLife isn't always easy or perfect - there will never come another opportunity like this one again!\nIf someone told me today was my final day here on earth what would happen",
+        "Our duty to others requires us, as a minimum at least,to help them achieve their goals. We can do this by sharing our knowledge and skills with those who are less fortunate than ourselves.\nI think that we should share the wealth of information available on-line so more people have access to it. I know from my own experience how important such things like Wikipedia has been in helping me learn about new topics or even research old ones for school work.\nThis is why I\u2019m supporting WikiEducator\u2019s effort to make educational content"
+      ],
+      "reference": {
+        "content_mean": 0.767,
+        "content_std": 0.076
+      }
+    }
+  },
+  "checks": {
+    "marcus": {
+      "content_mean": 0.075,
+      "content_std": 0.16509677296799125,
+      "reference_mean": 0.408,
+      "reference_std": 0.136,
+      "positive": true,
+      "overlaps_reference": false
+    },
+    "seneca": {
+      "content_mean": -0.04166666666666667,
+      "content_std": 0.2041241452319315,
+      "reference_mean": 0.583,
+      "reference_std": 0.121,
+      "positive": false,
+      "overlaps_reference": false
+    },
+    "epictetus": {
+      "content_mean": -0.19166666666666668,
+      "content_std": 0.3288764543445186,
+      "reference_mean": 0.767,
+      "reference_std": 0.076,
+      "positive": false,
+      "overlaps_reference": false
+    }
+  },
+  "all_positive": false,
+  "all_overlap": false,
+  "passed": false
+}
