@@ -1,4 +1,4 @@
-# stoic-steering
+# Stoic Steering
 
 Steering Stoic philosophical reasoning into Llama-3.2-3B via activation
 addition (CAA) and low-rank weight adaptation (LoRA), with mechanistic
