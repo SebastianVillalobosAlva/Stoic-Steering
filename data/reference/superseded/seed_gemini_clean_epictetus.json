@@ -1,0 +1,121 @@
+{
+  "eval_type": "seed_candidates",
+  "author": "epictetus",
+  "n_seeds": 5,
+  "vary": "judge",
+  "runs": [
+    {
+      "eval_type": "seed",
+      "author": "epictetus",
+      "layer": 8,
+      "coefficient": 0.11,
+      "n_seeds": 5,
+      "vary": "judge",
+      "content_scores": [
+        0.75,
+        0.875,
+        0.75,
+        0.6666666666666667,
+        0.7916666666666667
+      ],
+      "aggregate_scores": [
+        2.625,
+        2.6041666666666665,
+        2.8541666666666665,
+        2.4791666666666665,
+        2.7083333333333335
+      ],
+      "content_mean": 0.7666666666666667,
+      "content_std": 0.07569125885243727,
+      "aggregate_mean": 2.654166666666667,
+      "aggregate_std": 0.1386630107691145,
+      "content_ci_excludes_zero": true,
+      "timestamp": "2026-06-11T16:13:37.551094"
+    },
+    {
+      "eval_type": "seed",
+      "author": "epictetus",
+      "layer": 20,
+      "coefficient": 0.11,
+      "n_seeds": 5,
+      "vary": "judge",
+      "content_scores": [
+        -0.041666666666666664,
+        -0.08333333333333334,
+        0.08333333333333334,
+        -0.125,
+        0.041666666666666664
+      ],
+      "aggregate_scores": [
+        2.25,
+        2.1875,
+        2.1875,
+        2.1875,
+        2.1875
+      ],
+      "content_mean": -0.025,
+      "content_std": 0.08640183897219884,
+      "aggregate_mean": 2.2,
+      "aggregate_std": 0.02795084971874737,
+      "content_ci_excludes_zero": false,
+      "timestamp": "2026-06-11T16:46:52.062088"
+    },
+    {
+      "eval_type": "seed",
+      "author": "epictetus",
+      "layer": 24,
+      "coefficient": 0.11,
+      "n_seeds": 5,
+      "vary": "judge",
+      "content_scores": [
+        -0.041666666666666664,
+        -0.25,
+        -0.5,
+        -0.125,
+        -0.41666666666666663
+      ],
+      "aggregate_scores": [
+        2.2708333333333335,
+        1.9791666666666667,
+        1.9583333333333333,
+        2.1666666666666665,
+        1.8958333333333333
+      ],
+      "content_mean": -0.26666666666666666,
+      "content_std": 0.19229967932023875,
+      "aggregate_mean": 2.0541666666666667,
+      "aggregate_std": 0.1577015905647964,
+      "content_ci_excludes_zero": true,
+      "timestamp": "2026-06-11T16:30:19.012217"
+    }
+  ],
+  "best": {
+    "eval_type": "seed",
+    "author": "epictetus",
+    "layer": 8,
+    "coefficient": 0.11,
+    "n_seeds": 5,
+    "vary": "judge",
+    "content_scores": [
+      0.75,
+      0.875,
+      0.75,
+      0.6666666666666667,
+      0.7916666666666667
+    ],
+    "aggregate_scores": [
+      2.625,
+      2.6041666666666665,
+      2.8541666666666665,
+      2.4791666666666665,
+      2.7083333333333335
+    ],
+    "content_mean": 0.7666666666666667,
+    "content_std": 0.07569125885243727,
+    "aggregate_mean": 2.654166666666667,
+    "aggregate_std": 0.1386630107691145,
+    "content_ci_excludes_zero": true,
+    "timestamp": "2026-06-11T16:13:37.551094"
+  },
+  "timestamp": "2026-06-11T16:46:52.062598"
+}

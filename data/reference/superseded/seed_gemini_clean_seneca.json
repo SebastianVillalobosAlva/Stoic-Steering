@@ -1,0 +1,121 @@
+{
+  "eval_type": "seed_candidates",
+  "author": "seneca",
+  "n_seeds": 5,
+  "vary": "judge",
+  "runs": [
+    {
+      "eval_type": "seed",
+      "author": "seneca",
+      "layer": 4,
+      "coefficient": 0.11,
+      "n_seeds": 5,
+      "vary": "judge",
+      "content_scores": [
+        0.4166666666666667,
+        0.6666666666666667,
+        0.5,
+        0.7083333333333333,
+        0.625
+      ],
+      "aggregate_scores": [
+        2.8125,
+        2.9375,
+        2.6458333333333335,
+        2.7708333333333335,
+        2.8333333333333335
+      ],
+      "content_mean": 0.5833333333333334,
+      "content_std": 0.12147816447594374,
+      "aggregate_mean": 2.8000000000000003,
+      "aggregate_std": 0.1058202091600024,
+      "content_ci_excludes_zero": true,
+      "timestamp": "2026-06-11T15:20:25.093328"
+    },
+    {
+      "eval_type": "seed",
+      "author": "seneca",
+      "layer": 12,
+      "coefficient": 0.11,
+      "n_seeds": 5,
+      "vary": "judge",
+      "content_scores": [
+        -0.08333333333333333,
+        0.125,
+        -0.041666666666666664,
+        0.0,
+        0.041666666666666664
+      ],
+      "aggregate_scores": [
+        2.0833333333333335,
+        2.1666666666666665,
+        2.25,
+        2.0416666666666665,
+        2.1666666666666665
+      ],
+      "content_mean": 0.008333333333333335,
+      "content_std": 0.08014743359029727,
+      "aggregate_mean": 2.1416666666666666,
+      "aggregate_std": 0.08122328620674137,
+      "content_ci_excludes_zero": false,
+      "timestamp": "2026-06-11T15:52:21.684231"
+    },
+    {
+      "eval_type": "seed",
+      "author": "seneca",
+      "layer": 26,
+      "coefficient": 0.11,
+      "n_seeds": 5,
+      "vary": "judge",
+      "content_scores": [
+        -0.08333333333333333,
+        -0.20833333333333331,
+        0.041666666666666664,
+        -0.125,
+        0.08333333333333333
+      ],
+      "aggregate_scores": [
+        2.1666666666666665,
+        2.2291666666666665,
+        2.4375,
+        2.2291666666666665,
+        2.5
+      ],
+      "content_mean": -0.05833333333333333,
+      "content_std": 0.12004050242406611,
+      "aggregate_mean": 2.3125,
+      "aggregate_std": 0.14657549249448226,
+      "content_ci_excludes_zero": false,
+      "timestamp": "2026-06-11T15:36:42.250277"
+    }
+  ],
+  "best": {
+    "eval_type": "seed",
+    "author": "seneca",
+    "layer": 4,
+    "coefficient": 0.11,
+    "n_seeds": 5,
+    "vary": "judge",
+    "content_scores": [
+      0.4166666666666667,
+      0.6666666666666667,
+      0.5,
+      0.7083333333333333,
+      0.625
+    ],
+    "aggregate_scores": [
+      2.8125,
+      2.9375,
+      2.6458333333333335,
+      2.7708333333333335,
+      2.8333333333333335
+    ],
+    "content_mean": 0.5833333333333334,
+    "content_std": 0.12147816447594374,
+    "aggregate_mean": 2.8000000000000003,
+    "aggregate_std": 0.1058202091600024,
+    "content_ci_excludes_zero": true,
+    "timestamp": "2026-06-11T15:20:25.093328"
+  },
+  "timestamp": "2026-06-11T15:52:21.685438"
+}
