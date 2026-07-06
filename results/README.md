@@ -64,6 +64,33 @@ artifact, and stands.
 JSONs: `stage3_content_judge/content_20260704_192154.json` (greedy),
 `content_sampled_20260705_001353.json` (sampled).
 
+## Style validation — the register claim collapses too
+
+Exp 3b's stylistic-authenticity deltas (Marcus +1.00, Seneca +1.42,
+Epictetus +1.58) — the column the tracker called "the robust, valid result" —
+were re-tested under matched decoding at the canonical clean configs
+(pre-registered rule: survives if seed-averaged style delta > 2σ above zero
+in either regime; n=5 seeds, same hardened Gemini judge):
+
+| Author | Exp 3b (artifact) | Matched greedy | Matched sampled | Verdict |
+|---|---|---|---|---|
+| Marcus | +1.00 | −0.150 ± 0.181 | −0.033 ± 0.139 | collapses |
+| Seneca | +1.42 | −0.100 ± 0.091 | −0.017 ± 0.260 | collapses |
+| Epictetus | +1.58 | +0.050 ± 0.126 | −0.017 ± 0.124 | collapses |
+
+The greedy arm re-scored the saved Stage 3 generations (byte-identical pairs
+scored as delta 0 by construction); the sampled arm regenerated the seeded
+Stage 3 texts. Under fair measurement CAA at coeff 0.11 moves **nothing** —
+style, content, or decisions. The old "style moves robustly" signal was the
+judge reacting to short sampled snippets vs long greedy baselines.
+
+Caveats recorded in the JSON: canonical configs (Exp 3b used superseded
+all-L8 picks), and coefficient 0.11 only — greedy output barely changes below
+coeff ~1.0, so whether any coefficient produces genuine Stoic register under
+matched decoding is untested (future sweep).
+
+JSON: `style_validation/style_20260705_212411.json`.
+
 ## Not yet run (needs Colab, deferred)
 
 - Stage 4 — LoRA decision shift (Seneca positive both stance buckets, Exp 11)

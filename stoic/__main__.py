@@ -285,6 +285,103 @@ def stage3(model, tokenizer, authors=None, n_seeds: int = 5, sampled: bool = Fal
     return result
 
 
+# --- Style validation: does "CAA moves register" survive matched decoding? ---
+def style_check(model, tokenizer, n_seeds: int = 5) -> dict:
+    """Re-test the Exp 3b style/register claim under matched decoding.
+
+    Greedy arm: re-scores the SAVED Stage 3 greedy generations (no generation
+    cost). Sampled arm: regenerates the exact Stage 3 sampled texts (seeded)
+    and judges once per seed. Pre-registered decision rule: style survives if
+    the seed-averaged delta stays clearly positive by ~2σ (mean > 2*std).
+    """
+    import glob
+    import statistics as st
+
+    from stoic import judge
+
+    client, judge_model = judge.make_gemini_client(_gemini_key())
+    greedy_file = sorted(glob.glob(str(config.results_dir("stage3_content_judge") / "content_2*.json")))[0]
+    saved = json.load(open(greedy_file))
+
+    def seed_stats(vals):
+        m = st.mean(vals)
+        sd = st.stdev(vals) if len(vals) > 1 else 0.0
+        return m, sd
+
+    # Sampled baselines are unsteered → generate once per seed, share across authors.
+    print(f"Generating shared sampled baselines for {n_seeds} seeds ...")
+    baselines_by_seed = {
+        s: judge.generate_all_sampled(model, tokenizer, config.DEFAULT_PROMPTS, s)
+        for s in range(n_seeds)
+    }
+
+    per_author = {}
+    for name, author in config.AUTHORS.items():
+        ref3b = config.EXP3B_STYLE[name]
+        entry = {"layer": author.layer, "coeff": author.coeff, "exp3b_style": ref3b}
+
+        # -- matched greedy: pure re-scoring of saved texts --
+        run = saved["per_author"][name]
+        print(f"\n[{name}] matched GREEDY re-score (saved Stage 3 texts)")
+        g = judge.judge_fixed_texts(
+            client, judge_model, config.DEFAULT_PROMPTS,
+            run["steered_outputs"], run["baseline_outputs"], n_seeds=n_seeds,
+        )
+        styles = [d["stylistic_authenticity"] for d in g["per_seed_deltas"]]
+        m, sd = seed_stats(styles)
+        entry["greedy"] = {
+            "style_mean": m, "style_std": sd, "survives_2sigma": m > 2 * sd,
+            "n_identical_pairs": g["n_identical"], "per_seed": g["per_seed_deltas"],
+        }
+        print(f"  greedy style = {m:+.3f} ± {sd:.3f}  (Exp 3b: +{ref3b:.2f}; "
+              f"{g['n_identical']}/12 pairs byte-identical)")
+
+        # -- matched sampled: regenerate seeded texts, judge once per seed --
+        print(f"[{name}] matched SAMPLED (regenerating seeds 0-{n_seeds - 1})")
+        vector = load_reference_vector(author.vector_file, author.layer)
+        seed_deltas = []
+        for s in range(n_seeds):
+            steer = judge.generate_all_sampled(
+                model, tokenizer, config.DEFAULT_PROMPTS, s,
+                steer=(author.layer, vector, author.coeff),
+            )
+            er = judge.evaluate_steering(
+                client, judge_model, config.DEFAULT_PROMPTS, steer, baselines_by_seed[s]
+            )
+            seed_deltas.append(er["avg_deltas"])
+            print(f"  seed {s}: style={er['avg_deltas']['stylistic_authenticity']:+.3f}")
+        styles_s = [d["stylistic_authenticity"] for d in seed_deltas]
+        ms, sds = seed_stats(styles_s)
+        entry["sampled"] = {
+            "style_mean": ms, "style_std": sds, "survives_2sigma": ms > 2 * sds,
+            "per_seed": seed_deltas,
+        }
+        print(f"  sampled style = {ms:+.3f} ± {sds:.3f}  (Exp 3b: +{ref3b:.2f})")
+        per_author[name] = entry
+
+    survives = {
+        n: e["greedy"]["survives_2sigma"] or e["sampled"]["survives_2sigma"]
+        for n, e in per_author.items()
+    }
+    result = {
+        "check": "Exp 3b style/register claim under matched decoding; survives if seed-avg style delta > 2*std",
+        "note": "Canonical clean configs (M L26/S L4/E L8, c=0.11); Exp 3b ran superseded all-L8 configs with asymmetric decoding — historical reference, not exact-config comparison.",
+        "judge_model": judge_model,
+        "n_seeds": n_seeds,
+        "greedy_source": Path(greedy_file).name,
+        "per_author": per_author,
+        "survives": survives,
+    }
+    _write("style_validation", "style", result)
+    print("\n=== Style validation ===")
+    for n, e in per_author.items():
+        print(f"  {n:10s} greedy {e['greedy']['style_mean']:+.3f}±{e['greedy']['style_std']:.3f}  "
+              f"sampled {e['sampled']['style_mean']:+.3f}±{e['sampled']['style_std']:.3f}  "
+              f"(Exp 3b +{e['exp3b_style']:.2f})  -> "
+              f"{'SURVIVES' if survives[n] else 'collapses'}")
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(prog="stoic")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -296,6 +393,8 @@ def main():
     p3.add_argument("--seeds", type=int, default=5)
     p3.add_argument("--sampled", action="store_true",
                     help="matched-SAMPLED comparison (both baseline+steered sampled, temp 0.6)")
+    ps = sub.add_parser("style")
+    ps.add_argument("--seeds", type=int, default=5)
     args = parser.parse_args()
 
     model, tokenizer = load_model()
@@ -309,6 +408,8 @@ def main():
     elif args.cmd == "stage3":
         authors = [args.author] if args.author else None
         stage3(model, tokenizer, authors=authors, n_seeds=args.seeds, sampled=args.sampled)
+    elif args.cmd == "style":
+        style_check(model, tokenizer, n_seeds=args.seeds)
     elif args.cmd == "all":
         stage0(model, tokenizer)
         _, baseline = stage1(model, tokenizer)

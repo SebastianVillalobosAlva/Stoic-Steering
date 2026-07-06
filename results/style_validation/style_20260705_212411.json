@@ -1,0 +1,285 @@
+{
+  "timestamp": "20260705_212411",
+  "check": "Exp 3b style/register claim under matched decoding; survives if seed-avg style delta > 2*std",
+  "note": "Canonical clean configs (M L26/S L4/E L8, c=0.11); Exp 3b ran superseded all-L8 configs with asymmetric decoding \u2014 historical reference, not exact-config comparison.",
+  "judge_model": "gemini-2.5-flash",
+  "n_seeds": 5,
+  "greedy_source": "content_20260704_192154.json",
+  "per_author": {
+    "marcus": {
+      "layer": 26,
+      "coeff": 0.11,
+      "exp3b_style": 1.0,
+      "greedy": {
+        "style_mean": -0.15,
+        "style_std": 0.18066236157232332,
+        "survives_2sigma": false,
+        "n_identical_pairs": 2,
+        "per_seed": [
+          {
+            "philosophical_depth": -0.08333333333333333,
+            "stoic_alignment": -0.25,
+            "coherence": -0.16666666666666666,
+            "stylistic_authenticity": -0.3333333333333333,
+            "aggregate": -0.20833333333333334
+          },
+          {
+            "philosophical_depth": -0.08333333333333333,
+            "stoic_alignment": -0.25,
+            "coherence": -0.08333333333333333,
+            "stylistic_authenticity": -0.25,
+            "aggregate": -0.16666666666666666
+          },
+          {
+            "philosophical_depth": 0.0,
+            "stoic_alignment": -0.16666666666666666,
+            "coherence": -0.25,
+            "stylistic_authenticity": 0.08333333333333333,
+            "aggregate": -0.08333333333333333
+          },
+          {
+            "philosophical_depth": 0.08333333333333333,
+            "stoic_alignment": 0.0,
+            "coherence": 0.0,
+            "stylistic_authenticity": 0.0,
+            "aggregate": 0.020833333333333332
+          },
+          {
+            "philosophical_depth": -0.25,
+            "stoic_alignment": -0.08333333333333333,
+            "coherence": -0.16666666666666666,
+            "stylistic_authenticity": -0.25,
+            "aggregate": -0.1875
+          }
+        ]
+      },
+      "sampled": {
+        "style_mean": -0.03333333333333333,
+        "style_std": 0.13944333775567924,
+        "survives_2sigma": false,
+        "per_seed": [
+          {
+            "philosophical_depth": -0.3333333333333333,
+            "stoic_alignment": -0.16666666666666666,
+            "coherence": -0.4166666666666667,
+            "stylistic_authenticity": 0.0,
+            "aggregate": -0.22916666666666666
+          },
+          {
+            "philosophical_depth": 0.16666666666666666,
+            "stoic_alignment": 0.25,
+            "coherence": 0.16666666666666666,
+            "stylistic_authenticity": -0.08333333333333333,
+            "aggregate": 0.125
+          },
+          {
+            "philosophical_depth": 0.08333333333333333,
+            "stoic_alignment": 0.0,
+            "coherence": 0.5,
+            "stylistic_authenticity": -0.25,
+            "aggregate": 0.08333333333333333
+          },
+          {
+            "philosophical_depth": 0.25,
+            "stoic_alignment": 0.08333333333333333,
+            "coherence": -0.16666666666666666,
+            "stylistic_authenticity": 0.08333333333333333,
+            "aggregate": 0.0625
+          },
+          {
+            "philosophical_depth": 0.16666666666666666,
+            "stoic_alignment": -0.16666666666666666,
+            "coherence": 0.3333333333333333,
+            "stylistic_authenticity": 0.08333333333333333,
+            "aggregate": 0.10416666666666667
+          }
+        ]
+      }
+    },
+    "seneca": {
+      "layer": 4,
+      "coeff": 0.11,
+      "exp3b_style": 1.42,
+      "greedy": {
+        "style_mean": -0.09999999999999999,
+        "style_std": 0.09128709291752768,
+        "survives_2sigma": false,
+        "n_identical_pairs": 5,
+        "per_seed": [
+          {
+            "philosophical_depth": 0.08333333333333333,
+            "stoic_alignment": 0.08333333333333333,
+            "coherence": 0.08333333333333333,
+            "stylistic_authenticity": -0.16666666666666666,
+            "aggregate": 0.020833333333333332
+          },
+          {
+            "philosophical_depth": 0.0,
+            "stoic_alignment": -0.25,
+            "coherence": -0.16666666666666666,
+            "stylistic_authenticity": -0.16666666666666666,
+            "aggregate": -0.14583333333333334
+          },
+          {
+            "philosophical_depth": 0.0,
+            "stoic_alignment": 0.16666666666666666,
+            "coherence": 0.08333333333333333,
+            "stylistic_authenticity": 0.0,
+            "aggregate": 0.0625
+          },
+          {
+            "philosophical_depth": -0.08333333333333333,
+            "stoic_alignment": 0.0,
+            "coherence": 0.16666666666666666,
+            "stylistic_authenticity": -0.16666666666666666,
+            "aggregate": -0.020833333333333332
+          },
+          {
+            "philosophical_depth": -0.08333333333333333,
+            "stoic_alignment": 0.0,
+            "coherence": -0.25,
+            "stylistic_authenticity": 0.0,
+            "aggregate": -0.08333333333333333
+          }
+        ]
+      },
+      "sampled": {
+        "style_mean": -0.01666666666666667,
+        "style_std": 0.25954019170662396,
+        "survives_2sigma": false,
+        "per_seed": [
+          {
+            "philosophical_depth": -0.4166666666666667,
+            "stoic_alignment": -0.4166666666666667,
+            "coherence": -0.4166666666666667,
+            "stylistic_authenticity": -0.4166666666666667,
+            "aggregate": -0.4166666666666667
+          },
+          {
+            "philosophical_depth": 0.0,
+            "stoic_alignment": 0.08333333333333333,
+            "coherence": -0.5833333333333334,
+            "stylistic_authenticity": -0.08333333333333333,
+            "aggregate": -0.14583333333333334
+          },
+          {
+            "philosophical_depth": 0.16666666666666666,
+            "stoic_alignment": 0.4166666666666667,
+            "coherence": 0.0,
+            "stylistic_authenticity": 0.25,
+            "aggregate": 0.20833333333333334
+          },
+          {
+            "philosophical_depth": -0.08333333333333333,
+            "stoic_alignment": 0.25,
+            "coherence": 0.5833333333333334,
+            "stylistic_authenticity": 0.16666666666666666,
+            "aggregate": 0.22916666666666666
+          },
+          {
+            "philosophical_depth": -0.08333333333333333,
+            "stoic_alignment": 0.08333333333333333,
+            "coherence": 0.08333333333333333,
+            "stylistic_authenticity": 0.0,
+            "aggregate": 0.020833333333333332
+          }
+        ]
+      }
+    },
+    "epictetus": {
+      "layer": 8,
+      "coeff": 0.11,
+      "exp3b_style": 1.58,
+      "greedy": {
+        "style_mean": 0.049999999999999996,
+        "style_std": 0.12638125740085918,
+        "survives_2sigma": false,
+        "n_identical_pairs": 6,
+        "per_seed": [
+          {
+            "philosophical_depth": -0.16666666666666666,
+            "stoic_alignment": -0.08333333333333333,
+            "coherence": 0.0,
+            "stylistic_authenticity": 0.16666666666666666,
+            "aggregate": -0.020833333333333332
+          },
+          {
+            "philosophical_depth": 0.0,
+            "stoic_alignment": 0.08333333333333333,
+            "coherence": 0.5,
+            "stylistic_authenticity": 0.08333333333333333,
+            "aggregate": 0.16666666666666666
+          },
+          {
+            "philosophical_depth": 0.0,
+            "stoic_alignment": 0.08333333333333333,
+            "coherence": 0.08333333333333333,
+            "stylistic_authenticity": 0.08333333333333333,
+            "aggregate": 0.0625
+          },
+          {
+            "philosophical_depth": 0.08333333333333333,
+            "stoic_alignment": 0.08333333333333333,
+            "coherence": 0.08333333333333333,
+            "stylistic_authenticity": -0.16666666666666666,
+            "aggregate": 0.020833333333333332
+          },
+          {
+            "philosophical_depth": 0.08333333333333333,
+            "stoic_alignment": 0.0,
+            "coherence": 0.0,
+            "stylistic_authenticity": 0.08333333333333333,
+            "aggregate": 0.041666666666666664
+          }
+        ]
+      },
+      "sampled": {
+        "style_mean": -0.016666666666666666,
+        "style_std": 0.12360330811826105,
+        "survives_2sigma": false,
+        "per_seed": [
+          {
+            "philosophical_depth": -0.4166666666666667,
+            "stoic_alignment": -0.3333333333333333,
+            "coherence": -0.75,
+            "stylistic_authenticity": 0.0,
+            "aggregate": -0.375
+          },
+          {
+            "philosophical_depth": 0.08333333333333333,
+            "stoic_alignment": 0.16666666666666666,
+            "coherence": 0.16666666666666666,
+            "stylistic_authenticity": 0.0,
+            "aggregate": 0.10416666666666667
+          },
+          {
+            "philosophical_depth": -0.08333333333333333,
+            "stoic_alignment": 0.16666666666666666,
+            "coherence": -0.08333333333333333,
+            "stylistic_authenticity": -0.16666666666666666,
+            "aggregate": -0.041666666666666664
+          },
+          {
+            "philosophical_depth": 0.0,
+            "stoic_alignment": 0.08333333333333333,
+            "coherence": 0.5833333333333334,
+            "stylistic_authenticity": 0.16666666666666666,
+            "aggregate": 0.20833333333333334
+          },
+          {
+            "philosophical_depth": -0.16666666666666666,
+            "stoic_alignment": -0.25,
+            "coherence": 0.16666666666666666,
+            "stylistic_authenticity": -0.08333333333333333,
+            "aggregate": -0.08333333333333333
+          }
+        ]
+      }
+    }
+  },
+  "survives": {
+    "marcus": false,
+    "seneca": false,
+    "epictetus": false
+  }
+}

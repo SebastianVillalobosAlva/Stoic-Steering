@@ -179,6 +179,37 @@ def _generate_all(model, tokenizer, prompts, steer=None) -> list[str]:
         return [generate(model, tokenizer, p) for p in prompts]
 
 
+def judge_fixed_texts(
+    client, judge_model, prompts, steered, baseline, n_seeds: int = 5, delay: float = 0.5
+) -> dict:
+    """Re-score FIXED steered/baseline text sets n_seeds times (judge variance
+    only — no generation). Pairs where steered == baseline byte-identical get
+    delta 0 on every dimension by construction, without an API call: in a
+    paired design, re-rolling the judge on the same string measures judge
+    noise, not steering.
+
+    Returns per-seed per-dimension average deltas + the identical-pair count.
+    """
+    differing = [i for i in range(len(prompts)) if steered[i] != baseline[i]]
+    n = len(prompts)
+    dims = DIMENSIONS + ["aggregate"]
+    per_seed: list[dict] = []
+    for s in range(n_seeds):
+        deltas = {d: [0.0] * n for d in dims}  # identical pairs stay 0
+        for i in differing:
+            us = score(client, judge_model, baseline[i], prompts[i])
+            time.sleep(delay)
+            ss = score(client, judge_model, steered[i], prompts[i])
+            time.sleep(delay)
+            for d in dims:
+                deltas[d][i] = ss.get(d, 0) - us.get(d, 0)
+        avg = {d: sum(v) / n for d, v in deltas.items()}
+        per_seed.append(avg)
+        print(f"  seed {s}: style={avg['stylistic_authenticity']:+.3f}  "
+              f"content={(avg['philosophical_depth'] + avg['stoic_alignment']) / 2:+.3f}")
+    return {"per_seed_deltas": per_seed, "n_identical": n - len(differing), "n_prompts": n}
+
+
 @torch.no_grad()
 def generate_all_sampled(
     model, tokenizer, prompts, seed: int, steer=None,

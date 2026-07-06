@@ -4,21 +4,25 @@ Steering Stoic philosophical reasoning into Llama-3.2-3B via activation
 addition (CAA) and low-rank weight adaptation (LoRA), with mechanistic
 interpretability to check what actually changes inside the model.
 
-**Core finding:** how a model *talks*, how it *reasons in prose*, and what it
-*chooses* come apart. Activation steering moves register but not decisions;
-weight adaptation reaches decisions but doesn't install clean philosophical
-reasoning. The distinction is only visible with a judge-free decision-level
-instrument.
+**Core finding:** the original evals overstated what activation steering does.
+Under fair (matched-decoding) measurement, CAA at the canonical coefficient
+moves *nothing* measurable — not style, not judge-scored content, not
+decisions. Weight adaptation (LoRA) genuinely moves all three levels,
+including the judge-free decision instrument. The clean rebuild caught the
+original CAA style/content effects being a single measurement artifact.
 
 ---
 
 ## Key findings
 
-- **CAA is a register direction, not a decision direction.** Contrastive
-  activation steering robustly shifts writing style (Stoic-sounding prose) but
-  produces no movement on a forced-choice decision test — flat at every
-  coefficient up to <FILL: max coeff tested>. It changes how the model talks,
-  not what it picks.
+- **CAA at the canonical coefficient does nothing measurable — at any of the
+  three levels.** Decisions were always flat (forced-choice test, every
+  coefficient up to 1.5, logit-measured and artifact-immune). Style and
+  content *appeared* to move, but under matched decoding both collapse to
+  zero (style: +1.0…+1.6 reported → −0.15…+0.05 greedy / ~0.0 sampled, all
+  n.s.). At coeff 0.11 the steered greedy output is nearly byte-identical to
+  baseline; whether stronger coefficients produce genuine Stoic register
+  under fair measurement is an open question, not a claimed result.
 
 - **The headline CAA "content effect" was a measurement artifact — caught by
   the clean rebuild.** The original eval silently *sampled* steered generations

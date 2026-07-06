@@ -88,6 +88,17 @@ EXP9_CONTENT: dict[str, tuple[float, float]] = {
     "epictetus": (0.767, 0.076),
 }
 
+# Exp 3b stylistic-authenticity deltas (the "robust" style claim under test).
+# CAVEAT: Exp 3b ran the superseded all-L8 configs (coeffs 0.08/0.15/0.11) with
+# pre-Exp-8 vectors AND the asymmetric decoding. The style re-test runs the
+# canonical clean configs at matched decoding; Exp 3b is the historical
+# reference, not an exact-config comparison.
+EXP3B_STYLE: dict[str, float] = {
+    "marcus": 1.00,
+    "seneca": 1.42,
+    "epictetus": 1.58,
+}
+
 
 # --- Prompts for qualitative steering / seed eval (Stage 3+, unused in Pass A 0-2) ---
 DEFAULT_PROMPTS: list[str] = [
