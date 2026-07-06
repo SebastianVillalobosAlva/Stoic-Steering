@@ -285,6 +285,89 @@ def stage3(model, tokenizer, authors=None, n_seeds: int = 5, sampled: bool = Fal
     return result
 
 
+# --- Stage 4: LoRA decision shift (Exp 11, judge-free, $0) ----------------
+def stage4(model, tokenizer) -> dict:
+    """Merge each frozen clean adapter onto a fresh base and run the dilemma
+    eval. Checkpoint: base integrity (0.542 -> 0.542, drift 0) and Seneca's
+    shift positive in BOTH stance buckets with overall t >= ~2 (Exp 11)."""
+    import gc
+
+    from stoic import lora
+
+    print("\n=== Stage 4: LoRA dilemma eval (judge-free, frozen adapters) ===")
+    dilemmas = load_dilemmas()
+
+    print("Base integrity (start): baseline on unmodified base ...")
+    baseline = eval_dilemmas(model, tokenizer, dilemmas)
+    base_mean_start = mean(baseline)
+    print(f"  baseline mean P(stoic) = {base_mean_start:.6f}")
+
+    per_author = {}
+    for name, author in config.AUTHORS.items():
+        print(f"\n[{name}] {author.adapter_dir.name}")
+        merged = lora.merge_adapter(author.adapter_dir)
+        try:
+            steered = eval_dilemmas(merged, tokenizer, dilemmas)
+        finally:
+            del merged
+            gc.collect()
+
+        deltas = {i: steered[i] - baseline[i] for i in steered}
+        deltas_lo = {i: _logit(steered[i]) - _logit(baseline[i]) for i in steered}
+        overall = paired_stats(list(deltas.values()))
+        overall_lo = paired_stats(list(deltas_lo.values()))
+        stance = deltas_by_stance(dilemmas, deltas)
+        print(f"  steered mean {mean(steered):.4f}  ΔP {overall['mean_delta']:+.4f} "
+              f"(t={overall['t_stat']:.2f})  Δlo {overall_lo['mean_delta']:+.4f} "
+              f"(t={overall_lo['t_stat']:.2f})")
+        for k, v in sorted(stance.items()):
+            print(f"    {k:10s}: ΔP {v['mean_delta']:+.4f}  t {v['t_stat']:+.2f}  (n={v['n']})")
+        per_author[name] = {
+            "adapter": str(author.adapter_dir.name),
+            "steered_mean": mean(steered),
+            "steered_p_stoic": steered,
+            "overall": overall,
+            "overall_logodds": overall_lo,
+            "by_stance": stance,
+        }
+
+    print("\nBase integrity (end): baseline again on the same base model ...")
+    baseline_end = eval_dilemmas(model, tokenizer, dilemmas)
+    drift = max(abs(baseline_end[i] - baseline[i]) for i in baseline)
+    base_mean_end = mean(baseline_end)
+    print(f"  baseline mean {base_mean_end:.6f}  max per-item drift {drift:.2e}")
+
+    integrity = (
+        round(base_mean_start, 3) == config.DILEMMA_BASELINE
+        and round(base_mean_end, 3) == config.DILEMMA_BASELINE
+        and drift == 0.0
+    )
+    sen = per_author["seneca"]
+    sen_both_positive = all(v["mean_delta"] > 0 for v in sen["by_stance"].values())
+    sen_t_ok = max(sen["overall"]["t_stat"], sen["overall_logodds"]["t_stat"]) >= 2.0
+    passed = integrity and sen_both_positive and sen_t_ok
+
+    result = {
+        "stage": 4,
+        "check": "base integrity 0.542->0.542 drift 0; Seneca ΔP>0 in BOTH stance buckets with overall t>=2 (Exp 11 pattern)",
+        "reference": "data/reference/dilemmas/v2/lora/dilemma_eval_20260701_140942.json "
+                     "(marcus ΔP +0.0307 accepting-only; seneca +0.0606 both buckets; epictetus null)",
+        "baseline_mean_start": base_mean_start,
+        "baseline_mean_end": base_mean_end,
+        "max_baseline_drift": drift,
+        "base_integrity": integrity,
+        "per_author": per_author,
+        "seneca_both_buckets_positive": sen_both_positive,
+        "seneca_t_ok": sen_t_ok,
+        "passed": passed,
+        "baseline_p_stoic": baseline,
+    }
+    _write("stage4_lora_dilemmas", "lora_dilemmas", result)
+    print(f"\nStage 4: {'PASS' if passed else 'FAIL'}  (integrity: {integrity}, "
+          f"seneca both buckets +: {sen_both_positive}, seneca t>=2: {sen_t_ok})")
+    return result
+
+
 # --- Style validation: does "CAA moves register" survive matched decoding? ---
 def style_check(model, tokenizer, n_seeds: int = 5) -> dict:
     """Re-test the Exp 3b style/register claim under matched decoding.
@@ -395,6 +478,7 @@ def main():
                     help="matched-SAMPLED comparison (both baseline+steered sampled, temp 0.6)")
     ps = sub.add_parser("style")
     ps.add_argument("--seeds", type=int, default=5)
+    sub.add_parser("stage4")
     args = parser.parse_args()
 
     model, tokenizer = load_model()
@@ -410,6 +494,8 @@ def main():
         stage3(model, tokenizer, authors=authors, n_seeds=args.seeds, sampled=args.sampled)
     elif args.cmd == "style":
         style_check(model, tokenizer, n_seeds=args.seeds)
+    elif args.cmd == "stage4":
+        stage4(model, tokenizer)
     elif args.cmd == "all":
         stage0(model, tokenizer)
         _, baseline = stage1(model, tokenizer)

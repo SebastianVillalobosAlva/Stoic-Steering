@@ -91,6 +91,26 @@ matched decoding is untested (future sweep).
 
 JSON: `style_validation/style_20260705_212411.json`.
 
-## Not yet run (needs Colab, deferred)
+## Stage 4 — LoRA decision shift reproduces EXACTLY (Exp 11)
 
-- Stage 4 — LoRA decision shift (Seneca positive both stance buckets, Exp 11)
+Frozen clean adapters merged onto a fresh base each (no stacking possible),
+judge-free logit eval, all local CPU. Every number matches the frozen
+reference (`data/reference/dilemmas/v2/lora/dilemma_eval_20260701_140942.json`)
+to the fourth decimal:
+
+| Author | ΔP overall | t | accepting (n=22) | active (n=18) | Pattern |
+|---|---|---|---|---|---|
+| Marcus | +0.0307 | 2.00 | +0.0652 (t=2.99) | −0.0114 (n.s.) | passivity prior |
+| **Seneca** | **+0.0606** | **2.58** | **+0.0781 (t=2.38)** | **+0.0391 (t=1.16)** | **both buckets positive ✓** |
+| Epictetus | +0.0003 | 0.07 | +0.0046 | −0.0051 | null (smallest corpus) |
+
+Base integrity held: baseline 0.541602 before AND after all three merges,
+max per-item drift 0.00e+00 — the fresh-base-per-adapter rule verified.
+
+With Stage 4 done, **Pass A is complete.** Final scoreboard: everything
+logit-measured reproduces exactly (Stages 1, 2, 4 — the 0.542 baseline, the
+CAA decision null, the LoRA decision shift); everything judge-scored on the
+CAA side was a decoding artifact (Stage 3 + style validation). LoRA is the
+only intervention with real effects, and it reaches the decision layer.
+
+JSON: `stage4_lora_dilemmas/lora_dilemmas_20260705_225558.json`.
