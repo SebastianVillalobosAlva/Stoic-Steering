@@ -151,3 +151,67 @@ activation patching unrunnable; fixed upstream (ModelLens `44d9b77`) and run
 against the fix. Figures: `exp12_circuits/exp12_circuit_{author}.png`
 (Base | CAA | LoRA side-by-side). JSON: `exp12_circuits/exp12_20260706_231538.json`.
 Runtime ~59 min patching + ~5 min attention pass, all local CPU, $0.
+
+### Exp 12b — active-stance confound test on `duty_01` (n=1 pilot)
+
+`ctrl_03` is an *accepting*-stance item, and LoRA's behavioral effects
+concentrate in the accepting bucket — so the ctrl_03 circuit result cannot
+distinguish a Stoic-reasoning circuit from a mere acceptance/passivity
+circuit. `duty_01` breaks the tie: its Stoic option is to ACT (speak up
+against injustice at personal cost) and its non-stoic option is passive
+self-protection. Stance: active; concept: duty_and_role; token counts 77/77;
+content signal c = +2.289 (~half of ctrl_03's +4.48 — circuit expected
+noisier; floor-caveats apply).
+
+**Phase 1 — behavioral pre-check** (from the Stage 4 per-item data;
+item baseline P(stoic) = 0.892, near ceiling, so read Δlog-odds):
+
+| Author | ΔP | Δlog-odds | Direction on the act-option | Rank in own 40 items |
+|---|---|---|---|---|
+| Marcus | −0.020 | **−0.193** | AWAY — matches the passivity-prior prediction | #24/40 (within noise) |
+| Seneca | +0.065 | **+0.990** | TOWARD — anti-passive, Stoic-consistent | #12/40 (substantial) |
+| Epictetus | −0.007 | −0.066 | ~null, as expected | #25/40 |
+
+Marcus's sign flips exactly where passivity and Stoicness point in opposite
+directions; Seneca tracks the Stoic option regardless of stance. Single-item
+caveat: only Seneca's shift is large within its own distribution.
+
+**Phase 2 — circuit comparison** (same discover_circuit harness; metric
+asserted non-default; fresh-base merges; base integrity 0.892233 → 0.892233,
+drift 0.000000). Base late-gate cluster: **CLEAN/resolvable** (5 late nodes,
+max |effect| 0.440) — the floor-limited branch does not apply.
+
+| Condition | clean | total effect | nodes | max shift vs base |
+|---|---|---|---|---|
+| base | +2.97 | −4.58 | 22 | — |
+| CAA ×3 | +2.97…+2.98 | −4.59…−4.61 | 21–22 | ±0.005–0.009 (no-op again) |
+| **LoRA seneca** | **+3.53** | **−6.33 (+38% sensitivity)** | 19 | **±0.141**, 26.attn↔26.mlp role swap, mid-blocks 8–12 pruned, block-15 attn demoted from critical |
+| LoRA marcus | +2.25 | −3.91 (−15%) | 15 | ±0.099, late cluster role-identical to base |
+| LoRA epictetus | +2.72 | −4.33 | 21 | ±0.038 (≈ base) |
+
+**Pre-registered Seneca criteria (literal): (a) NO, (b) NO, (c) NO — inverted.**
+No new booster (base already has late boosters on this item; Seneca swaps
+roles at block 26 instead), no gate attenuated (all strengthen), and the
+clean metric RISES (+2.97→+3.53) with content sensitivity AMPLIFIED
+(−4.58→−6.33) where ctrl_03 showed compression.
+
+**But the signature did not vanish — it inverted.** Seneca-LoRA is again the
+strongest circuit modifier by every measure, and its effect flips sign with
+the item's stance: compress-on-accepting (ctrl_03) → amplify-on-active
+(duty_01), in lockstep with behavior (toward the Stoic option on both).
+
+**Marcus pre-registered criterion: YES — stable.** Late gate preserved
+exactly (same role membership as base) while early/mid processing
+reorganizes and sensitivity compresses −15%, despite the flipped behavioral
+sign. The passivity-prior account survives the circuit-level test.
+
+**Three-way verdict:** the acceptance-circuit branch is **rejected on its own
+precondition** (it required vanishing; base was clean and the restructuring
+is emphatically present). The Stoic-reasoning branch is supported only in a
+*transformed* sense — the pre-registered literal signature was too narrow;
+what replicates is "Seneca rewires the stoic-content circuit, stance-
+modulated." n=1-per-stance discipline: strong pilot, not a settled claim;
+the stance-balanced sweep (3–5 items per bucket) is the follow-up.
+
+Figures: `exp12_circuits/exp12_circuit_duty_01_{author}.png`.
+JSON: `exp12_circuits/exp12_20260707_163121.json` (47 min patching + edge pass, $0).

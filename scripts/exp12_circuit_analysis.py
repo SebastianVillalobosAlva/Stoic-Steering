@@ -77,9 +77,10 @@ def _install_capture_hotfix():
 
 
 # --- analysis ---------------------------------------------------------------
-def pick_dilemma(model, tokenizer, dilemmas, tok_a, tok_b):
+def pick_dilemma(model, tokenizer, dilemmas, tok_a, tok_b, item_id=None):
     """Pick the equal-length dilemma with the largest base-model content
-    signal c = (metric_clean − metric_corrupted)/2."""
+    signal c = (metric_clean − metric_corrupted)/2. If `item_id` is given,
+    use that item instead (still verifying length-eligibility and reporting c)."""
     import torch
 
     from stoic.dilemmas import PROMPT_TEMPLATE
@@ -98,6 +99,18 @@ def pick_dilemma(model, tokenizer, dilemmas, tok_a, tok_b):
         inputs = tokenizer(prompt, return_tensors="pt")
         logits = model(**inputs).logits[0, -1]
         return (logits[tok_a] - logits[tok_b]).float().item()
+
+    if item_id is not None:
+        d = next(x for x in dilemmas if x["id"] == item_id)
+        clean, corrupted = prompts_for(d)
+        n1 = len(tokenizer(clean)["input_ids"])
+        n2 = len(tokenizer(corrupted)["input_ids"])
+        if n1 != n2:
+            raise SystemExit(f"{item_id} is length-ineligible ({n1} vs {n2} tokens)")
+        c = 0.5 * (logit_diff(clean) - logit_diff(corrupted))
+        print(f"-> forced item {d['id']} (stance={d['stoic_stance']}, "
+              f"len={n1}/{n2}, content signal c={c:+.3f})")
+        return d, clean, corrupted
 
     best = None
     print("Selecting dilemma (equal-length orders, max |content signal| on base):")
@@ -130,15 +143,16 @@ def sanitize(obj):
     return obj
 
 
-def run_analysis():
+def run_analysis(item_id: str | None = None):
     import torch
 
     _install_capture_hotfix()
     from modellens import ModelLens
+    from modellens.analysis import activation_patching as ap
     from modellens.analysis.circuit_discovery import discover_circuit, summarize_circuit
 
     from stoic import config
-    from stoic.dilemmas import _single_token_id, load_dilemmas
+    from stoic.dilemmas import _single_token_id, load_dilemmas, p_stoic
     from stoic.lora import merge_adapter
     from stoic.model import load_model
     from stoic.steering import load_reference_vector, steering
@@ -152,11 +166,19 @@ def run_analysis():
         logits = output.logits if hasattr(output, "logits") else output
         return (logits[0, -1, tok_a] - logits[0, -1, tok_b]).float().item()
 
+    # GUARDRAIL: the content metric, never ModelLens's default max-logit.
+    assert metric_fn is not ap._default_metric, "metric_fn must not be max-logit"
+    print("guardrail: metric_fn is the content logit-diff (NOT _default_metric) ✓")
+
     dilemma, clean_prompt, corrupted_prompt = pick_dilemma(
-        model, tokenizer, load_dilemmas(), tok_a, tok_b
+        model, tokenizer, load_dilemmas(), tok_a, tok_b, item_id=item_id
     )
     clean_inputs = tokenizer(clean_prompt, return_tensors="pt")
     corrupted_inputs = tokenizer(corrupted_prompt, return_tensors="pt")
+
+    # GUARDRAIL: base integrity bracket on this item (re-checked at the end).
+    p_start = p_stoic(model, tokenizer, dilemma, tok_a, tok_b)
+    print(f"guardrail: base P(stoic) on {dilemma['id']} at start = {p_start:.6f}")
 
     lens = ModelLens(model)
     lens.adapter.set_tokenizer(tokenizer)
@@ -193,19 +215,27 @@ def run_analysis():
         "circuits": {},
     }
 
-    # Base control (author-independent) — computed once.
-    results["circuits"]["base"] = circuit(lens, "BASE (control)")
+    # 1) Base control first — it is the yardstick. Assess late-gate resolution
+    #    before touching any author (informative print; run continues).
+    base_circ = circuit(lens, "BASE (control)")
+    results["circuits"]["base"] = base_circ
+    late = [n for n in base_circ.get("nodes", []) if (n.get("block_num") or 0) >= 23]
+    late_max = max((abs(n["normalized_effect"]) for n in late), default=0.0)
+    resolvable = len(late) >= 3 and late_max >= 0.2
+    print(f"\nBASE late-layer resolution check (blocks >=23): {len(late)} nodes, "
+          f"max |effect| {late_max:.3f}")
+    for n in late:
+        print(f"  {n['name']}  {n['normalized_effect']:+.3f}  [{n['role']}]")
+    print(f"-> late gate cluster {'CLEAN / resolvable' if resolvable else 'MUSHY at this signal level'} "
+          f"(heuristic: >=3 late nodes and max |effect| >= 0.2)")
+    results["base_late_gate_resolution"] = {
+        "n_late_nodes": len(late), "max_late_effect": late_max, "resolvable": resolvable,
+    }
 
-    for name, author in config.AUTHORS.items():
-        # CAA: frozen clean vector, canonical layer/coeff, hook active for
-        # every forward inside discover_circuit (capture + all patches).
-        vec = load_reference_vector(author.vector_file, author.layer)
-        with steering(model, author.layer, vec, author.coeff):
-            results["circuits"][f"caa_{name}"] = circuit(
-                lens, f"CAA {name} (L{author.layer}, c={author.coeff})"
-            )
-
-        # LoRA: Stage-4-verified clean adapter merged onto a FRESH base.
+    # 2) LoRA in information order: Seneca (key), Marcus (flip), Epictetus.
+    #    Fresh base per adapter inside merge_adapter — never reuse a merged base.
+    for name in ("seneca", "marcus", "epictetus"):
+        author = config.AUTHORS[name]
         merged = merge_adapter(author.adapter_dir)
         lens_merged = ModelLens(merged)
         lens_merged.adapter.set_tokenizer(tokenizer)
@@ -216,6 +246,24 @@ def run_analysis():
         finally:
             del lens_merged, merged
             gc.collect()
+
+    # 3) CAA ×3 last (lowest expected information).
+    for name, author in config.AUTHORS.items():
+        vec = load_reference_vector(author.vector_file, author.layer)
+        with steering(model, author.layer, vec, author.coeff):
+            results["circuits"][f"caa_{name}"] = circuit(
+                lens, f"CAA {name} (L{author.layer}, c={author.coeff})"
+            )
+
+    # GUARDRAIL: base integrity at end — the main model must be untouched.
+    p_end = p_stoic(model, tokenizer, dilemma, tok_a, tok_b)
+    drift = abs(p_end - p_start)
+    print(f"\nguardrail: base P(stoic) on {dilemma['id']} end = {p_end:.6f}  "
+          f"drift = {drift:.6f}")
+    results["base_integrity"] = {"p_start": p_start, "p_end": p_end, "drift": drift}
+    if drift != 0.0:
+        results["base_integrity"]["ABORTED"] = True
+        print("!! BASE INTEGRITY VIOLATION — results flagged, do not trust !!")
 
     results["runtime_sec"] = round(time.time() - t0, 1)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -290,7 +338,10 @@ def run_plot(json_path: str):
             f"node size = |normalized patch effect| (threshold "
             f"{results['importance_threshold']})", fontsize=10)
         fig.tight_layout(rect=[0, 0.03, 1, 0.95])
-        out = OUT_DIR / f"exp12_circuit_{a}.png"
+        item = results["dilemma"]["id"]
+        # ctrl_03 figures predate item-scoped names; keep their original names.
+        stem = f"exp12_circuit_{a}" if item == "ctrl_03" else f"exp12_circuit_{item}_{a}"
+        out = OUT_DIR / f"{stem}.png"
         fig.savefig(out, dpi=150, bbox_inches="tight")
         plt.close(fig)
         print(f"↳ wrote {out.relative_to(REPO)}")
@@ -299,11 +350,13 @@ def run_plot(json_path: str):
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
     sub = p.add_subparsers(dest="cmd", required=True)
-    sub.add_parser("analyze")
+    pa = sub.add_parser("analyze")
+    pa.add_argument("--item", default=None,
+                    help="force a specific dilemma id (default: auto-select max |c|)")
     pp = sub.add_parser("plot")
     pp.add_argument("json_path")
     args = p.parse_args()
     if args.cmd == "analyze":
-        run_analysis()
+        run_analysis(item_id=args.item)
     else:
         run_plot(args.json_path)
