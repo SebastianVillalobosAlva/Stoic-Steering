@@ -114,3 +114,40 @@ CAA side was a decoding artifact (Stage 3 + style validation). LoRA is the
 only intervention with real effects, and it reaches the decision layer.
 
 JSON: `stage4_lora_dilemmas/lora_dilemmas_20260705_225558.json`.
+
+## Exp 12 — circuit topology: CAA leaves the circuit untouched, LoRA rewires it (new work)
+
+First run of ModelLens `discover_circuit` (activation patching over all 56
+attn/mlp sublayers) on the Stage-4-verified clean adapters — not the old
+bridge scripts. Content-relevant metric: logit(" A") − logit(" B") on dilemma
+`ctrl_03`, clean = stoic option as A, corrupted = options swapped — the only
+input difference is *which option is Stoic*. Matched data across all seven
+conditions; base model as shared control; threshold 0.15; attention-routing
+edges added via an eager-attention pass.
+
+| Condition | clean | total effect | max node shift vs base | topology |
+|---|---|---|---|---|
+| base | +3.88 | −8.97 | — | 33 nodes: early/mid processors (0–15), late gate cluster (MLP 23/25/26/27), booster attn 26 |
+| CAA marcus | +3.91 | −8.98 | ±0.003 | identical to base |
+| CAA seneca | +3.98 | −9.17 | ±0.012 | identical to base |
+| CAA epictetus | +3.86 | −8.95 | ±0.015 | identical to base |
+| LoRA marcus | +3.62 | −8.47 | ±0.130 | moderately shifted |
+| **LoRA seneca** | **+2.45** | **−6.73** | **±0.174** | **+1 booster, −1 gate, blocks 1/5 reweighted** |
+| LoRA epictetus | +4.03 | −8.88 | ±0.032 | near-base |
+
+Findings:
+1. **CAA at coeff 0.11 does not change the stoic-content circuit at all**
+   (max normalized-effect shift 0.015) — the circuit-level view agrees with
+   the behavioral nulls at every level.
+2. **LoRA rewires the circuit in proportion to its behavioral decision
+   effect: Seneca > Marcus > Epictetus ≈ 0** — the same ordering as Exp 11's
+   dilemma shifts. Seneca's raw sensitivity to which-option-is-stoic
+   *compresses* (−8.97 → −6.73) even as it chooses the Stoic option more.
+3. The Exp 5/6 "circuit topology predicts the behavioral split" claim now
+   rests on `discover_circuit` with a content metric and clean adapters.
+
+Note: ModelLens's `_capture_activations` had a closure bug that made
+activation patching unrunnable; fixed upstream (ModelLens `44d9b77`) and run
+against the fix. Figures: `exp12_circuits/exp12_circuit_{author}.png`
+(Base | CAA | LoRA side-by-side). JSON: `exp12_circuits/exp12_20260706_231538.json`.
+Runtime ~59 min patching + ~5 min attention pass, all local CPU, $0.

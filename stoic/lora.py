@@ -34,19 +34,22 @@ def merge_adapter(
     model_name: str = MODEL_NAME,
     dtype: torch.dtype = DTYPE,
     device: str = DEVICE,
+    attn_implementation: str | None = None,
 ):
     """Merge one LoRA adapter onto a FRESH base and return the merged model.
 
     Loads a new base every call — no adapter stacking is possible, and no
     previously loaded model is modified. Use the BASE tokenizer with the
-    returned model.
+    returned model. `attn_implementation="eager"` materializes attention
+    weights for interpretability (`output_attentions`); leave None for evals.
     """
     from peft import PeftModel
     from transformers import AutoModelForCausalLM
 
     print(f"  fresh base + merge {Path(adapter_dir).name} ...")
+    extra = {"attn_implementation": attn_implementation} if attn_implementation else {}
     base = AutoModelForCausalLM.from_pretrained(
-        model_name, torch_dtype=dtype, device_map=device
+        model_name, torch_dtype=dtype, device_map=device, **extra
     )
     merged = PeftModel.from_pretrained(base, str(adapter_dir)).merge_and_unload()
     merged.config.use_cache = True
