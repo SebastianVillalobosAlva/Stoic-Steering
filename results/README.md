@@ -251,10 +251,18 @@ duty_01/ctrl_03 "inversion" was a two-point coincidence amplified by the
 confounded measure.
 
 **What DOES generalize:**
-- **Seneca is the largest circuit modifier on 9/10 items** (max node shift up
-  to 2.82 on emot_03, where it nearly nulls the item's content signal,
-  c −1.79 → −0.25; sole exception mort_03, a near-tie 0.101 vs 0.111). It
-  also restructures the late-gate cluster on 8/10 items.
+- **Seneca produces the largest circuit perturbations — robust at the median,
+  not just outlier-driven** (median max node shift 0.386 vs Marcus 0.174,
+  2.2×; survives removing the two outliers). But the raw "9/10 wins" overstates
+  it: 6 clear wins, 3 effective ties (within 20%: ext_04, emot_02, duty_02),
+  1 Marcus win — the lead is large on high-magnitude items and narrows to a
+  near-tie on low-magnitude ones. **Mechanistic hint:** Seneca's largest
+  effects (emot_03 shift 2.82, emot_01 1.15 — the mean-carrying outliers) all
+  *flatten* the content signal (|c| → 0 on negative-c items: emot_03
+  −1.79→−0.25), i.e. they disrupt A-vs-B content discrimination rather than
+  install a Stoic preference. Across all 10 items Seneca reduces |c| on 5 and
+  raises it on 5 (net zero) — consistent with the scattered-Δc result above.
+  (Read-only re-analysis: `exp12_reanalysis_modifier_*.md`.)
 - **Marcus's passivity-prior signature generalizes: late gate role-set
   preserved on 9/10 items** (sole exception ext_04) with moderate early/mid
   reorganization — structurally stable across both stances and both base-c
