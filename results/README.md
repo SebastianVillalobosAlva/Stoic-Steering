@@ -215,3 +215,58 @@ the stance-balanced sweep (3–5 items per bucket) is the follow-up.
 
 Figures: `exp12_circuits/exp12_circuit_duty_01_{author}.png`.
 JSON: `exp12_circuits/exp12_20260707_163121.json` (47 min patching + edge pass, $0).
+
+### Exp 12c — stance-balanced sweep: stance modulation NOT established; Seneca = strongest modifier, character item-dependent
+
+**Pre-check (gate):** the base content metric is stance-dependent in sign and
+magnitude (accepting: c mean +0.70, 12/22 positive, |c| 1.46; active: c mean
+−0.07, only 6/18 positive, |c| 0.97 — `exp12_sweep_precheck_*.json`). The
+anchor-based "compress-on-accepting / amplify-on-active" claim was therefore
+confounded and **retired**; |sensitivity|-% is reported as legacy only.
+Primary outcome replaced with **signed Δc** (adapter c − base c; Δc > 0 =
+pushed toward the Stoic option).
+
+**Design:** 8 new items (4/bucket, sign-representative — active bucket
+includes its majority-negative items — and |c|-matched: sample means 1.77 vs
+1.81) + the 2 anchors reused = 10 items × base/Seneca/Marcus. CAA and
+Epictetus deferred (settled no-op/null). All guardrails held: metric asserted
+non-default, one fresh-base merge per adapter, per-item P(stoic) drift
+0.000000 ×8, all 10 base late-gate clusters clean/resolvable (no floor
+exclusions). 24 circuits, 145 min, $0.
+
+**Seneca Δc by stance** (primary pre-registered question):
+
+| | accepting | active |
+|---|---|---|
+| per-item Δc | −1.12, −0.18, +0.30, +0.88, +0.77 | +0.88, +0.38, +1.54, −0.43, −0.45 |
+| mean | +0.13 | +0.38 |
+| signs | 3+/2− | 3+/2− |
+
+Neither uniformly positive nor sign-consistent by stance: **scattered**. The
+c>0 subset (the sign-matched comparison) shows the anchor-like split
+(accepting −0.33 vs active +0.63) but at n=3 vs n=2 it is anchor-dominated —
+drop ctrl_03 and the accepting side collapses to +0.06. The setpoint check
+(Δc vs base c) also fails: Seneca shrinks |c| on exactly 5/10 items. The
+duty_01/ctrl_03 "inversion" was a two-point coincidence amplified by the
+confounded measure.
+
+**What DOES generalize:**
+- **Seneca is the largest circuit modifier on 9/10 items** (max node shift up
+  to 2.82 on emot_03, where it nearly nulls the item's content signal,
+  c −1.79 → −0.25; sole exception mort_03, a near-tie 0.101 vs 0.111). It
+  also restructures the late-gate cluster on 8/10 items.
+- **Marcus's passivity-prior signature generalizes: late gate role-set
+  preserved on 9/10 items** (sole exception ext_04) with moderate early/mid
+  reorganization — structurally stable across both stances and both base-c
+  signs, exactly as the 2-anchor pilot suggested.
+
+**Pre-registered verdict: branch 3.** "Seneca pushes Stoic content
+everywhere" is rejected (4/10 negative Δc); genuine stance modulation is not
+established (no consistent sign-by-stance); the standing claim is *Seneca is
+the strongest circuit modifier, character item-dependent*. Marcus
+(passivity prior) and CAA (no-op) remain the settled findings.
+
+Figures: `exp12_circuits/exp12_sweep_{item}.png` (base | Seneca | Marcus;
+sequential edges only — eager-attention pass available on request).
+JSON: `exp12_circuits/exp12_sweep_20260708_124712.json`. Readout:
+`python scripts/exp12_sweep.py report <json>`.
