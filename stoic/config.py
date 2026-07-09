@@ -28,7 +28,16 @@ RESULTS_DIR = PROJECT_ROOT / "results"
 REF_PROCESSED_DIR = REFERENCE_DIR / "processed"      # {author}/neutral_pairs.json
 REF_CONFIG_DIR = REFERENCE_DIR / "config"            # dilemmas_v2.json, sources.json
 REF_VECTORS_DIR = REFERENCE_DIR / "steering_vectors"  # {author}_steering_3B.pt
+REF_CHUNKED_DIR = REFERENCE_DIR / "chunked"          # {author}/{work}.json (frozen chunks)
 DILEMMAS_V2 = REF_CONFIG_DIR / "dilemmas_v2.json"
+# Corpus-acquisition source manifest (Gutenberg URLs + slicing boundaries).
+# Read-only input; provenance is also mirrored in docs/corpus-sources.md.
+SOURCES_JSON = REF_CONFIG_DIR / "sources.json"
+
+# --- Generated sub-paths (corpus/pairs pipeline output) ------------------
+GEN_RAW_DIR = GENERATED_DIR / "raw"             # {author}/{work}.txt  (downloaded)
+GEN_PROCESSED_DIR = GENERATED_DIR / "processed"  # {author}/{work}.txt  (sliced clean)
+GEN_CHUNKED_DIR = GENERATED_DIR / "chunked"      # {author}/{work}.json (paragraph chunks)
 
 # --- Model (Llama-3.2-3B only) -------------------------------------------
 MODEL_NAME = "meta-llama/Llama-3.2-3B"
@@ -133,3 +142,27 @@ def results_dir(stage: str) -> Path:
     d = RESULTS_DIR / stage
     d.mkdir(parents=True, exist_ok=True)
     return d
+
+
+# --- Contrastive-pair generation prompt (Pass B) -------------------------
+# The exact prompt that produced the frozen neutral_pairs.json sets. Given a
+# Stoic passage, Claude argues the SAME situation from a competing worldview so
+# the pair isolates reasoning, not topic. Kept verbatim for provenance.
+NEUTRAL_PAIR_PROMPT = """Below is a philosophical passage from {author_name}. Your job is to give advice about the SAME situation, but reasoning from a worldview that genuinely DISAGREES with Stoicism — not Stoicism in plainer words.
+
+Pick a competing framework and argue from it, e.g.:
+- Ambition/achievement: pursue status, wealth, and winning; external success IS what matters
+- Hedonism: maximize pleasure and comfort; avoid discomfort rather than accept it
+- Assertiveness/self-advocacy: change your circumstances, push back, demand more
+- Emotional expression: feel and express anger/desire fully rather than governing them
+
+Hard requirements:
+- Reach a recommendation a Stoic would REJECT. The conclusion itself must differ, not just the wording.
+- FORBIDDEN (these are Stoic ideas — do not endorse any of them, even casually): accepting what you can't control, focusing on what's "up to you", indifference to externals (reputation, money, body, outcomes), virtue/character as the main good, "this won't matter in the long run", inner tranquility over external change, others' opinions don't matter.
+- Do NOT use a calm, detached, or "wise" self-help tone. Write as someone who actively wants the external thing — the promotion, the win, the pleasure, the apology owed to them.
+
+FAILURE CONDITION: If your rewrite could be summarized the same way as the original passage, you have failed. The original and your rewrite must give OPPOSITE life advice, not the same advice in different words.
+- Output ONLY the advice itself. No headers, no preamble, no labeling which framework you are using, no meta-commentary. Start directly with the advice and write it as continuous prose.
+
+Passage:
+{stoic_text}"""

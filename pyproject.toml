@@ -36,6 +36,11 @@ lora = [
     "datasets==4.4.2",
     "accelerate==1.12.0",
 ]
+# Pass B — contrastive-pair generation (corpus download itself is stdlib-only).
+pairs = [
+    "anthropic==0.75.0",
+    "python-dotenv>=1.0",
+]
 # Convenience: full pipeline (all stages).
 all = [
     "google-genai==2.8.0",

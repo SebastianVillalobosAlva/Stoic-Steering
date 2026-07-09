@@ -465,6 +465,68 @@ def style_check(model, tokenizer, n_seeds: int = 5) -> dict:
     return result
 
 
+# --- Corpus acquisition (Pass B, $0 network, no model) -------------------
+def corpus_stage() -> dict:
+    """Download -> slice -> chunk into data/generated/, then compare chunk
+    counts to the frozen reference corpus (read-only). Reports; never forces."""
+    import json as _json
+
+    from stoic import corpus
+
+    print("\n=== Corpus acquisition (Pass B) ===")
+    produced = corpus.build()
+
+    print("\nChunk-count comparison vs frozen reference (data/reference/chunked/):")
+    ok = True
+    for key, path in produced.items():
+        author = _json.load(open(path))["author"]
+        new_n = _json.load(open(path))["total_chunks"]
+        ref_path = config.REF_CHUNKED_DIR / author / Path(path).name
+        if ref_path.exists():
+            ref_n = _json.load(open(ref_path))["total_chunks"]
+            match = new_n == ref_n
+            ok = ok and match
+            print(f"  {author:16s} {Path(path).name:18s} generated {new_n:>4d}  "
+                  f"reference {ref_n:>4d}  {'match ✓' if match else 'DRIFT ✗'}")
+        else:
+            print(f"  {author:16s} {Path(path).name:18s} generated {new_n:>4d}  (no reference)")
+    print(f"\nCorpus: {'all counts match reference ✓' if ok else 'counts drifted (reported, not forced)'}")
+    print("(reference is frozen and untouched; generated output is under data/generated/)")
+    return {"produced": {k: str(v) for k, v in produced.items()}, "counts_match": ok}
+
+
+def _anthropic_key() -> str:
+    for k in ("ANTHROPIC_API_KEY",):
+        if os.environ.get(k):
+            return os.environ[k]
+    env = config.PROJECT_ROOT / ".env"
+    if env.exists():
+        for line in env.read_text().splitlines():
+            line = line.strip()
+            if line.startswith("ANTHROPIC_API_KEY") and "=" in line:
+                return line.split("=", 1)[1].strip().strip("'\"")
+    raise SystemExit("No ANTHROPIC_API_KEY (env or .env). Pair generation calls the Claude API ($).")
+
+
+def pairs_stage(num_pairs: int) -> None:
+    """Generate contrastive pairs from the freshly-acquired chunks (Pass B,
+    COSTS $). Requires `stoic corpus` to have run first."""
+    from stoic import pairs
+
+    print("\n=== Contrastive pair generation (Pass B, Claude API) ===")
+    key = _anthropic_key()
+    for folder, cfg in pairs.PAIR_AUTHORS.items():
+        chunk_files = sorted((config.GEN_CHUNKED_DIR / folder).glob("*.json"))
+        if not chunk_files:
+            print(f"[{folder}] no generated chunks — run `python -m stoic corpus` first; skipping")
+            continue
+        print(f"\n[{folder}] {cfg['display']}")
+        pairs.create_pairs(
+            chunk_files[0], cfg["display"], folder, key,
+            num_pairs=num_pairs, min_chars=cfg["min_chars"], max_chars=cfg["max_chars"],
+        )
+
+
 def main():
     parser = argparse.ArgumentParser(prog="stoic")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -479,7 +541,18 @@ def main():
     ps = sub.add_parser("style")
     ps.add_argument("--seeds", type=int, default=5)
     sub.add_parser("stage4")
+    sub.add_parser("corpus")
+    pp = sub.add_parser("pairs")
+    pp.add_argument("--num-pairs", type=int, default=63)
     args = parser.parse_args()
+
+    # Corpus/pairs (Pass B) don't need the model — dispatch before loading it.
+    if args.cmd == "corpus":
+        corpus_stage()
+        return
+    if args.cmd == "pairs":
+        pairs_stage(args.num_pairs)
+        return
 
     model, tokenizer = load_model()
 
