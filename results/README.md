@@ -115,6 +115,8 @@ only intervention with real effects, and it reaches the decision layer.
 
 JSON: `stage4_lora_dilemmas/lora_dilemmas_20260705_225558.json`.
 
+![LoRA decision shift by author and stance bucket — Seneca moves both, Marcus accepting-only, Epictetus null](figures/fig_lora_decision_shift.png)
+
 ## Exp 12 — circuit topology: CAA leaves the circuit untouched, LoRA rewires it (new work)
 
 First run of ModelLens `discover_circuit` (activation patching over all 56
@@ -282,3 +284,11 @@ Figures: `exp12_circuits/exp12_sweep_{item}.png` (base | Seneca | Marcus;
 sequential edges only — eager-attention pass available on request).
 JSON: `exp12_circuits/exp12_sweep_20260708_124712.json`. Readout:
 `python scripts/exp12_sweep.py report <json>`.
+
+![Seneca vs Marcus max node shift per item, with medians and tie flags](figures/fig_exp12c_node_shift.png)
+
+![Seneca Δ|c| per item — diverging, mean vs median, two flattening outliers flagged](figures/fig_exp12c_delta_abs_c.png)
+
+Figures rendered by `scripts/make_figures.py` (validated palette, corrected
+framing baked in). These supersede the earlier ad-hoc PNGs of the same three
+results.
