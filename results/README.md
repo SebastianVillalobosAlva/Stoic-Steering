@@ -256,13 +256,17 @@ confounded measure.
   2.2×; survives removing the two outliers). But the raw "9/10 wins" overstates
   it: 6 clear wins, 3 effective ties (within 20%: ext_04, emot_02, duty_02),
   1 Marcus win — the lead is large on high-magnitude items and narrows to a
-  near-tie on low-magnitude ones. **Mechanistic hint:** Seneca's largest
-  effects (emot_03 shift 2.82, emot_01 1.15 — the mean-carrying outliers) all
-  *flatten* the content signal (|c| → 0 on negative-c items: emot_03
-  −1.79→−0.25), i.e. they disrupt A-vs-B content discrimination rather than
-  install a Stoic preference. Across all 10 items Seneca reduces |c| on 5 and
-  raises it on 5 (net zero) — consistent with the scattered-Δc result above.
-  (Read-only re-analysis: `exp12_reanalysis_modifier_*.md`.)
+  near-tie on low-magnitude ones. **Effect on content discrimination (Δ|c|):**
+  across all 10 items Seneca's effect is 5 down / 5 up by direction, with
+  median Δ|c| = +0.06 — no effect on discrimination for a typical item. The
+  mean is −0.21, dragged negative by two large flattening events (emot_03
+  −1.54, ctrl_03 −1.12); removing those two flips the aggregate to
+  net-sharpening (+0.60). Flatten-vs-sharpen tracks neither base sign, base
+  magnitude, nor stance. Seneca's effect on the content circuit is
+  item-dependent scatter around zero — not a directional push and not a
+  uniform disruption — consistent with 12c's scattered signed Δc. The apparent
+  net flattening is carried by two high-magnitude outliers, not a global
+  mechanism. (Read-only re-analysis: `exp12_reanalysis_modifier_*.md`.)
 - **Marcus's passivity-prior signature generalizes: late gate role-set
   preserved on 9/10 items** (sole exception ext_04) with moderate early/mid
   reorganization — structurally stable across both stances and both base-c
