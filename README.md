@@ -43,6 +43,8 @@ matched decoding they vanish (see
   to 4 decimals). A circuit-topology (bridge) analysis with ModelLens
   *predicted* this method split before it showed up behaviorally.
 
+![LoRA decision shift by author and stance bucket — Seneca moves both, Marcus accepting-only, Epictetus null](results/figures/fig_lora_decision_shift.png)
+
 - **What LoRA installs is not (yet) uniform Stoic reasoning.** Effects are
   structured but heterogeneous: Marcus is a broad *passivity prior* — it moves
   only the "accepting" dilemmas (+0.065, t = 2.99) and is flat on "active"
@@ -52,6 +54,16 @@ matched decoding they vanish (see
   possible Senecan-idiom lexical-echo confound in the decision instrument is
   under investigation. These are stated openly as open questions, not
   smoothed over.
+
+The circuit-level picture agrees with the behavior (Exp 12, clean adapters):
+CAA at coeff 0.11 leaves the stoic-content circuit essentially untouched, while
+LoRA is the largest circuit modifier — robust at the median, with an
+item-dependent effect on content discrimination rather than a directional push.
+Full analysis in [results/README.md](results/README.md).
+
+![Seneca vs Marcus per-item circuit node shift, with medians and tie flags](results/figures/fig_exp12c_node_shift.png)
+
+![Seneca per-item Δ|c| — diverging, mean vs median, two flattening outliers flagged](results/figures/fig_exp12c_delta_abs_c.png)
 
 ---
 
