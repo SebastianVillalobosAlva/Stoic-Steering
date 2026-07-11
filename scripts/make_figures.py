@@ -226,8 +226,91 @@ def fig_delta_abs_c():
     print("↳ fig_exp12c_delta_abs_c.png")
 
 
+# ============================================================ Fig 4 (headline)
+# Philosopher hues (categorical slots 1 / 2 / 8).
+PHIL = [("marcus", "Marcus", BLUE), ("seneca", "Seneca", "#1baf7a"), ("epictetus", "Epictetus", ORANGE)]
+
+
+def _latest(pattern):
+    return json.load(open(sorted((REPO / "results").glob(pattern))[-1]))
+
+
+def fig_three_depths():
+    import glob
+
+    style = json.load(open(sorted(glob.glob(str(REPO / "results/style_validation/style_*.json")))[-1]))
+    content = json.load(open(sorted(glob.glob(str(REPO / "results/stage3_content_judge/content_2*.json")))[-1]))
+    caa_dec = json.load(open(sorted(glob.glob(str(REPO / "results/stage2_steering/*.json")))[-1]))
+    lora_dec = json.load(open(sorted(glob.glob(str(REPO / "results/stage4_lora_dilemmas/*.json")))[-1]))
+    lj = {json.load(open(f))["author"]: json.load(open(f))["avg_deltas"]
+          for f in glob.glob(str(REPO / "data/reference/judges/eval_*.json"))}
+    amap = {"marcus": "marcus_aurelius", "seneca": "seneca", "epictetus": "epictetus"}
+
+    # depth -> {(method): {phil: value}}
+    def vals(depth):
+        out = {"CAA": {}, "LoRA": {}}
+        for key, _, _ in PHIL:
+            if depth == "style":
+                out["CAA"][key] = style["per_author"][key]["greedy"]["style_mean"]
+                out["LoRA"][key] = lj[amap[key]]["stylistic_authenticity"]
+            elif depth == "content":
+                out["CAA"][key] = content["per_author"][key]["content_mean"]
+                d = lj[amap[key]]
+                out["LoRA"][key] = (d["philosophical_depth"] + d["stoic_alignment"]) / 2
+            else:  # decision
+                out["CAA"][key] = caa_dec["per_author"][key]["overall"]["mean_delta"]
+                out["LoRA"][key] = lora_dec["per_author"][key]["overall"]["mean_delta"]
+        return out
+
+    panels = [
+        ("Style / register", "style", "Δ stylistic authenticity  (1–5 rubric)", (-0.6, 3.1)),
+        ("Content / reasoning", "content", "Δ (depth + alignment)/2  (1–5 rubric)", (-0.6, 3.1)),
+        ("Decision / choice", "decision", "ΔP(stoic)  (judge-free)", (-0.02, 0.075)),
+    ]
+    fig, axes = plt.subplots(1, 3, figsize=(12.6, 4.6))
+    import statistics as _st
+
+    for ax, (title, depth, ylab, ylim) in zip(axes, panels):
+        data = vals(depth)
+        for xi, method in enumerate(("CAA", "LoRA")):
+            ys = [data[method][k] for k, _, _ in PHIL]
+            m = _st.mean(ys)
+            ax.bar(xi, m, width=0.62, color="#e9e8e2", edgecolor=AXIS, linewidth=1.0, zorder=1)
+            for j, (k, _, col) in enumerate(PHIL):
+                jx = xi + (j - 1) * 0.16
+                ax.scatter(jx, data[method][k], s=95, color=col, edgecolor=SURFACE,
+                           linewidth=1.4, zorder=3)
+            lab_y = m + (ylim[1] - ylim[0]) * 0.035 if m >= 0 else m - (ylim[1] - ylim[0]) * 0.03
+            ax.text(xi, lab_y, f"{m:+.2f}" if depth != "decision" else f"{m:+.3f}",
+                    ha="center", va="bottom" if m >= 0 else "top", fontsize=9, color=INK2, zorder=4)
+        ax.axhline(0, color=AXIS, lw=1.2, zorder=2)
+        ax.set_xticks([0, 1]); ax.set_xticklabels(["CAA", "LoRA"], fontsize=11, color=INK)
+        ax.set_xlim(-0.6, 1.6); ax.set_ylim(*ylim)
+        ax.set_ylabel(ylab, fontsize=9, color=INK2)
+        ax.set_title(title, fontsize=11, color=INK, pad=8, loc="left")
+        ax.grid(axis="y", color=GRID, lw=0.8, zorder=0); ax.set_axisbelow(True)
+        _despine(ax, keep=("left", "bottom")); ax.tick_params(length=0)
+
+    from matplotlib.lines import Line2D
+    handles = [Line2D([0], [0], marker="o", color="w", markerfacecolor=c,
+                      markeredgecolor="black", markersize=9, label=lab) for _, lab, c in PHIL]
+    fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=9.5, frameon=False,
+               bbox_to_anchor=(0.5, 0.085))
+    _header(fig, "Style, content, and decision come apart",
+            "CAA at coeff 0.11 is flat at every depth (matched decoding). LoRA moves style & "
+            "content for all three, and decisions for Marcus & Seneca (Epictetus decision null).")
+    _caption(fig, "Style/content: Δ on a 1–5 rubric — CAA re-measured under matched decoding (Gemini judge); "
+             "LoRA from merged-adapter evals (rubric judge, symmetric decoding). "
+             "Decision: judge-free ΔP(stoic), one instrument for both. Bars = mean; dots = philosophers. Scales differ per panel.")
+    fig.subplots_adjust(top=0.80, bottom=0.22, left=0.06, right=0.98, wspace=0.28)
+    fig.savefig(OUT / "fig_three_depths.png", dpi=200, bbox_inches="tight")
+    plt.close(fig)
+    print("↳ fig_three_depths.png")
+
+
 if __name__ == "__main__":
     fig_lora_decision_shift()
     fig_node_shift()
     fig_delta_abs_c()
-    print(f"\nwrote 3 figures to {OUT.relative_to(REPO)}")
+    fig_three_depths()
+    print(f"\nwrote 4 figures to {OUT.relative_to(REPO)}")

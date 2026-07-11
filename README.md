@@ -12,6 +12,8 @@ effects that earlier looked positive are a single measurement artifact: under
 matched decoding they vanish (see
 [docs/measurement-artifact.md](docs/measurement-artifact.md)).
 
+![Three-depths dissociation — CAA is flat at style, content, and decision; LoRA moves all three (Epictetus decision null)](results/figures/fig_three_depths.png)
+
 ---
 
 ## Key findings

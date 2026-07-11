@@ -114,6 +114,15 @@ judge-scored on the CAA side was a decoding artifact (Stage 3 + style
 validation). LoRA is the only intervention with real effects, and it reaches
 the decision layer.
 
+![Three-depths dissociation — CAA flat at every depth; LoRA moves style, content, and (Marcus/Seneca) decision](figures/fig_three_depths.png)
+
+Style/content Δ are on the 1–5 judge rubric (CAA re-measured under matched
+decoding with the Gemini judge; LoRA from the merged-adapter evals under the
+rubric judge, symmetric decoding); decision is the judge-free ΔP(stoic), one
+instrument for both. The dissociation is qualitative — CAA ≈ 0 at every depth,
+LoRA clearly positive — and robust to judge choice; the panels use different
+scales.
+
 JSON: `stage4_lora_dilemmas/lora_dilemmas_20260705_225558.json`.
 
 ![LoRA decision shift by author and stance bucket — Seneca moves both, Marcus accepting-only, Epictetus null](figures/fig_lora_decision_shift.png)
