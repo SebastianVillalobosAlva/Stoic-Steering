@@ -1,1 +1,1 @@
-"""Stoic LLM — clean rebuild. See REPRODUCTION_PLAN.md."""
+"""Stoic LLM — clean rebuild. See results/README.md for the verification record."""
