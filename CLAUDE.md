@@ -1,10 +1,12 @@
 # CLAUDE.md — Stoic LLM (Clean Rebuild)
 
 This project rebuilds the Stoic-steering pipeline from scratch as a clean,
-understandable package, and reproduces the headline results (Exp 9, 10, 11).
-
-**Read `REPRODUCTION_PLAN.md` before doing anything.** It has the full two-pass
-plan, stage checkpoints, and rationale.
+understandable package and re-measures its headline results under matched
+decoding. The clean reproduction (Pass A, Stages 0–4) and the clean circuit
+analysis (Exp 12) are **complete and verified** — only Pass B (regenerate from
+raw text) remains. The per-stage record with numbers is
+[results/README.md](results/README.md); the measurement-artifact writeup is
+[docs/measurement-artifact.md](docs/measurement-artifact.md).
 
 ## Non-negotiable rules
 
@@ -12,8 +14,8 @@ plan, stage checkpoints, and rationale.
   regenerate its contents. Every stage reads frozen artifacts from here.
 - `data/generated/` is where ALL pipeline output goes.
 - **Pass A** loads frozen artifacts from `reference/` and verifies against known
-  numbers. **Pass B** (later, not now) regenerates from raw text into `generated/`.
-- Do NOT regenerate contrastive pairs, vectors, or adapters during Pass A.
+  numbers. **Pass B** (the open work) regenerates from raw text into `generated/`.
+- Do NOT regenerate contrastive pairs, vectors, or adapters into `reference/`.
   If a stage is about to write into `reference/`, that is a bug — stop.
 
 ## Model
@@ -36,7 +38,7 @@ plan, stage checkpoints, and rationale.
 - `lora_{author}_clean` adapters ×3 — Stage 4 targets
 - results JSONs (judges/, dilemmas, bridge/) — reference numbers
 
-## Design rules (each kills a bug from the old repo)
+## Design rules (each kills a bug from the pre-rebuild code)
 
 - Prefer functions over classes; most old "classes" held no state.
 - Steering hook is the only real state → use a context manager (leaked hook
@@ -46,10 +48,15 @@ plan, stage checkpoints, and rationale.
 - Load tokenizer from BASE, never from the adapter folder.
 - LoRA merge: fresh base per adapter + assert base integrity (0.542 → 0.542, drift 0).
 
-## Current session: Pass A, Stage 0–2 (all $0, local CPU)
+## Status
 
-0. config.py, model.py → same prompt yields identical output twice
-1. dilemmas.py → base P(stoic) = 0.542 exactly (LOAD-BEARING checkpoint)
-2. steering.py → new vectors cosine ≥0.99 vs frozen .pt; steered dilemmas ≈ flat
-
-Stop before Stage 3 (judge, costs $) and Stage 4 (LoRA, needs Colab T4).
+- **Pass A (Stages 0–4) — complete & verified.** Deterministic decoding; base
+  P(stoic) = 0.542 (load-bearing); new vectors cosine ≥0.99 vs frozen `.pt`;
+  CAA null at style, content, and decision under matched decoding; LoRA moves
+  decisions (Seneca both stance buckets, Marcus accepting-only, Epictetus null).
+  Numbers: [results/README.md](results/README.md).
+- **Exp 12 (clean circuit analysis) — complete.** `results/exp12_circuits/`.
+- **Pass B — the open work.** The corpus pipeline (`stoic/corpus.py`,
+  `stoic/pairs.py`) is built and verified against the frozen chunk counts; the
+  remaining task is the fresh-data re-run of Stages 2–4 (writing only to
+  `generated/`, ~$10–15 API for pair + judge rounds).
