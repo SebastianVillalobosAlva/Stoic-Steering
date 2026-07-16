@@ -56,7 +56,33 @@ raw text) remains. The per-stage record with numbers is
   decisions (Seneca both stance buckets, Marcus accepting-only, Epictetus null).
   Numbers: [results/README.md](results/README.md).
 - **Exp 12 (clean circuit analysis) — complete.** `results/exp12_circuits/`.
-- **Pass B — the open work.** The corpus pipeline (`stoic/corpus.py`,
+- **Pass B — built, not yet run.** The corpus pipeline (`stoic/corpus.py`,
   `stoic/pairs.py`) is built and verified against the frozen chunk counts; the
-  remaining task is the fresh-data re-run of Stages 2–4 (writing only to
-  `generated/`, ~$10–15 API for pair + judge rounds).
+  fresh-data re-run of Stages 2–4 (writing only to `generated/`, ~$10–15 API for
+  pair + judge rounds) is still open.
+
+## Next steps (priority order)
+
+1. **`dilemmas_v3` — the reasoning-vs-echo gate (DO FIRST).** 2×2 design:
+   Letters-core vs off-topic × plain vs Stoic-idiom phrasing; 10 items/cell (40),
+   stance-balanced, calibrated to per-cell P(stoic) ≈ 0.5 *before* any eval
+   (v1's 0.881 is the cautionary record). Tests whether the LoRA decision shift
+   is reasoning or Senecan lexical echo — the biggest live threat to the
+   decision claim.
+2. **Behavioral LoRA eval on v3** (all three adapters, $0) → the 2×2 verdict.
+3. **Circuit sweep on v3** ($0, local) → retires the n=1-per-stance pilot caveat
+   on Exp 12c. **Gated:** needs the ModelLens core regression tests first — the
+   sweep runs through exactly those hooks.
+4. **Stability sweep** (temperature × seed on the judge-free decision
+   instrument, $0, local). **Gated on v3:** if v3 returns pure lexical echo,
+   cancel — "how stable is a wording preference" is not a safety result. Needs a
+   matched-length non-philosophical LoRA as the control.
+5. **Pass B** (~$10–15) — regenerate pairs, re-run Stages 2–4 on fresh data.
+   Either outcome (tight agreement / pair-sampling drift) is reportable.
+6. **Figures #2/#3** ($0, from existing JSONs via `scripts/make_figures.py`) —
+   pair-quality flip; CAA coefficient sweep flat to 1.5.
+7. **Write-up** — after v3, since its verdict lands in the third claim.
+
+Housekeeping: the READMEs cite a 25/40 per-item sign test that this repo does
+not actually compute — either add a sign test to `dilemmas.py` or soften the
+wording.
