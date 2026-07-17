@@ -107,6 +107,13 @@ to the fourth decimal:
 Base integrity held: baseline 0.541602 before AND after all three merges,
 max per-item drift 0.00e+00 — the fresh-base-per-adapter rule verified.
 
+Per-item sign test (exact two-sided binomial, ties dropped; computed by
+`dilemmas.sign_test`, verified against the checked-in stage 1 + stage 4
+JSONs): Marcus 27+/13− p=0.038, Seneca 25+/15− p=0.154 (n.s. — magnitude
+effect, not sign-consistent), Epictetus 17+/23− p=0.430. These match the
+legacy repo's `sign_test.py` values; future stage-4 runs record them in the
+results JSON directly.
+
 With Stage 4 done, **verification is complete.** Final scoreboard: everything
 logit-measured is exact against the fixtures (Stages 1, 2, 4 — the 0.542
 baseline, the CAA decision null, the LoRA decision shift); everything

@@ -41,6 +41,10 @@ pairs = [
     "anthropic==0.75.0",
     "python-dotenv>=1.0",
 ]
+# Unit tests (CPU-only, no model download; `pytest` from the repo root).
+dev = [
+    "pytest>=8",
+]
 # Convenience: full pipeline (all stages).
 all = [
     "google-genai==2.8.0",

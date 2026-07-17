@@ -1,0 +1,13 @@
+# SHA256 manifest of the frozen binaries NOT tracked in git (steering vectors,
+# clean LoRA adapters). A fresh clone must obtain these files and verify them
+# against this manifest before Pass A Stages 2/4 can be considered reproduced.
+# Verify: shasum -a 256 -c data/MANIFEST.sha256
+dc9d9512d5f5f25f3374cb2c976e4a101ac852e139bc98024dff56eee2926b2b  data/reference/steering_vectors/epictetus_steering_3B.pt
+f4b3c0589a6df40f2e70bed2468688143d961e7a9e8f247bf33198b89ac52f0c  data/reference/steering_vectors/marcus_aurelius_steering_3B.pt
+273d5fd739bda0cb3ad4814da2d485999c340c87bf448d843f0b3c9195c7ae6b  data/reference/steering_vectors/seneca_steering_3B.pt
+979000e33a57a85bf5ffd6078783ab0520750a3d4b992a6b971fa4d3eeb0d0cc  models/lora_epictetus_clean/adapter_model.safetensors
+81d3a0e38ea69ff436d7454471693586b888f769a9d86427d23963876454e8bd  models/lora_marcus_clean/adapter_model.safetensors
+c315155006e9d664012fc09cac51a3cc45655676f221d9ceaccf1b99b0bd83f9  models/lora_seneca_clean/adapter_model.safetensors
+977b92efd6c18df6b923d902b4bf2a9b1638a1a4842e8f7db36afcd9e67acd16  models/lora_epictetus_clean/adapter_config.json
+977b92efd6c18df6b923d902b4bf2a9b1638a1a4842e8f7db36afcd9e67acd16  models/lora_marcus_clean/adapter_config.json
+977b92efd6c18df6b923d902b4bf2a9b1638a1a4842e8f7db36afcd9e67acd16  models/lora_seneca_clean/adapter_config.json

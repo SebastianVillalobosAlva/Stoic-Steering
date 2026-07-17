@@ -96,15 +96,23 @@ stoic/
   config.py     # paths + canonical config (per-author layer/coeff, decoding)
   model.py      # model loading + the ONE generate() (decoding lives here only)
   steering.py   # CAA: extract_vector(pairs, layer) + steering() context manager
-  dilemmas.py   # judge-free forced-choice harness (the 0.542 ruler)
+  dilemmas.py   # judge-free forced-choice harness (the 0.542 ruler) + stats
   judge.py      # LLM-as-judge scoring (Gemini) + seed evals
   lora.py       # LoRA merge (fresh base per adapter) + prep/train for Colab
-  __main__.py   # CLI: python -m stoic <stage>
   corpus.py     # Pass B: Gutenberg download, license-strip, slice, chunk
   pairs.py      # Pass B: contrastive pair generation (Claude API)
+  results_io.py # checkpoint JSON writing (always under results/<stage>/)
+  secrets.py    # API-key lookup (env, then .env) — stages fail fast if missing
+  stages/       # stage orchestration: verify.py (0-2), content.py (3+style),
+                #   adapters.py (4), passb.py (corpus/pairs)
+  __main__.py   # thin CLI: python -m stoic <stage> (parse + dispatch only)
+tests/          # CPU-only unit tests (no model download): hook hygiene,
+                #   canonical decoding, dilemma math, stats vs published
+                #   numbers, reference-wall tripwire, fixture integrity
 data/
   reference/    # FROZEN artifacts (pairs, dilemma sets, vectors) — read-only
   generated/    # pipeline output (gitignored)
+  MANIFEST.sha256  # checksums of the untracked frozen binaries
 models/         # frozen clean LoRA adapters (not in git)
 results/        # one JSON per stage checkpoint + results/README.md record
 ```
@@ -125,6 +133,9 @@ python -m stoic stage4    # LoRA decision shift (judge-free, $0)
 # Pass B — regenerate the corpus from source (self-contained)
 python -m stoic corpus    # download + slice + chunk into data/generated/, verify counts
 python -m stoic pairs     # regenerate contrastive pairs (needs ANTHROPIC_API_KEY, $)
+
+# Unit tests (CPU-only, seconds, no model download)
+pip install -e ".[dev]" && pytest
 ```
 
 Setup notes: `meta-llama/Llama-3.2-3B` is gated on Hugging Face (accept the
@@ -149,17 +160,26 @@ is only needed to *retrain* adapters.
 - Corpus acquisition is self-contained: `python -m stoic corpus` re-downloads
   and re-chunks the source texts to byte-identical chunks (437 / 540 / 123).
 
-**In progress / next:**
-- Pass B: regenerate contrastive pairs from the in-repo corpus pipeline and
-  re-run stages 2–4 on fresh data (pipeline-robustness test).
-- Matched-decoding coefficient sweep: does *any* coefficient produce genuine
-  Stoic register under fair measurement? (0.11 is too weak to alter greedy
-  output; ≥1.0 visibly changes text but drifts off-target.)
-- Seneca idiom-vs-topic discrimination (2×2 dilemma design) — tests the
-  lexical-echo confound behind the strongest LoRA decision effect.
-- Epictetus full-corpus retrain (Enchiridion + Discourses) — corpus-size
-  hypothesis for the null.
-- Expand the dilemma set 40 → 80+ items uniformly.
+**In progress / next (priority order):**
+1. `dilemmas_v3` — the reasoning-vs-echo gate: 2×2 design (Letters-core vs
+   off-topic × plain vs Stoic-idiom phrasing), stance-balanced, calibrated to
+   per-cell P(stoic) ≈ 0.5 before any eval. Tests whether the LoRA decision
+   shift is reasoning or Senecan lexical echo.
+2. Behavioral LoRA eval on v3 — all three adapters plus a matched-length
+   non-philosophical control adapter (attributes the shift to the philosophy,
+   not to "any adapter").
+3. Circuit sweep on v3 — retires the n=1-per-stance pilot caveat on Exp 12c
+   (gated on ModelLens core regression tests).
+4. Stability sweep (temperature × seed on the judge-free decision instrument)
+   — gated on the v3 verdict: canceled if v3 returns pure lexical echo.
+5. Pass B: regenerate contrastive pairs from the in-repo corpus pipeline and
+   re-run stages 2–4 on fresh data (pipeline-robustness test).
+6. Remaining figures (pair-quality flip; CAA coefficient sweep flat to 1.5)
+   from existing JSONs, then the write-up.
+
+Descoped: Epictetus full-corpus retrain — the adapter is a decision-level
+null, so the corpus-size hypothesis stays a named open question rather than a
+work item.
 
 ---
 

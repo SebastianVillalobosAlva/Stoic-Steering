@@ -112,13 +112,29 @@ def paired_stats(deltas: list[float]) -> dict:
     se = std / math.sqrt(n) if n > 0 else float("nan")
     t = m / se if se > 0 else float("nan")
     out = {"n": n, "mean_delta": m, "std": std, "t_stat": t, "p_value": None}
-    try:
-        from scipy import stats as sps
+    if n > 1:
+        try:
+            from scipy import stats as sps
 
-        out["p_value"] = float(sps.ttest_rel([0.0] * n, [-d for d in deltas]).pvalue)
-    except ImportError:
-        pass
+            out["p_value"] = float(sps.ttest_rel([0.0] * n, [-d for d in deltas]).pvalue)
+        except ImportError:
+            pass
     return out
+
+
+def sign_test(deltas: dict[str, float] | list[float], tol: float = 1e-9) -> dict:
+    """Exact two-sided sign test on per-item deltas (ties dropped, standard
+    practice). Asks only 'did most items move the same way' — ignores magnitude."""
+    vals = list(deltas.values()) if isinstance(deltas, dict) else list(deltas)
+    pos = sum(1 for d in vals if d > tol)
+    neg = sum(1 for d in vals if d < -tol)
+    ties = len(vals) - pos - neg
+    n = pos + neg
+    if n == 0:
+        return {"pos": pos, "neg": neg, "ties": ties, "n": 0, "p_two_sided": 1.0}
+    k = max(pos, neg)
+    p = sum(math.comb(n, i) for i in range(k, n + 1)) / 2**n * 2
+    return {"pos": pos, "neg": neg, "ties": ties, "n": n, "p_two_sided": min(p, 1.0)}
 
 
 def deltas_by_stance(

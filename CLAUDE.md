@@ -47,6 +47,12 @@ raw text) remains. The per-stage record with numbers is
 - `extract_vector(pairs, layer)` extracts AND injects at the same layer.
 - Load tokenizer from BASE, never from the adapter folder.
 - LoRA merge: fresh base per adapter + assert base integrity (0.542 → 0.542, drift 0).
+- These rules are pinned by CPU-only unit tests in `tests/` (hook hygiene,
+  canonical decoding, dilemma math, stats vs published numbers, reference-wall
+  tripwire, fixture integrity). Run `pytest` before committing changes to
+  `stoic/` — seconds, no model download.
+- Stage orchestration lives in `stoic/stages/` (verify/content/adapters/passb);
+  `__main__.py` is parse + dispatch only.
 
 ## Status
 
@@ -69,7 +75,11 @@ raw text) remains. The per-stage record with numbers is
    (v1's 0.881 is the cautionary record). Tests whether the LoRA decision shift
    is reasoning or Senecan lexical echo — the biggest live threat to the
    decision claim.
-2. **Behavioral LoRA eval on v3** (all three adapters, $0) → the 2×2 verdict.
+2. **Behavioral LoRA eval on v3** (all three adapters **plus the
+   matched-length non-philosophical control LoRA**, $0 eval + one Colab
+   training run) → the 2×2 verdict. The control belongs here, not just in the
+   stability sweep: without it, "LoRA moves decisions" can't be distinguished
+   from "any fine-tuning on formal prose moves decisions."
 3. **Circuit sweep on v3** ($0, local) → retires the n=1-per-stance pilot caveat
    on Exp 12c. **Gated:** needs the ModelLens core regression tests first — the
    sweep runs through exactly those hooks.
@@ -83,6 +93,46 @@ raw text) remains. The per-stage record with numbers is
    pair-quality flip; CAA coefficient sweep flat to 1.5.
 7. **Write-up** — after v3, since its verdict lands in the third claim.
 
-Housekeeping: the READMEs cite a 25/40 per-item sign test that this repo does
-not actually compute — either add a sign test to `dilemmas.py` or soften the
-wording.
+Descoped: Epictetus full-corpus retrain (Enchiridion + Discourses). Decision
+2026-07-16: the Epictetus adapter is a decision-level null (ΔP +0.000), so the
+corpus-size hypothesis stays a named open question in the write-up, not a work
+item.
+
+## dilemmas_v3 scope (summarized from the private build plan)
+
+The lexical-echo confound is the biggest live threat to the decision claim:
+ext_02's "on loan" is Senecan idiom nearly verbatim, so the LoRA shift could be
+register reaching the choice through the option's wording.
+
+- **2×2 design.** Topic axis: Letters-core topics (grief, old age, wealth,
+  ambition, illness, friendship) vs. topics Seneca barely touches. Phrasing
+  axis: each dilemma's Stoic option in plain modern wording vs. Stoic/Senecan
+  idiom ("on loan", "play your part").
+- **Pre-registered readings:** movement concentrated in core-topic cells →
+  topic proximity; movement tracking idiom across topics → lexical echo;
+  plain-worded off-topic movement → strongest available reasoning claim.
+- **Scale:** 10 items/cell (40 total); 20/cell only if calibration goes
+  smoothly. Stance-balanced *within each cell* so the same set serves the
+  circuit sweep.
+- **Calibration gate:** per-cell baseline P(stoic) ≈ 0.5, both label orders
+  averaged, BEFORE any eval (v1's 0.881 is the cautionary record).
+- **Control adapter:** LoRA trained on matched-length non-philosophical text,
+  included in the v3 behavioral eval (see step 2 above).
+
+## Story beats (application framing — keep the write-up aligned to these)
+
+1. "I found and fixed my own measurement artifact" — decoding-asymmetry
+   writeup + the clean reproduction. Primary credibility signal; never bury it.
+2. "The three levels dissociate, and only weight adaptation reaches
+   decisions" — CAA null everywhere; LoRA moves style, content, decision.
+3. "What LoRA installs is heterogeneous, and I'm testing whether it's
+   reasoning or echo" — Marcus = passivity prior, Seneca = strongest circuit
+   modifier (item-dependent character), Epictetus = null; v3 is the test.
+4. "I produce peer-grade research independently" — reproduction record,
+   ModelLens (tests + MCP + SAE), self-contained corpus pipeline.
+
+Housekeeping (resolved 2026-07-16): the 25/40 sign test the READMEs cite is now
+computed in-repo (`dilemmas.sign_test`, wired into stage 4). Verified from the
+checked-in JSONs: Marcus 27+/13− p=0.038, Seneca 25+/15− p=0.154 (the cited
+n.s.), Epictetus 17+/23− p=0.430. Frozen-binary checksums live in
+`data/MANIFEST.sha256`; hosting the binaries (e.g. HF Hub) is still open.
