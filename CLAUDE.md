@@ -38,6 +38,9 @@ raw text) remains. The per-stage record with numbers is
 - `lora_{author}_clean` adapters ×3 — Stage 4 targets
 - results JSONs (judges/, dilemmas, bridge/) — reference numbers
 
+The vectors + adapters are NOT in git (too large); fetch them from HF with
+`python scripts/fetch_artifacts.py` (verifies against `data/MANIFEST.sha256`).
+
 ## Design rules (each kills a bug from the pre-rebuild code)
 
 - Prefer functions over classes; most old "classes" held no state.
@@ -134,5 +137,10 @@ register reaching the choice through the option's wording.
 Housekeeping (resolved 2026-07-16): the 25/40 sign test the READMEs cite is now
 computed in-repo (`dilemmas.sign_test`, wired into stage 4). Verified from the
 checked-in JSONs: Marcus 27+/13− p=0.038, Seneca 25+/15− p=0.154 (the cited
-n.s.), Epictetus 17+/23− p=0.430. Frozen-binary checksums live in
-`data/MANIFEST.sha256`; hosting the binaries (e.g. HF Hub) is still open.
+n.s.), Epictetus 17+/23− p=0.430.
+
+Frozen binaries (resolved 2026-07-17): the untracked steering vectors + LoRA
+adapters are hosted at HF `seb-vil/llama-3.2-3b-stoic-steering` (public).
+`python scripts/fetch_artifacts.py` downloads them into place and verifies
+against `data/MANIFEST.sha256`. A fresh clone can now reproduce Stages 2 and 4,
+not just 0–1.

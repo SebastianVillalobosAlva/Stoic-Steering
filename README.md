@@ -123,6 +123,10 @@ results/        # one JSON per stage checkpoint + results/README.md record
 # install (core = stages 0-2; extras: [judge] for stage 3, [lora] for stage 4)
 pip install -e ".[all]"
 
+# fetch the frozen binaries (steering vectors + LoRA adapters) — needed for
+# Stages 2 and 4 only; downloads ~26 MB and verifies against data/MANIFEST.sha256
+python scripts/fetch_artifacts.py
+
 # Pass A checkpoints
 python -m stoic all       # stages 0-2: determinism, 0.542 baseline, vectors + CAA null
 python -m stoic stage3    # judge-scored content effect (needs GEMINI_API_KEY, ~$1-2)
@@ -139,10 +143,14 @@ pip install -e ".[dev]" && pytest
 ```
 
 Setup notes: `meta-llama/Llama-3.2-3B` is gated on Hugging Face (accept the
-license, then `huggingface-cli login`). Stage 3 / style need `GEMINI_API_KEY`
-and Pass-B pairs need `ANTHROPIC_API_KEY` (env or a project-root `.env`);
-`corpus` needs neither. Everything runs on local CPU (~16 GB RAM); a Colab T4
-is only needed to *retrain* adapters.
+license, then `huggingface-cli login`). The frozen steering vectors and LoRA
+adapters are hosted separately (too large for git) at
+[`seb-vil/llama-3.2-3b-stoic-steering`](https://huggingface.co/seb-vil/llama-3.2-3b-stoic-steering);
+`scripts/fetch_artifacts.py` downloads them into place and verifies against
+`data/MANIFEST.sha256`. Stage 3 / style need `GEMINI_API_KEY` and Pass-B pairs
+need `ANTHROPIC_API_KEY` (env or a project-root `.env`); `corpus` needs
+neither. Everything runs on local CPU (~16 GB RAM); a Colab T4 is only needed
+to *retrain* adapters.
 
 ---
 
