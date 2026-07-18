@@ -127,7 +127,8 @@ register reaching the choice through the option's wording.
 1. "I found and fixed my own measurement artifact" — decoding-asymmetry
    writeup + the clean reproduction. Primary credibility signal; never bury it.
 2. "The three levels dissociate, and only weight adaptation reaches
-   decisions" — CAA null everywhere; LoRA moves style, content, decision.
+   decisions" — CAA null everywhere; LoRA moves decision (judge-free, exact)
+   plus style + content (single merged-adapter judge eval, not seed-tested).
 3. "What LoRA installs is heterogeneous, and I'm testing whether it's
    reasoning or echo" — Marcus = passivity prior, Seneca = strongest circuit
    modifier (item-dependent character), Epictetus = null; v3 is the test.

@@ -6,10 +6,12 @@ interpretability to check what actually changes inside the model.
 
 **Core finding:** under fair (matched-decoding) measurement, CAA at the
 canonical coefficient moves *nothing* measurable — not style, not judge-scored
-content, not decisions. Weight adaptation (LoRA) genuinely moves all three
-levels, including the judge-free decision instrument. The CAA style and content
-effects that earlier looked positive are a single measurement artifact: under
-matched decoding they vanish (see
+content, not decisions. Weight adaptation (LoRA) moves the judge-free decision
+instrument, where CAA is flat; it also shifts judge-scored style and content (a
+single merged-adapter judge eval, symmetric decoding — not seed-tested the way
+the CAA re-measurement is). The decision result is the artifact-immune one. The
+CAA style and content effects that earlier looked positive are a single
+measurement artifact: under matched decoding they vanish (see
 [docs/measurement-artifact.md](docs/measurement-artifact.md)).
 
 ![Three-depths dissociation — CAA is flat at style, content, and decision; LoRA moves all three (Epictetus decision null)](results/figures/fig_three_depths.png)
@@ -19,13 +21,16 @@ matched decoding they vanish (see
 ## Key findings
 
 - **CAA at the canonical coefficient does nothing measurable — at any of the
-  three levels.** Decisions were always flat (forced-choice test, every
-  coefficient up to 1.5, logit-measured and artifact-immune). Style and
-  content *appeared* to move, but under matched decoding both collapse to
-  zero (style: +1.0…+1.6 reported → −0.15…+0.05 greedy / ~0.0 sampled, all
-  n.s.). At coeff 0.11 the steered greedy output is nearly byte-identical to
-  baseline; whether stronger coefficients produce genuine Stoic register
-  under fair measurement is an open question, not a claimed result.
+  three levels.** Decisions are flat at the canonical coefficient (0.11) on the
+  logit-measured forced-choice test — artifact-immune, because it is one forward
+  pass with no generation. (A decision-level sweep across coefficients is not
+  yet in the record; the only coefficient sweep to date is the legacy
+  judge-scored one, ≤0.3 and under the superseded decoding.) Style and content
+  *appeared* to move, but under matched decoding both collapse to zero (style:
+  +1.0…+1.6 reported → −0.15…+0.05 greedy / ~0.0 sampled, all n.s.). At coeff
+  0.11 the steered greedy output is nearly byte-identical to baseline; whether
+  stronger coefficients produce genuine Stoic register under fair measurement is
+  an open question, not a claimed result.
 
 - **The CAA "content effect" is a measurement artifact.** An earlier
   measurement reported a large positive effect because steered text was sampled
@@ -42,8 +47,13 @@ matched decoding they vanish (see
   the choice: Seneca ΔP(stoic) +0.061, Δlog-odds +0.308 (t = 2.4–2.6),
   positive in *both* stance buckets; Marcus ΔP +0.031 (t = 2.00), measured
   judge-free from the frozen adapters (matches this repo's regression fixtures
-  to 4 decimals). A circuit-topology (bridge) analysis with ModelLens
-  *predicted* this method split before it showed up behaviorally.
+  to 4 decimals). A circuit-topology analysis with ModelLens (Exp 12, run on the
+  same clean adapters) shows the same method split: CAA leaves the stoic-content
+  circuit essentially untouched, while LoRA's circuit perturbation is ordered
+  Seneca > Marcus > Epictetus ≈ 0 — the same ordering as the decision shift.
+  Caveat: CAA and LoRA also differ in training *objective* (contrastive
+  activation vs continued-pretraining), so the asymmetry is confounded with
+  objective until the matched non-philosophical control adapter (v3) isolates it.
 
 ![LoRA decision shift by author and stance bucket — Seneca moves both, Marcus accepting-only, Epictetus null](results/figures/fig_lora_decision_shift.png)
 
@@ -166,7 +176,8 @@ to *retrain* adapters.
   [docs/measurement-artifact.md](docs/measurement-artifact.md); full record in
   [results/README.md](results/README.md).
 - Corpus acquisition is self-contained: `python -m stoic corpus` re-downloads
-  and re-chunks the source texts to byte-identical chunks (437 / 540 / 123).
+  and re-chunks the source texts, reproducing the frozen chunk counts exactly
+  (437 / 540 / 123; the stage compares counts, not byte-level chunk content).
 
 **In progress / next (priority order):**
 1. `dilemmas_v3` — the reasoning-vs-echo gate: 2×2 design (Letters-core vs

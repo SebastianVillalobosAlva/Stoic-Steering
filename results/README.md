@@ -124,13 +124,18 @@ the decision layer.
 ![Three-depths dissociation — CAA flat at every depth; LoRA moves style, content, and (Marcus/Seneca) decision](figures/fig_three_depths.png)
 
 Style/content Δ are on the 1–5 judge rubric (CAA re-measured under matched
-decoding with the Gemini judge; LoRA from the merged-adapter evals under the
-rubric judge, symmetric decoding); decision is the judge-free ΔP(stoic), one
-instrument for both. The dissociation is qualitative — CAA ≈ 0 at every depth,
-LoRA clearly positive — and robust to judge choice; the panels use different
-scales.
+decoding with the Gemini judge, n=5 seeds; LoRA from the frozen merged-adapter
+judge evals, `data/reference/judges/eval_*.json` — a single eval over 12
+prompts, symmetric decoding, **not** seed-tested like the CAA side); decision is
+the judge-free ΔP(stoic), one instrument for both. The dissociation is
+qualitative — CAA ≈ 0 at every depth, LoRA clearly positive — and robust to
+judge choice; the panels use different scales. The load-bearing LoRA result is
+the decision level (judge-free, exact); the style/content panels are the weaker,
+single-eval evidence.
 
-JSON: `stage4_lora_dilemmas/lora_dilemmas_20260705_225558.json`.
+JSON: `stage4_lora_dilemmas/lora_dilemmas_20260717_152132.json` (re-run through
+the refactored pipeline; reproduces the earlier
+`lora_dilemmas_20260705_225558.json` to 4 decimals, now with the inline sign test).
 
 ![LoRA decision shift by author and stance bucket — Seneca moves both, Marcus accepting-only, Epictetus null](figures/fig_lora_decision_shift.png)
 
