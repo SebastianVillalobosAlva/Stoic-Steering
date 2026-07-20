@@ -4,15 +4,12 @@ Steering Stoic philosophical reasoning into Llama-3.2-3B via activation
 addition (CAA) and low-rank weight adaptation (LoRA), with mechanistic
 interpretability to check what actually changes inside the model.
 
-**Core finding:** under fair (matched-decoding) measurement, CAA at the
-canonical coefficient moves *nothing* measurable — not style, not judge-scored
-content, not decisions. Weight adaptation (LoRA) moves the judge-free decision
-instrument, where CAA is flat; it also shifts judge-scored style and content (a
-single merged-adapter judge eval, symmetric decoding — not seed-tested the way
-the CAA re-measurement is). The decision result is the artifact-immune one. The
-CAA style and content effects that earlier looked positive are a single
-measurement artifact: under matched decoding they vanish (see
-[docs/measurement-artifact.md](docs/measurement-artifact.md)).
+**Core finding:** under fair measurement at the canonical coefficient (0.11),
+CAA moves nothing — not style, not judge-scored content, not decisions. LoRA
+does move the judge-free decision instrument, plus judge-scored style and
+content (single eval, not seed-tested). The earlier positive CAA effects were a
+measurement artifact — see
+[docs/measurement-artifact.md](docs/measurement-artifact.md).
 
 ![Three-depths dissociation — CAA is flat at style, content, and decision; LoRA moves all three (Epictetus decision null)](results/figures/fig_three_depths.png)
 
@@ -20,52 +17,58 @@ measurement artifact: under matched decoding they vanish (see
 
 ## Key findings
 
-- **CAA at the canonical coefficient does nothing measurable — at any of the
-  three levels.** Decisions are flat at the canonical coefficient (0.11) on the
-  logit-measured forced-choice test — artifact-immune, because it is one forward
-  pass with no generation. (A decision-level sweep across coefficients is not
-  yet in the record; the only coefficient sweep to date is the legacy
-  judge-scored one, ≤0.3 and under the superseded decoding.) Style and content
-  *appeared* to move, but under matched decoding both collapse to zero (style:
-  +1.0…+1.6 reported → −0.15…+0.05 greedy / ~0.0 sampled, all n.s.). At coeff
-  0.11 the steered greedy output is nearly byte-identical to baseline; whether
-  stronger coefficients produce genuine Stoic register under fair measurement is
-  an open question, not a claimed result.
+- **CAA at the canonical coefficient (0.11) does nothing measurable.**
+  Decisions are flat on the logit-measured test — artifact-immune, since it is
+  one forward pass with no generation (no decision-level sweep across
+  coefficients has been done). Style and content *appeared* to move, but under
+  matched decoding both collapse to zero (style: +1.0…+1.6 reported →
+  −0.15…+0.05 greedy). Whether stronger coefficients produce genuine Stoic
+  register under fair measurement is an open question, not a claimed result.
 
 - **The CAA "content effect" is a measurement artifact.** An earlier
-  measurement reported a large positive effect because steered text was sampled
-  and truncated to ~13 tokens while baselines were greedy at 100 — the judge was
-  scoring the decoding difference, not the steering. Under identical decoding on
-  both sides (same frozen vectors, same judge) the content effect is null for
-  all three philosophers — e.g. Epictetus L8: +0.767 ± 0.076 → −0.12 ± 0.08
-  matched-greedy / −0.19 ± 0.33 matched-sampled. One canonical `generate()`
-  makes that bug unwritable here; full mechanism and numbers in
+  measurement reported a large positive effect, this was because steered text
+  was sampled and truncated to ~13 tokens while baselines were greedy at 100,
+  this meant the judge scored the decoding difference, not the steering. Under
+  identical decoding on both sides, the content effect is null for all three
+  philosophers (e.g. Epictetus L8: +0.767 ± 0.076 → −0.12 ± 0.08 matched-greedy
+  / −0.19 ± 0.33 matched-sampled). Full mechanism and numbers can be found in
   [docs/measurement-artifact.md](docs/measurement-artifact.md).
 
-- **LoRA reaches the decision layer where CAA does not.** On the identical
-  forced-choice instrument where CAA was flat, weight-level adaptation moved
-  the choice: Seneca ΔP(stoic) +0.061, Δlog-odds +0.308 (t = 2.4–2.6),
-  positive in *both* stance buckets; Marcus ΔP +0.031 (t = 2.00), measured
-  judge-free from the frozen adapters (matches this repo's regression fixtures
-  to 4 decimals). A circuit-topology analysis with ModelLens (Exp 12, run on the
-  same clean adapters) shows the same method split: CAA leaves the stoic-content
-  circuit essentially untouched, while LoRA's circuit perturbation is ordered
-  Seneca > Marcus > Epictetus ≈ 0 — the same ordering as the decision shift.
-  Caveat: CAA and LoRA also differ in training *objective* (contrastive
-  activation vs continued-pretraining), so the asymmetry is confounded with
-  objective until the matched non-philosophical control adapter (v3) isolates it.
+- **LoRA reaches the decision layer.** On the forced-choice instrument (where
+  CAA is flat), weight-level adaptation moved the choice — measured judge-free
+  from the frozen adapters (matches this repo's regression fixtures to 4
+  decimals):
+
+  | Author | ΔP(stoic) | Δlog-odds | t | Stance buckets |
+  |---|---|---|---|---|
+  | Seneca | +0.061 | +0.308 | 2.4–2.6 | positive in *both* |
+  | Marcus | +0.031 | +0.161 | 2.0–2.2 | accepting only |
+
+  A circuit-topology analysis with ModelLens (run on the same clean adapters)
+  shows the same method split: CAA leaves the stoic-content circuit essentially
+  untouched, while LoRA's circuit perturbation is ordered
+  Seneca > Marcus > Epictetus ≈ 0 (same ordering as the decision shift).
+  **Caveat:** the two methods also train on different objectives (CAA is
+  contrastive, LoRA is continued pretraining), so method and objective are
+  confounded — the matched non-philosophical control adapter (v3) is what
+  separates them.
 
 ![LoRA decision shift by author and stance bucket — Seneca moves both, Marcus accepting-only, Epictetus null](results/figures/fig_lora_decision_shift.png)
 
 - **What LoRA installs is not (yet) uniform Stoic reasoning.** Effects are
-  structured but heterogeneous: Marcus is a broad *passivity prior* — it moves
-  only the "accepting" dilemmas (+0.065, t = 2.99) and is flat on "active"
-  ones; Seneca is a *heavy-tailed magnitude effect* — both buckets positive,
-  t = 2.4–2.6 overall, but the per-item sign test is n.s. (25/40); Epictetus
-  is a *null* (ΔP +0.000; smallest corpus — 123 chunks, Enchiridion only). A
-  possible Senecan-idiom lexical-echo confound in the decision instrument is
-  under investigation. These are stated openly as open questions, not
-  smoothed over.
+  structured but heterogeneous. Marcus is a broad *passivity prior* — it moves
+  only the "accepting" dilemmas and is flat on "active" ones. Seneca moves the
+  choice on average (t = 2.4–2.6 overall), but that average is carried by a
+  handful of items shifting a lot, not a steady push across all 40 — the
+  per-item sign test, which only asks whether *most* items moved toward the
+  Stoic option, is not significant (25 of 40 positive, p = 0.15). So the effect
+  is real in size but not uniform across dilemmas. Epictetus is a *null* (ΔP
+  +0.000); candidate explanations — the smallest training corpus (123 chunks,
+  the Enchiridion only) and its terse, aphoristic style, unlike Seneca's
+  discursive letters or Marcus's reflections — are confounded with each other
+  and with the philosopher, so the cause stays an open question. A possible
+  Senecan-idiom lexical-echo confound in the decision instrument is also under
+  investigation. These are stated openly as open questions, not smoothed over.
 
 The circuit-level picture agrees with the behavior (Exp 12, clean adapters):
 CAA at coeff 0.11 leaves the stoic-content circuit essentially untouched, while
