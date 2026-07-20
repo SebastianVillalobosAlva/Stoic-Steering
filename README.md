@@ -5,7 +5,7 @@ addition (CAA) and low-rank weight adaptation (LoRA), with mechanistic
 interpretability to check what actually changes inside the model.
 
 **Core finding:** under fair measurement at the canonical coefficient (0.11),
-CAA moves nothing — not style, not judge-scored content, not decisions. LoRA
+CAA moves nothing, not style, not judge-scored content, not decisions. LoRA
 does move the judge-free decision instrument, plus judge-scored style and
 content (single eval, not seed-tested). The earlier positive CAA effects were a
 measurement artifact — see
