@@ -18,7 +18,7 @@ measurement artifact — see
 ## Key findings
 
 - **CAA at the canonical coefficient (0.11) does nothing measurable.**
-  Decisions are flat on the logit-measured test — artifact-immune, since it is
+  Decisions are flat on the logit-measured test, since it is
   one forward pass with no generation (no decision-level sweep across
   coefficients has been done). Style and content *appeared* to move, but under
   matched decoding both collapse to zero (style: +1.0…+1.6 reported →
@@ -45,23 +45,23 @@ measurement artifact — see
   | Marcus | +0.031 | +0.161 | 2.0–2.2 | accepting only |
 
   A circuit-topology analysis with ModelLens (run on the same clean adapters)
-  shows the same method split: CAA leaves the stoic-content circuit essentially
-  untouched, while LoRA's circuit perturbation is ordered
-  Seneca > Marcus > Epictetus ≈ 0 (same ordering as the decision shift).
+  shows the same method split:
+  - CAA leaves the stoic-content circuit essentially untouched
+  - LoRA's circuit perturbation is ordered Seneca > Marcus > Epictetus ≈ 0 (same ordering as the decision shift).
   **Caveat:** the two methods also train on different objectives (CAA is
   contrastive, LoRA is continued pretraining), so method and objective are
-  confounded — the matched non-philosophical control adapter (v3) is what
+  confounded, the non-philosophical control adapter (v3) is what
   separates them.
 
 ![LoRA decision shift by author and stance bucket — Seneca moves both, Marcus accepting-only, Epictetus null](results/figures/fig_lora_decision_shift.png)
 
 - **What LoRA installs is not (yet) uniform Stoic reasoning.** Effects are
-  structured but heterogeneous. Marcus is a broad *passivity prior* — it moves
-  only the "accepting" dilemmas and is flat on "active" ones. Seneca moves the
+  structured but heterogeneous. Marcus is a broad *passivity prior* (it moves
+  only the "accepting" dilemmas and is flat on "active" ones). Seneca moves the
   choice on average (t = 2.4–2.6 overall), but that average is carried by a
-  handful of items shifting a lot, not a steady push across all 40 — the
+  handful of items shifting a lot, not a steady push across all 40 (the
   per-item sign test, which only asks whether *most* items moved toward the
-  Stoic option, is not significant (25 of 40 positive, p = 0.15). So the effect
+  Stoic option, is not significant (25 of 40 positive, p = 0.15)). The effect
   is real in size but not uniform across dilemmas. Epictetus is a *null* (ΔP
   +0.000); candidate explanations — the smallest training corpus (123 chunks,
   the Enchiridion only) and its terse, aphoristic style, unlike Seneca's
