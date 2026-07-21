@@ -21,8 +21,12 @@ models/
 # Frozen reference binaries (steering vectors are large; the JSONs stay tracked)
 data/reference/steering_vectors/*.pt
 
-# Everything the new pipeline produces, EXCEPT final results JSONs
-data/generated/
+# Everything the new pipeline produces, EXCEPT final results JSONs and
+# hand-authored instrument drafts (candidate dilemma sets are authored, not
+# pipeline output — they must be versioned while calibration iterates)
+data/generated/*
+!data/generated/.gitkeep
+!data/generated/dilemmas_v3_candidates.json
 
 # Results: keep the checkpoint JSONs (they are the replication record), ignore stray junk
 results/**/.DS_Store

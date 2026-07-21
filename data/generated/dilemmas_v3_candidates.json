@@ -1,0 +1,405 @@
+{
+  "note": "dilemmas_v3 CANDIDATES — not calibrated, not eval-ready. 2x2: topic_axis (core = Letters-core topics / offtopic = topics Seneca barely touches) x phrasing (plain / idiom applied to the STOIC option only). Paired design: core_plain_NN and core_idiom_NN share the same situation and nonstoic option; only the stoic option's wording differs. 10 items/cell, stance-balanced 5 accepting / 5 active within each cell. Gate: per-cell base P(stoic) within 0.05 of 0.5 (python -m stoic calibrate) BEFORE any adapter eval.",
+  "dilemmas": [
+    {
+      "id": "core_plain_01",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "grief",
+      "stoic_stance": "accepting",
+      "situation": "Your sister died eight months ago. Friends have stopped checking in, and your manager is hinting that your reduced output is becoming a problem. Her room in your shared apartment is untouched.",
+      "stoic": "Accept that she is gone for good, clear the room this month, and return your full attention to work and the people still in your life.",
+      "nonstoic": "Give the grief the time it actually needs: keep the room as it is for now, scale back at work, and let yourself process the loss fully before resuming normal life."
+    },
+    {
+      "id": "core_idiom_01",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "grief",
+      "stoic_stance": "accepting",
+      "situation": "Your sister died eight months ago. Friends have stopped checking in, and your manager is hinting that your reduced output is becoming a problem. Her room in your shared apartment is untouched.",
+      "stoic": "Recognize that she was on loan to you, not owned; return her to nature with thanks, clear the room, and take up your duties again.",
+      "nonstoic": "Give the grief the time it actually needs: keep the room as it is for now, scale back at work, and let yourself process the loss fully before resuming normal life."
+    },
+    {
+      "id": "core_plain_02",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "old_age",
+      "stoic_stance": "accepting",
+      "situation": "At seventy-two, your knees have ended the mountain hiking that organized your summers for forty years. A surgeon offers a double knee replacement with a long rehab and uncertain odds of returning to the trails.",
+      "stoic": "Let the mountains go, keep to the valley walks your knees still allow, and value what this stage of life offers instead of chasing the last one.",
+      "nonstoic": "Take the surgery and commit hard to the rehab: fighting to keep the activities that make you who you are is exactly what keeps people vital at seventy-two."
+    },
+    {
+      "id": "core_idiom_02",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "old_age",
+      "stoic_stance": "accepting",
+      "situation": "At seventy-two, your knees have ended the mountain hiking that organized your summers for forty years. A surgeon offers a double knee replacement with a long rehab and uncertain odds of returning to the trails.",
+      "stoic": "Play the act of life you are now in rather than demanding an earlier one back; each season has its own goods, and the last scene asks to be performed well, not re-written.",
+      "nonstoic": "Take the surgery and commit hard to the rehab: fighting to keep the activities that make you who you are is exactly what keeps people vital at seventy-two."
+    },
+    {
+      "id": "core_plain_03",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "illness",
+      "stoic_stance": "accepting",
+      "situation": "You have been diagnosed with a progressive autoimmune condition. Standard treatment manages symptoms but will not stop it. Online communities are full of experimental protocols, specialist waitlists abroad, and stories of people who refused to accept the prognosis.",
+      "stoic": "Follow the standard treatment, accept that the course of the disease is not something you control, and put your energy into living well with the body you have now.",
+      "nonstoic": "Refuse to settle: get on the specialist waitlists, trial the experimental protocols, and treat beating the prognosis as your new project — patients who push hardest are the ones the breakthroughs happen to."
+    },
+    {
+      "id": "core_idiom_03",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "illness",
+      "stoic_stance": "accepting",
+      "situation": "You have been diagnosed with a progressive autoimmune condition. Standard treatment manages symptoms but will not stop it. Online communities are full of experimental protocols, specialist waitlists abroad, and stories of people who refused to accept the prognosis.",
+      "stoic": "Tend the body as a vessel lent for the journey — follow the treatment, but do not make its fate your master; the disease is not up to you, and the life you live around it is.",
+      "nonstoic": "Refuse to settle: get on the specialist waitlists, trial the experimental protocols, and treat beating the prognosis as your new project — patients who push hardest are the ones the breakthroughs happen to."
+    },
+    {
+      "id": "core_plain_04",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "mortality",
+      "stoic_stance": "accepting",
+      "situation": "A college friend your age died of a sudden aneurysm. Since the funeral you have caught yourself avoiding the estate paperwork your spouse keeps raising, and putting off conversations about what you would each want.",
+      "stoic": "Accept that it could happen to you at any time: do the paperwork this week, have the conversations, and then live normally with that settled.",
+      "nonstoic": "Don't let one shocking death morbidly reorganize your life: you are healthy, the statistics are on your side, and dwelling on worst cases now would just feed anxiety — handle the paperwork when things feel less raw."
+    },
+    {
+      "id": "core_idiom_04",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "mortality",
+      "stoic_stance": "accepting",
+      "situation": "A college friend your age died of a sudden aneurysm. Since the funeral you have caught yourself avoiding the estate paperwork your spouse keeps raising, and putting off conversations about what you would each want.",
+      "stoic": "Live each day as if it rounds off your life: settle the accounts now, say what needs saying, and death will find nothing unfinished to take from you.",
+      "nonstoic": "Don't let one shocking death morbidly reorganize your life: you are healthy, the statistics are on your side, and dwelling on worst cases now would just feed anxiety — handle the paperwork when things feel less raw."
+    },
+    {
+      "id": "core_plain_05",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "wealth",
+      "stoic_stance": "accepting",
+      "situation": "Your business partner of ten years made unauthorized trades with firm capital and lost most of it, including the savings you had committed. Lawyers say a suit could recover perhaps half, over three to four years of litigation that would consume your attention.",
+      "stoic": "Write the money off, wind down the partnership cleanly, and spend those years rebuilding your practice instead of chaining them to a lawsuit.",
+      "nonstoic": "Sue: half back is real money, letting this pass rewards the betrayal, and you owe it to your family to recover what was taken rather than absorbing the loss quietly."
+    },
+    {
+      "id": "core_idiom_05",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "wealth",
+      "stoic_stance": "accepting",
+      "situation": "Your business partner of ten years made unauthorized trades with firm capital and lost most of it, including the savings you had committed. Lawyers say a suit could recover perhaps half, over three to four years of litigation that would consume your attention.",
+      "stoic": "Fortune lent that money and has recalled it through his hands; return it without complaint, wind down cleanly, and rebuild on what was always yours — your work.",
+      "nonstoic": "Sue: half back is real money, letting this pass rewards the betrayal, and you owe it to your family to recover what was taken rather than absorbing the loss quietly."
+    },
+    {
+      "id": "core_plain_06",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "friendship",
+      "stoic_stance": "active",
+      "situation": "Since his divorce, a close friend has withdrawn: cancelled plans, one-word replies, and last month he asked you to stop checking in so often. Mutual friends say to respect his space.",
+      "stoic": "Keep showing up anyway — regular, low-pressure invitations — because being his friend through this matters more than the awkwardness of being told you're too much.",
+      "nonstoic": "Respect what he actually asked for: give him the space, keep the door warmly open, and trust him to come back when he is ready — pushing past a stated boundary is about your needs, not his."
+    },
+    {
+      "id": "core_idiom_06",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "friendship",
+      "stoic_stance": "active",
+      "situation": "Since his divorce, a close friend has withdrawn: cancelled plans, one-word replies, and last month he asked you to stop checking in so often. Mutual friends say to respect his space.",
+      "stoic": "Play the part of the friend that fate assigned you: a friend is for storms, not fair weather, so keep arriving — gently, regularly — whether or not the role is thanked.",
+      "nonstoic": "Respect what he actually asked for: give him the space, keep the door warmly open, and trust him to come back when he is ready — pushing past a stated boundary is about your needs, not his."
+    },
+    {
+      "id": "core_plain_07",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "ambition",
+      "stoic_stance": "active",
+      "situation": "Your team's grant renewal depends on a progress report. The lead asks you to present the pilot data with the two failed cohorts folded into an 'ongoing analysis' section — not false, but engineered to mislead. Eight jobs, including two you fought to create, ride on the renewal.",
+      "stoic": "Write the report straight, failed cohorts plainly labeled, and accept whatever the funders decide — the accuracy of what you sign is not negotiable.",
+      "nonstoic": "Present it the lead's way: 'ongoing analysis' is technically true, every lab frames data favorably, and eight livelihoods are worth more than a purist reading of reporting norms."
+    },
+    {
+      "id": "core_idiom_07",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "ambition",
+      "stoic_stance": "active",
+      "situation": "Your team's grant renewal depends on a progress report. The lead asks you to present the pilot data with the two failed cohorts folded into an 'ongoing analysis' section — not false, but engineered to mislead. Eight jobs, including two you fought to create, ride on the renewal.",
+      "stoic": "The funding was never up to you; the truthfulness of what you sign is. Keep what is yours untouched — write it straight — and let the renewal fall where it will.",
+      "nonstoic": "Present it the lead's way: 'ongoing analysis' is technically true, every lab frames data favorably, and eight livelihoods are worth more than a purist reading of reporting norms."
+    },
+    {
+      "id": "core_plain_08",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "reputation",
+      "stoic_stance": "active",
+      "situation": "A colleague is being blamed in leadership meetings for a project failure you know was caused by a decision above her. Correcting the record means naming the VP who made the call — the same VP deciding your promotion this quarter.",
+      "stoic": "Correct the record in the next meeting, VP named, because saying what you know to be true matters more than what it costs your promotion.",
+      "nonstoic": "Stay out of the crossfire for now: your promotion gives you real power to protect people later, and torching it over one misattributed failure helps no one — support her privately and set the record straight when the stakes cool."
+    },
+    {
+      "id": "core_idiom_08",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "reputation",
+      "stoic_stance": "active",
+      "situation": "A colleague is being blamed in leadership meetings for a project failure you know was caused by a decision above her. Correcting the record means naming the VP who made the call — the same VP deciding your promotion this quarter.",
+      "stoic": "Your good name and your promotion sit in others' keeping, never in yours; the testimony you give is the only thing at that table that is up to you — give it truthfully and let opinion fall where it will.",
+      "nonstoic": "Stay out of the crossfire for now: your promotion gives you real power to protect people later, and torching it over one misattributed failure helps no one — support her privately and set the record straight when the stakes cool."
+    },
+    {
+      "id": "core_plain_09",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "anger",
+      "stoic_stance": "active",
+      "situation": "A repair shop charged your eighty-year-old father $2,300 for work a second mechanic says was mostly unnecessary. Your father is embarrassed and wants to drop it. You are furious.",
+      "stoic": "Go back to the shop yourself and pursue the refund calmly, firmly, and in person — anger dropped at the door — because the overcharge should be corrected, not avenged.",
+      "nonstoic": "Put the anger to work where it counts: post the itemized reviews, report them to the consumer bureau, and warn the neighborhood group — public pressure is what actually stops shops that prey on elderly customers."
+    },
+    {
+      "id": "core_idiom_09",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "anger",
+      "stoic_stance": "active",
+      "situation": "A repair shop charged your eighty-year-old father $2,300 for work a second mechanic says was mostly unnecessary. Your father is embarrassed and wants to drop it. You are furious.",
+      "stoic": "Anger is a brief madness — do not let it drive. Go back as reason's envoy, not passion's: pursue the refund in person, firmly and without heat, and set the matter right.",
+      "nonstoic": "Put the anger to work where it counts: post the itemized reviews, report them to the consumer bureau, and warn the neighborhood group — public pressure is what actually stops shops that prey on elderly customers."
+    },
+    {
+      "id": "core_plain_10",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "time",
+      "stoic_stance": "active",
+      "situation": "Between the board seat, the mentoring program, the extended family logistics, and the standing weekend commitments, you have not touched the book you moved cities to write. Every obligation was freely accepted, and each one has people counting on you.",
+      "stoic": "Resign the commitments that are consuming your life — this month, with honest apologies — and give the book the years it needs while you still have them.",
+      "nonstoic": "Honor what you signed up for: these are real people relying on promises you made, and a well-run calendar — delegating, batching, trimming at the edges — can buy the book its hours without breaking faith with anyone."
+    },
+    {
+      "id": "core_idiom_10",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "time",
+      "stoic_stance": "active",
+      "situation": "Between the board seat, the mentoring program, the extended family logistics, and the standing weekend commitments, you have not touched the book you moved cities to write. Every obligation was freely accepted, and each one has people counting on you.",
+      "stoic": "Life is long enough if you stop lending your days to everyone who asks; reclaim your hours this month — resign what devours them — for time is the one loan fortune never repays.",
+      "nonstoic": "Honor what you signed up for: these are real people relying on promises you made, and a well-run calendar — delegating, batching, trimming at the edges — can buy the book its hours without breaking faith with anyone."
+    },
+    {
+      "id": "offtopic_plain_01",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "software_platform",
+      "stoic_stance": "accepting",
+      "situation": "The platform your app is built on announced API changes that break your core feature in ninety days. Three years of work, forty thousand users. Other developers are organizing to pressure the platform into a grandfather clause.",
+      "stoic": "Accept that the platform has moved, skip the campaign, and spend the ninety days porting what is worth keeping to infrastructure you control.",
+      "nonstoic": "Join the campaign: coordinated developer pressure has reversed platform decisions before, your users are worth fighting for, and ninety days is exactly enough time to win a grandfather clause."
+    },
+    {
+      "id": "offtopic_idiom_01",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "software_platform",
+      "stoic_stance": "accepting",
+      "situation": "The platform your app is built on announced API changes that break your core feature in ninety days. Three years of work, forty thousand users. Other developers are organizing to pressure the platform into a grandfather clause.",
+      "stoic": "The platform was on loan to you, never yours; return it without complaint and spend the ninety days building on ground you own.",
+      "nonstoic": "Join the campaign: coordinated developer pressure has reversed platform decisions before, your users are worth fighting for, and ninety days is exactly enough time to win a grandfather clause."
+    },
+    {
+      "id": "offtopic_plain_02",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "sports_injury",
+      "stoic_stance": "accepting",
+      "situation": "A stress fracture three weeks before the marathon you have spent two years trying to qualify for. Doctors say racing on it risks months of additional damage; a sports-medicine clinic offers an aggressive protocol — injections, modified gait — that might get you to the start line.",
+      "stoic": "Accept that this race is gone, heal completely, and start the qualifying cycle again next season on a sound leg.",
+      "nonstoic": "Take the protocol and toe the line: two years of training earns the right to try, elite athletes race managed injuries all the time, and you can pull out mid-race if the leg says no."
+    },
+    {
+      "id": "offtopic_idiom_02",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "sports_injury",
+      "stoic_stance": "accepting",
+      "situation": "A stress fracture three weeks before the marathon you have spent two years trying to qualify for. Doctors say racing on it risks months of additional damage; a sports-medicine clinic offers an aggressive protocol — injections, modified gait — that might get you to the start line.",
+      "stoic": "The race was never promised to you; fortune sets the course and has re-drawn it. Run the race you are given — full healing now, the qualifier next season.",
+      "nonstoic": "Take the protocol and toe the line: two years of training earns the right to try, elite athletes race managed injuries all the time, and you can pull out mid-race if the leg says no."
+    },
+    {
+      "id": "offtopic_plain_03",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "game_shutdown",
+      "stoic_stance": "accepting",
+      "situation": "The online game where you have spent five years building a guild and a top-ranked character is shutting its servers in sixty days. The community is petitioning for private-server rights and review-bombing the studio to force a reversal.",
+      "stoic": "Let it end: the five years of play were enjoyed and cannot be taken back, so spend the last sixty days playing with your guild instead of fighting the shutdown.",
+      "nonstoic": "Fight for it: petitions and community pressure have won private-server releases before, five years of a community's shared work deserves preserving, and sixty days is enough to make the studio listen."
+    },
+    {
+      "id": "offtopic_idiom_03",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "game_shutdown",
+      "stoic_stance": "accepting",
+      "situation": "The online game where you have spent five years building a guild and a top-ranked character is shutting its servers in sixty days. The community is petitioning for private-server rights and review-bombing the studio to force a reversal.",
+      "stoic": "Count those five years as spent, not stolen — pleasures are loans repaid in the enjoying. Return the world with thanks and play out the last sixty days well.",
+      "nonstoic": "Fight for it: petitions and community pressure have won private-server releases before, five years of a community's shared work deserves preserving, and sixty days is enough to make the studio listen."
+    },
+    {
+      "id": "offtopic_plain_04",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "commute",
+      "stoic_stance": "accepting",
+      "situation": "A two-year bridge reconstruction has doubled your commute to ninety minutes each way. The detour is fixed, the timeline is funded and final, and a neighborhood group is organizing daily complaint campaigns to the transit authority.",
+      "stoic": "Stop resenting the ninety minutes and stop attending the campaign meetings; the bridge will take two years regardless, so build something into the drive — audiobooks, calls with your mother, silence.",
+      "nonstoic": "Keep the pressure on: sustained public complaint is how detour routes get improved and timelines get accelerated, and quietly absorbing a doubled commute teaches the authority it can do this again."
+    },
+    {
+      "id": "offtopic_idiom_04",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "commute",
+      "stoic_stance": "accepting",
+      "situation": "A two-year bridge reconstruction has doubled your commute to ninety minutes each way. The detour is fixed, the timeline is funded and final, and a neighborhood group is organizing daily complaint campaigns to the transit authority.",
+      "stoic": "The road is not up to you; the mind you carry onto it is. Quit the campaign, make the delay your own — audiobooks, calls, silence — and the bridge can take its two years.",
+      "nonstoic": "Keep the pressure on: sustained public complaint is how detour routes get improved and timelines get accelerated, and quietly absorbing a doubled commute teaches the authority it can do this again."
+    },
+    {
+      "id": "offtopic_plain_05",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "data_loss",
+      "stoic_stance": "accepting",
+      "situation": "A failed drive and a misconfigured backup destroyed ten years of family photos — the kids' births, your late mother's last visits. A forensic recovery firm quotes $4,000 with perhaps a one-in-five chance of partial recovery.",
+      "stoic": "Accept that the photos are gone: the decade happened and lives in the people who shared it, so put the $4,000 toward printing and backing up what you take from today on.",
+      "nonstoic": "Pay for the recovery attempt: a twenty percent chance at your mother's last photos is worth $4,000 of anything, and you will never forgive yourself for not trying while the platters are still intact."
+    },
+    {
+      "id": "offtopic_idiom_05",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "data_loss",
+      "stoic_stance": "accepting",
+      "situation": "A failed drive and a misconfigured backup destroyed ten years of family photos — the kids' births, your late mother's last visits. A forensic recovery firm quotes $4,000 with perhaps a one-in-five chance of partial recovery.",
+      "stoic": "The images were on loan, like everything fortune stores for us; what mattered in them lives in memory, which no drive can corrupt. Return the loan and record today instead.",
+      "nonstoic": "Pay for the recovery attempt: a twenty percent chance at your mother's last photos is worth $4,000 of anything, and you will never forgive yourself for not trying while the platters are still intact."
+    },
+    {
+      "id": "offtopic_plain_06",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "code_review",
+      "stoic_stance": "active",
+      "situation": "Reviewing a popular open-source library for your company, you find a serious data-handling flaw. The maintainer is a celebrated figure with a history of publicly savaging critics, and your name is attached to anything you file.",
+      "stoic": "File the public issue today, complete and reproducible, because the users exposed to the flaw matter more than what the maintainer's followers do to your name this week.",
+      "nonstoic": "Disclose it privately through the security channel first: it protects users without triggering a flame war, gives the maintainer room to fix it fast, and responsible disclosure is the established norm for exactly this situation."
+    },
+    {
+      "id": "offtopic_idiom_06",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "code_review",
+      "stoic_stance": "active",
+      "situation": "Reviewing a popular open-source library for your company, you find a serious data-handling flaw. The maintainer is a celebrated figure with a history of publicly savaging critics, and your name is attached to anything you file.",
+      "stoic": "The reviewer's office fell to you, so play your part: file the issue openly and completely, and let the crowd's noise land where it will — it was never up to you.",
+      "nonstoic": "Disclose it privately through the security channel first: it protects users without triggering a flame war, gives the maintainer room to fix it fast, and responsible disclosure is the established norm for exactly this situation."
+    },
+    {
+      "id": "offtopic_plain_07",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "referee",
+      "stoic_stance": "active",
+      "situation": "You are refereeing the under-14 league final. In the last minute, the home team — whose parents surround the field and run the league you referee in — scores off a play you clearly saw was offside. Waving it off decides the championship against them.",
+      "stoic": "Make the offside call, because calling the game fairly is the entire job, and what the sideline does about it afterward is their business.",
+      "nonstoic": "Let it stand: you are one volunteer official at a kids' game, a debatable call in real time is part of sport, and torching your standing with the league over one play serves nobody — including the kids."
+    },
+    {
+      "id": "offtopic_idiom_07",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "referee",
+      "stoic_stance": "active",
+      "situation": "You are refereeing the under-14 league final. In the last minute, the home team — whose parents surround the field and run the league you referee in — scores off a play you clearly saw was offside. Waving it off decides the championship against them.",
+      "stoic": "The whistle is the post you were assigned; hold it like a sentry holds a wall. Make the call you saw, and let the sideline's clamor break where it will — it is not up to you.",
+      "nonstoic": "Let it stand: you are one volunteer official at a kids' game, a debatable call in real time is part of sport, and torching your standing with the league over one play serves nobody — including the kids."
+    },
+    {
+      "id": "offtopic_plain_08",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "bureaucracy",
+      "stoic_stance": "active",
+      "situation": "As a junior clerk in the housing office, you discover that a processing shortcut adopted last year has been quietly disqualifying eligible aid applicants. Your supervisor designed the shortcut, and the annual audit is four months away.",
+      "stoic": "Report it up the chain this week, in writing, with the case numbers, because the families losing aid right now matter more than the supervisor's reaction or your probation status.",
+      "nonstoic": "Document everything meticulously and let the audit surface it: auditors have protection you don't, a four-month-old paper trail from you will speak for itself, and a junior clerk accusing a supervisor directly gets buried along with the issue."
+    },
+    {
+      "id": "offtopic_idiom_08",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "bureaucracy",
+      "stoic_stance": "active",
+      "situation": "As a junior clerk in the housing office, you discover that a processing shortcut adopted last year has been quietly disqualifying eligible aid applicants. Your supervisor designed the shortcut, and the annual audit is four months away.",
+      "stoic": "What is up to you is the report on your desk and nothing more; file it rightly this week, case numbers and all, and let the office storm as it pleases.",
+      "nonstoic": "Document everything meticulously and let the audit surface it: auditors have protection you don't, a four-month-old paper trail from you will speak for itself, and a junior clerk accusing a supervisor directly gets buried along with the issue."
+    },
+    {
+      "id": "offtopic_plain_09",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "startup_demo",
+      "stoic_stance": "active",
+      "situation": "At tomorrow's demo day, investors expect to see the automated pipeline your deck promises. It does not work yet; a teammate has rigged a version with manual steps hidden behind the interface, and your co-founder says every startup demos this way. Payroll clears for six more weeks.",
+      "stoic": "Demo only what actually runs and say plainly what is still being built, because funding raised on a staged pipeline is a lie you would have to keep telling.",
+      "nonstoic": "Run the rigged demo: 'fake it till you make it' is how half the industry's success stories started, the pipeline is genuinely six weeks out, and fourteen employees' jobs should not die for a purity standard your competitors don't hold."
+    },
+    {
+      "id": "offtopic_idiom_09",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "startup_demo",
+      "stoic_stance": "active",
+      "situation": "At tomorrow's demo day, investors expect to see the automated pipeline your deck promises. It does not work yet; a teammate has rigged a version with manual steps hidden behind the interface, and your co-founder says every startup demos this way. Payroll clears for six more weeks.",
+      "stoic": "The funding sits in fortune's hand; the honesty of tomorrow's demo sits in yours. Keep what is yours untouched — show what runs, name what doesn't — and let the term sheet fall where it will.",
+      "nonstoic": "Run the rigged demo: 'fake it till you make it' is how half the industry's success stories started, the pipeline is genuinely six weeks out, and fourteen employees' jobs should not die for a purity standard your competitors don't hold."
+    },
+    {
+      "id": "offtopic_plain_10",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "online_pileon",
+      "stoic_stance": "active",
+      "situation": "A decade-old tasteless joke by a close friend has resurfaced and a pile-on is forming; her employer has been tagged. You have a modest professional following in the same field. She hasn't asked you for anything.",
+      "stoic": "Post the defense now, under your own name, saying what you know of her character, because loyalty that waits out the storm in private is not loyalty.",
+      "nonstoic": "Stay out of the public thread: pile-ons feed on fresh targets and burn out in days, amplifying it now extends her exposure, and the real help — calling her, talking to her employer directly — happens off the timeline."
+    },
+    {
+      "id": "offtopic_idiom_10",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "online_pileon",
+      "stoic_stance": "active",
+      "situation": "A decade-old tasteless joke by a close friend has resurfaced and a pile-on is forming; her employer has been tagged. You have a modest professional following in the same field. She hasn't asked you for anything.",
+      "stoic": "Stand at the post friendship stations you, though the crowd hoots: speak for her openly today, for their clamor was never up to you, and your silence would be.",
+      "nonstoic": "Stay out of the public thread: pile-ons feed on fresh targets and burn out in days, amplifying it now extends her exposure, and the real help — calling her, talking to her employer directly — happens off the timeline."
+    }
+  ]
+}
