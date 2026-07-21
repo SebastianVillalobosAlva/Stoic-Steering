@@ -119,6 +119,15 @@ register reaching the choice through the option's wording.
   circuit sweep.
 - **Calibration gate:** per-cell baseline P(stoic) ≈ 0.5, both label orders
   averaged, BEFORE any eval (v1's 0.881 is the cautionary record).
+- **Calibration harness (built 2026-07-21):** `python -m stoic calibrate`
+  (logic `stoic/calibrate.py`, orchestration `stoic/stages/calibrate.py`).
+  Validates structure ($0, `--validate-only`), scores candidates on the base
+  model with the unchanged v2 ruler, reports per-cell means + item-level
+  outliers (P outside [0.2, 0.8] = replacement candidates), gates at
+  |mean − 0.5| ≤ 0.05 per cell. Candidates live in
+  `data/generated/dilemmas_v3_candidates.json` (never reference/). Demo run on
+  the schema fixture scored 0.870 overall — the v1 failure shape, caught by
+  the gate as designed (`results/dilemmas_v3_calibration/`).
 - **Control adapter:** LoRA trained on matched-length non-philosophical text,
   included in the v3 behavioral eval (see step 2 above).
 

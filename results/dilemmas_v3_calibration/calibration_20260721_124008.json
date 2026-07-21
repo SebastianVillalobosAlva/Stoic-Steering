@@ -1,0 +1,106 @@
+{
+  "timestamp": "20260721_124008",
+  "check": "per-cell baseline P(stoic) within 0.05 of 0.5 on the base model, both label orders averaged, BEFORE any adapter eval (v1's 0.881 is the cautionary record)",
+  "items_file": "tests/fixtures/dilemmas_v3_example.json",
+  "structural_problems": [],
+  "tolerance": 0.05,
+  "outlier_range": [
+    0.2,
+    0.8
+  ],
+  "n_items": 8,
+  "overall_mean_p_stoic": 0.8698447961360216,
+  "per_cell": {
+    "core_plain": {
+      "n": 2,
+      "mean_p_stoic": 0.9542385600507259,
+      "abs_dev": 0.45423856005072594,
+      "within_tolerance": false,
+      "stance_counts": {
+        "accepting": 1,
+        "active": 1
+      },
+      "per_item": {
+        "ex_core_plain_01": 0.9378026984632015,
+        "ex_core_plain_02": 0.9706744216382504
+      }
+    },
+    "core_idiom": {
+      "n": 2,
+      "mean_p_stoic": 0.7943425793200731,
+      "abs_dev": 0.2943425793200731,
+      "within_tolerance": false,
+      "stance_counts": {
+        "accepting": 1,
+        "active": 1
+      },
+      "per_item": {
+        "ex_core_idiom_01": 0.7356360554695129,
+        "ex_core_idiom_02": 0.8530491031706333
+      }
+    },
+    "offtopic_plain": {
+      "n": 2,
+      "mean_p_stoic": 0.9272263180464506,
+      "abs_dev": 0.4272263180464506,
+      "within_tolerance": false,
+      "stance_counts": {
+        "accepting": 1,
+        "active": 1
+      },
+      "per_item": {
+        "ex_offtopic_plain_02": 0.8742728382349014,
+        "ex_offtopic_plain_01": 0.9801797978579998
+      }
+    },
+    "offtopic_idiom": {
+      "n": 2,
+      "mean_p_stoic": 0.8035717271268368,
+      "abs_dev": 0.3035717271268368,
+      "within_tolerance": false,
+      "stance_counts": {
+        "accepting": 1,
+        "active": 1
+      },
+      "per_item": {
+        "ex_offtopic_idiom_02": 0.7954703643918037,
+        "ex_offtopic_idiom_01": 0.8116730898618698
+      }
+    }
+  },
+  "outlier_items": [
+    {
+      "id": "ex_offtopic_idiom_01",
+      "cell": "offtopic_idiom",
+      "p_stoic": 0.8116730898618698
+    },
+    {
+      "id": "ex_core_idiom_02",
+      "cell": "core_idiom",
+      "p_stoic": 0.8530491031706333
+    },
+    {
+      "id": "ex_offtopic_plain_02",
+      "cell": "offtopic_plain",
+      "p_stoic": 0.8742728382349014
+    },
+    {
+      "id": "ex_core_plain_01",
+      "cell": "core_plain",
+      "p_stoic": 0.9378026984632015
+    },
+    {
+      "id": "ex_core_plain_02",
+      "cell": "core_plain",
+      "p_stoic": 0.9706744216382504
+    },
+    {
+      "id": "ex_offtopic_plain_01",
+      "cell": "offtopic_plain",
+      "p_stoic": 0.9801797978579998
+    }
+  ],
+  "all_cells_present": true,
+  "calibration_gate_passed": false,
+  "passed": false
+}

@@ -1,0 +1,85 @@
+{
+  "note": "EXAMPLE items demonstrating the dilemmas_v3 schema — schema/test fixture only, NOT the calibrated instrument. 2 items per cell (1 accepting / 1 active). Real candidates live in data/generated/dilemmas_v3_candidates.json.",
+  "dilemmas": [
+    {
+      "id": "ex_core_plain_01",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "grief",
+      "stoic_stance": "accepting",
+      "situation": "A close friend has died after a long illness. The funeral is over and everyday life is resuming.",
+      "stoic": "Accept that the loss is permanent, and return attention to the responsibilities and people still present.",
+      "nonstoic": "Keep the loss at the center of daily life, revisiting what could have been done differently."
+    },
+    {
+      "id": "ex_core_plain_02",
+      "topic_axis": "core",
+      "phrasing": "plain",
+      "concept": "ambition",
+      "stoic_stance": "active",
+      "situation": "A manager takes credit for work a colleague quietly did. Speaking up would be uncomfortable and might not change anything.",
+      "stoic": "State plainly and calmly who did the work, because saying what is true matters more than the discomfort.",
+      "nonstoic": "Stay silent to protect the relationship with the manager and wait for a safer moment that may never come."
+    },
+    {
+      "id": "ex_core_idiom_01",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "wealth",
+      "stoic_stance": "accepting",
+      "situation": "An investment that took years of saving has lost most of its value in a market crash.",
+      "stoic": "Treat the money as something held on loan from fortune, returned sooner than expected, and carry on with what remains.",
+      "nonstoic": "Treat the loss as a wrong to be undone, and pour energy into recovering exactly what was lost."
+    },
+    {
+      "id": "ex_core_idiom_02",
+      "topic_axis": "core",
+      "phrasing": "idiom",
+      "concept": "duty_and_role",
+      "stoic_stance": "active",
+      "situation": "A neighborhood association needs a treasurer nobody wants to be; the role is thankless and the books are a mess.",
+      "stoic": "Play your part: take the role fate has assigned and do it well, whether or not anyone applauds.",
+      "nonstoic": "Decline, since the role brings work and blame without recognition, and let someone else absorb it."
+    },
+    {
+      "id": "ex_offtopic_plain_01",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "software_deadline",
+      "stoic_stance": "accepting",
+      "situation": "A release deadline was missed because a vendor shipped a broken dependency at the last minute.",
+      "stoic": "Acknowledge the slip was outside the team's control, ship when the fix lands, and adjust the process going forward.",
+      "nonstoic": "Keep relitigating whose fault the slip was and demand the schedule be treated as if the failure had not happened."
+    },
+    {
+      "id": "ex_offtopic_plain_02",
+      "topic_axis": "offtopic",
+      "phrasing": "plain",
+      "concept": "team_sports",
+      "stoic_stance": "active",
+      "situation": "A teammate is being unfairly benched by a coach who has clearly stopped watching their play.",
+      "stoic": "Raise it directly with the coach, because pointing out the unfairness is the right thing to do even if it costs standing.",
+      "nonstoic": "Say nothing and quietly benefit from the extra playing time the benching creates."
+    },
+    {
+      "id": "ex_offtopic_idiom_01",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "social_media",
+      "stoic_stance": "accepting",
+      "situation": "An account that took years to build is suspended by a platform policy change that will not be reversed.",
+      "stoic": "Regard the audience as having been on loan from the platform all along, now reclaimed, and build elsewhere without bitterness.",
+      "nonstoic": "Fight the suspension indefinitely, since the audience was earned and is owed back."
+    },
+    {
+      "id": "ex_offtopic_idiom_02",
+      "topic_axis": "offtopic",
+      "phrasing": "idiom",
+      "concept": "lab_research",
+      "stoic_stance": "active",
+      "situation": "A lab's safety officer role is vacant and an experiment is scheduled; taking the role means paperwork and friction with colleagues.",
+      "stoic": "Play your part and take the role the moment assigns, enforcing the rules evenly even when colleagues grumble.",
+      "nonstoic": "Leave the role vacant, since the friction would land on whoever volunteers, and hope nothing goes wrong."
+    }
+  ]
+}

@@ -17,6 +17,7 @@ import argparse
 
 from stoic import config
 from stoic.stages import (
+    calibrate_stage,
     corpus_stage,
     pairs_stage,
     stage0,
@@ -45,6 +46,16 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("corpus")
     pp = sub.add_parser("pairs")
     pp.add_argument("--num-pairs", type=int, default=63)
+    pc = sub.add_parser("calibrate")
+    pc.add_argument("--items",
+                    default=str(config.GENERATED_DIR / "dilemmas_v3_candidates.json"),
+                    help="candidate dilemmas_v3 JSON (default: data/generated/dilemmas_v3_candidates.json)")
+    pc.add_argument("--tolerance", type=float, default=0.05,
+                    help="per-cell gate: |mean P(stoic) - 0.5| <= tolerance")
+    pc.add_argument("--cell-size", type=int, default=None,
+                    help="expected items per cell (structural check; default: any)")
+    pc.add_argument("--validate-only", action="store_true",
+                    help="structural checks only — no model load, $0")
     return parser
 
 
@@ -58,6 +69,16 @@ def main():
     if args.cmd == "pairs":
         pairs_stage(args.num_pairs)
         return
+    if args.cmd == "calibrate" and args.validate_only:
+        from stoic.calibrate import load_candidates, validate_items
+
+        items = load_candidates(args.items)
+        problems = validate_items(items, cell_size=args.cell_size)
+        print(f"{args.items}: {len(items)} items")
+        for p in problems:
+            print(f"  ✗ {p}")
+        print("valid ✓" if not problems else f"{len(problems)} problem(s)")
+        raise SystemExit(0 if not problems else 1)
 
     from stoic.model import load_model
 
@@ -76,6 +97,9 @@ def main():
         style_check(model, tokenizer, n_seeds=args.seeds)
     elif args.cmd == "stage4":
         stage4(model, tokenizer)
+    elif args.cmd == "calibrate":
+        calibrate_stage(model, tokenizer, args.items,
+                        tolerance=args.tolerance, cell_size=args.cell_size)
     elif args.cmd == "all":
         stage0(model, tokenizer)
         _, baseline = stage1(model, tokenizer)
