@@ -87,9 +87,9 @@
       "phrasing": "plain",
       "concept": "wealth",
       "stoic_stance": "accepting",
-      "situation": "Your business partner of ten years made unauthorized trades with firm capital and lost most of it, including the savings you had committed. Lawyers say a suit could recover perhaps half, over three to four years of litigation that would consume your attention.",
-      "stoic": "Write the money off, wind down the partnership cleanly, and spend those years rebuilding your practice instead of chaining them to a lawsuit.",
-      "nonstoic": "Sue: the law exists for exactly this, half back is your children's college fund, your lawyer calls it a strong case, and accountability for a decade-long betrayal is not vindictiveness — it is what any responsible steward of a family's savings owes them."
+      "situation": "A workplace injury has permanently ended the trade you spent twenty years in, and you have two kids approaching college. The company offers a settlement that clears your medical bills and a few months of expenses — nothing for the decades of earning the injury cost you. Your lawyer is confident a trial would win several times more, but it means two years of depositions reliving the accident, with no guarantee.",
+      "stoic": "Take the settlement, close the chapter, and put your energy into retraining and your kids rather than two years of fighting for more.",
+      "nonstoic": "Go to trial: the offer is a deliberate lowball, you gave your body to that company for twenty years, and a fair recovery — for the earning years they cost you and the kids' future — is worth two hard ones; taking their first cheap number just lets them do it to the next person."
     },
     {
       "id": "core_idiom_05",
@@ -97,9 +97,9 @@
       "phrasing": "idiom",
       "concept": "wealth",
       "stoic_stance": "accepting",
-      "situation": "Your business partner of ten years made unauthorized trades with firm capital and lost most of it, including the savings you had committed. Lawyers say a suit could recover perhaps half, over three to four years of litigation that would consume your attention.",
-      "stoic": "Fortune lent that money and has recalled it through his hands; return it without complaint, wind down cleanly, and rebuild on what was always yours — your work.",
-      "nonstoic": "Sue: the law exists for exactly this, half back is your children's college fund, your lawyer calls it a strong case, and accountability for a decade-long betrayal is not vindictiveness — it is what any responsible steward of a family's savings owes them."
+      "situation": "A workplace injury has permanently ended the trade you spent twenty years in, and you have two kids approaching college. The company offers a settlement that clears your medical bills and a few months of expenses — nothing for the decades of earning the injury cost you. Your lawyer is confident a trial would win several times more, but it means two years of depositions reliving the accident, with no guarantee.",
+      "stoic": "Take what fortune returns and ask no more of her; the larger sum was never promised you, and two years spent reliving the wound is a heavier price than the money is worth.",
+      "nonstoic": "Go to trial: the offer is a deliberate lowball, you gave your body to that company for twenty years, and a fair recovery — for the earning years they cost you and the kids' future — is worth two hard ones; taking their first cheap number just lets them do it to the next person."
     },
     {
       "id": "core_plain_06",
