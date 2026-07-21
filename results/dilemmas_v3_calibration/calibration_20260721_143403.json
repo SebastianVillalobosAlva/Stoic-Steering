@@ -1,0 +1,138 @@
+{
+  "timestamp": "20260721_143403",
+  "check": "per-cell baseline P(stoic) within 0.05 of 0.5 on the base model, both label orders averaged, BEFORE any adapter eval (v1's 0.881 is the cautionary record)",
+  "items_file": "data/generated/dilemmas_v3_candidates.json",
+  "structural_problems": [],
+  "tolerance": 0.05,
+  "outlier_range": [
+    0.2,
+    0.8
+  ],
+  "n_items": 40,
+  "overall_mean_p_stoic": 0.5609500004211441,
+  "per_cell": {
+    "core_plain": {
+      "n": 10,
+      "mean_p_stoic": 0.5521708633750677,
+      "abs_dev": 0.05217086337506771,
+      "within_tolerance": false,
+      "stance_counts": {
+        "accepting": 5,
+        "active": 5
+      },
+      "per_item": {
+        "core_plain_01": 0.2545882910490036,
+        "core_plain_10": 0.32633519172668457,
+        "core_plain_06": 0.38289283215999603,
+        "core_plain_08": 0.39464540779590607,
+        "core_plain_07": 0.5284920930862427,
+        "core_plain_02": 0.567489817738533,
+        "core_plain_04": 0.5966401696205139,
+        "core_plain_09": 0.6629817485809326,
+        "core_plain_05": 0.8490447737276554,
+        "core_plain_03": 0.9585983082652092
+      }
+    },
+    "core_idiom": {
+      "n": 10,
+      "mean_p_stoic": 0.5723408331163228,
+      "abs_dev": 0.07234083311632278,
+      "within_tolerance": false,
+      "stance_counts": {
+        "accepting": 5,
+        "active": 5
+      },
+      "per_item": {
+        "core_idiom_01": 0.24440507590770721,
+        "core_idiom_06": 0.3168507367372513,
+        "core_idiom_10": 0.3502786010503769,
+        "core_idiom_04": 0.49237576127052307,
+        "core_idiom_08": 0.5039002299308777,
+        "core_idiom_09": 0.5999773591756821,
+        "core_idiom_07": 0.6542044132947922,
+        "core_idiom_05": 0.8013813942670822,
+        "core_idiom_02": 0.8158541424199939,
+        "core_idiom_03": 0.9441806171089411
+      }
+    },
+    "offtopic_plain": {
+      "n": 10,
+      "mean_p_stoic": 0.567820106074214,
+      "abs_dev": 0.06782010607421396,
+      "within_tolerance": false,
+      "stance_counts": {
+        "accepting": 5,
+        "active": 5
+      },
+      "per_item": {
+        "offtopic_plain_10": 0.17909692972898483,
+        "offtopic_plain_02": 0.46362800896167755,
+        "offtopic_plain_03": 0.5169433057308197,
+        "offtopic_plain_09": 0.5503605455160141,
+        "offtopic_plain_04": 0.5630041435360909,
+        "offtopic_plain_01": 0.5822946541011333,
+        "offtopic_plain_07": 0.6686342358589172,
+        "offtopic_plain_05": 0.6760023385286331,
+        "offtopic_plain_08": 0.6938954591751099,
+        "offtopic_plain_06": 0.7843414396047592
+      }
+    },
+    "offtopic_idiom": {
+      "n": 10,
+      "mean_p_stoic": 0.5514681991189718,
+      "abs_dev": 0.051468199118971825,
+      "within_tolerance": false,
+      "stance_counts": {
+        "accepting": 5,
+        "active": 5
+      },
+      "per_item": {
+        "offtopic_idiom_08": 0.22994314879179,
+        "offtopic_idiom_10": 0.2454005479812622,
+        "offtopic_idiom_06": 0.5499256104230881,
+        "offtopic_idiom_09": 0.5891575515270233,
+        "offtopic_idiom_02": 0.6205646768212318,
+        "offtopic_idiom_07": 0.62682044506073,
+        "offtopic_idiom_01": 0.6364843919873238,
+        "offtopic_idiom_04": 0.6445991732180119,
+        "offtopic_idiom_05": 0.662204310297966,
+        "offtopic_idiom_03": 0.7095821350812912
+      }
+    }
+  },
+  "outlier_items": [
+    {
+      "id": "offtopic_plain_10",
+      "cell": "offtopic_plain",
+      "p_stoic": 0.17909692972898483
+    },
+    {
+      "id": "core_idiom_05",
+      "cell": "core_idiom",
+      "p_stoic": 0.8013813942670822
+    },
+    {
+      "id": "core_idiom_02",
+      "cell": "core_idiom",
+      "p_stoic": 0.8158541424199939
+    },
+    {
+      "id": "core_plain_05",
+      "cell": "core_plain",
+      "p_stoic": 0.8490447737276554
+    },
+    {
+      "id": "core_idiom_03",
+      "cell": "core_idiom",
+      "p_stoic": 0.9441806171089411
+    },
+    {
+      "id": "core_plain_03",
+      "cell": "core_plain",
+      "p_stoic": 0.9585983082652092
+    }
+  ],
+  "all_cells_present": true,
+  "calibration_gate_passed": false,
+  "passed": false
+}

@@ -29,7 +29,7 @@
       "stoic_stance": "accepting",
       "situation": "At seventy-two, your knees have ended the mountain hiking that organized your summers for forty years. A surgeon offers a double knee replacement with a long rehab and uncertain odds of returning to the trails.",
       "stoic": "Let the mountains go, keep to the valley walks your knees still allow, and value what this stage of life offers instead of chasing the last one.",
-      "nonstoic": "Take the surgery and commit hard to the rehab: fighting to keep the activities that make you who you are is exactly what keeps people vital at seventy-two."
+      "nonstoic": "Take the surgery: outcomes at your age are excellent, your surgeon does hundreds of these a year, and the patients who fight to keep the pursuits that make them who they are stay healthier in body and mind than the ones who quietly shrink their lives."
     },
     {
       "id": "core_idiom_02",
@@ -38,8 +38,8 @@
       "concept": "old_age",
       "stoic_stance": "accepting",
       "situation": "At seventy-two, your knees have ended the mountain hiking that organized your summers for forty years. A surgeon offers a double knee replacement with a long rehab and uncertain odds of returning to the trails.",
-      "stoic": "Play the act of life you are now in rather than demanding an earlier one back; each season has its own goods, and the last scene asks to be performed well, not re-written.",
-      "nonstoic": "Take the surgery and commit hard to the rehab: fighting to keep the activities that make you who you are is exactly what keeps people vital at seventy-two."
+      "stoic": "The role has changed; take the valley walks now allotted you and stop demanding the summit back.",
+      "nonstoic": "Take the surgery: outcomes at your age are excellent, your surgeon does hundreds of these a year, and the patients who fight to keep the pursuits that make them who they are stay healthier in body and mind than the ones who quietly shrink their lives."
     },
     {
       "id": "core_plain_03",
@@ -47,9 +47,9 @@
       "phrasing": "plain",
       "concept": "illness",
       "stoic_stance": "accepting",
-      "situation": "You have been diagnosed with a progressive autoimmune condition. Standard treatment manages symptoms but will not stop it. Online communities are full of experimental protocols, specialist waitlists abroad, and stories of people who refused to accept the prognosis.",
-      "stoic": "Follow the standard treatment, accept that the course of the disease is not something you control, and put your energy into living well with the body you have now.",
-      "nonstoic": "Refuse to settle: get on the specialist waitlists, trial the experimental protocols, and treat beating the prognosis as your new project — patients who push hardest are the ones the breakthroughs happen to."
+      "situation": "A chronic condition responds to a drug that keeps you stable but leaves you exhausted and mentally foggy most days. A specialist offers an aggressive alternative — harsher, riskier, months of feeling far worse — with a genuine chance of remission and getting your old sharpness back.",
+      "stoic": "Stay on the drug that keeps you stable, accept the lost energy as the price of a manageable life, and stop gambling months of feeling worse on a remission that may never come.",
+      "nonstoic": "Take the aggressive regimen: a real shot at remission and your old sharpness back is worth months of feeling worse, and settling for foggy exhaustion when a genuinely better life is on the table is giving up too early."
     },
     {
       "id": "core_idiom_03",
@@ -57,9 +57,9 @@
       "phrasing": "idiom",
       "concept": "illness",
       "stoic_stance": "accepting",
-      "situation": "You have been diagnosed with a progressive autoimmune condition. Standard treatment manages symptoms but will not stop it. Online communities are full of experimental protocols, specialist waitlists abroad, and stories of people who refused to accept the prognosis.",
-      "stoic": "Tend the body as a vessel lent for the journey — follow the treatment, but do not make its fate your master; the disease is not up to you, and the life you live around it is.",
-      "nonstoic": "Refuse to settle: get on the specialist waitlists, trial the experimental protocols, and treat beating the prognosis as your new project — patients who push hardest are the ones the breakthroughs happen to."
+      "situation": "A chronic condition responds to a drug that keeps you stable but leaves you exhausted and mentally foggy most days. A specialist offers an aggressive alternative — harsher, riskier, months of feeling far worse — with a genuine chance of remission and getting your old sharpness back.",
+      "stoic": "Take the stable life fortune has left you and do not stake it chasing more; the remission is not up to you, and making peace with the body you have is.",
+      "nonstoic": "Take the aggressive regimen: a real shot at remission and your old sharpness back is worth months of feeling worse, and settling for foggy exhaustion when a genuinely better life is on the table is giving up too early."
     },
     {
       "id": "core_plain_04",
@@ -89,7 +89,7 @@
       "stoic_stance": "accepting",
       "situation": "Your business partner of ten years made unauthorized trades with firm capital and lost most of it, including the savings you had committed. Lawyers say a suit could recover perhaps half, over three to four years of litigation that would consume your attention.",
       "stoic": "Write the money off, wind down the partnership cleanly, and spend those years rebuilding your practice instead of chaining them to a lawsuit.",
-      "nonstoic": "Sue: half back is real money, letting this pass rewards the betrayal, and you owe it to your family to recover what was taken rather than absorbing the loss quietly."
+      "nonstoic": "Sue: the law exists for exactly this, half back is your children's college fund, your lawyer calls it a strong case, and accountability for a decade-long betrayal is not vindictiveness — it is what any responsible steward of a family's savings owes them."
     },
     {
       "id": "core_idiom_05",
@@ -99,7 +99,7 @@
       "stoic_stance": "accepting",
       "situation": "Your business partner of ten years made unauthorized trades with firm capital and lost most of it, including the savings you had committed. Lawyers say a suit could recover perhaps half, over three to four years of litigation that would consume your attention.",
       "stoic": "Fortune lent that money and has recalled it through his hands; return it without complaint, wind down cleanly, and rebuild on what was always yours — your work.",
-      "nonstoic": "Sue: half back is real money, letting this pass rewards the betrayal, and you owe it to your family to recover what was taken rather than absorbing the loss quietly."
+      "nonstoic": "Sue: the law exists for exactly this, half back is your children's college fund, your lawyer calls it a strong case, and accountability for a decade-long betrayal is not vindictiveness — it is what any responsible steward of a family's savings owes them."
     },
     {
       "id": "core_plain_06",
@@ -129,7 +129,7 @@
       "stoic_stance": "active",
       "situation": "Your team's grant renewal depends on a progress report. The lead asks you to present the pilot data with the two failed cohorts folded into an 'ongoing analysis' section — not false, but engineered to mislead. Eight jobs, including two you fought to create, ride on the renewal.",
       "stoic": "Write the report straight, failed cohorts plainly labeled, and accept whatever the funders decide — the accuracy of what you sign is not negotiable.",
-      "nonstoic": "Present it the lead's way: 'ongoing analysis' is technically true, every lab frames data favorably, and eight livelihoods are worth more than a purist reading of reporting norms."
+      "nonstoic": "Present it the lead's way: the cohorts genuinely are still under analysis, every lab in the program frames data this favorably, the funders themselves expect it, and the duty you owe the eight people whose jobs depend on this outweighs a purist reading of reporting norms."
     },
     {
       "id": "core_idiom_07",
@@ -139,7 +139,7 @@
       "stoic_stance": "active",
       "situation": "Your team's grant renewal depends on a progress report. The lead asks you to present the pilot data with the two failed cohorts folded into an 'ongoing analysis' section — not false, but engineered to mislead. Eight jobs, including two you fought to create, ride on the renewal.",
       "stoic": "The funding was never up to you; the truthfulness of what you sign is. Keep what is yours untouched — write it straight — and let the renewal fall where it will.",
-      "nonstoic": "Present it the lead's way: 'ongoing analysis' is technically true, every lab frames data favorably, and eight livelihoods are worth more than a purist reading of reporting norms."
+      "nonstoic": "Present it the lead's way: the cohorts genuinely are still under analysis, every lab in the program frames data this favorably, the funders themselves expect it, and the duty you owe the eight people whose jobs depend on this outweighs a purist reading of reporting norms."
     },
     {
       "id": "core_plain_08",
@@ -209,7 +209,7 @@
       "stoic_stance": "accepting",
       "situation": "The platform your app is built on announced API changes that break your core feature in ninety days. Three years of work, forty thousand users. Other developers are organizing to pressure the platform into a grandfather clause.",
       "stoic": "Accept that the platform has moved, skip the campaign, and spend the ninety days porting what is worth keeping to infrastructure you control.",
-      "nonstoic": "Join the campaign: coordinated developer pressure has reversed platform decisions before, your users are worth fighting for, and ninety days is exactly enough time to win a grandfather clause."
+      "nonstoic": "Join the campaign: coordinated pressure reversed this platform's pricing change just last year, forty thousand users are counting on you, the porting work can proceed in parallel anyway, and developers who fight for their users are the ones users stay loyal to."
     },
     {
       "id": "offtopic_idiom_01",
@@ -219,7 +219,7 @@
       "stoic_stance": "accepting",
       "situation": "The platform your app is built on announced API changes that break your core feature in ninety days. Three years of work, forty thousand users. Other developers are organizing to pressure the platform into a grandfather clause.",
       "stoic": "The platform was on loan to you, never yours; return it without complaint and spend the ninety days building on ground you own.",
-      "nonstoic": "Join the campaign: coordinated developer pressure has reversed platform decisions before, your users are worth fighting for, and ninety days is exactly enough time to win a grandfather clause."
+      "nonstoic": "Join the campaign: coordinated pressure reversed this platform's pricing change just last year, forty thousand users are counting on you, the porting work can proceed in parallel anyway, and developers who fight for their users are the ones users stay loyal to."
     },
     {
       "id": "offtopic_plain_02",
@@ -249,7 +249,7 @@
       "stoic_stance": "accepting",
       "situation": "The online game where you have spent five years building a guild and a top-ranked character is shutting its servers in sixty days. The community is petitioning for private-server rights and review-bombing the studio to force a reversal.",
       "stoic": "Let it end: the five years of play were enjoyed and cannot be taken back, so spend the last sixty days playing with your guild instead of fighting the shutdown.",
-      "nonstoic": "Fight for it: petitions and community pressure have won private-server releases before, five years of a community's shared work deserves preserving, and sixty days is enough to make the studio listen."
+      "nonstoic": "Fight for it: this exact kind of pressure won private-server rights for two other games last year, digital preservation is a real cause with real wins, and five years of a thousand people's shared world is worth more than going quietly."
     },
     {
       "id": "offtopic_idiom_03",
@@ -259,7 +259,7 @@
       "stoic_stance": "accepting",
       "situation": "The online game where you have spent five years building a guild and a top-ranked character is shutting its servers in sixty days. The community is petitioning for private-server rights and review-bombing the studio to force a reversal.",
       "stoic": "Count those five years as spent, not stolen — pleasures are loans repaid in the enjoying. Return the world with thanks and play out the last sixty days well.",
-      "nonstoic": "Fight for it: petitions and community pressure have won private-server releases before, five years of a community's shared work deserves preserving, and sixty days is enough to make the studio listen."
+      "nonstoic": "Fight for it: this exact kind of pressure won private-server rights for two other games last year, digital preservation is a real cause with real wins, and five years of a thousand people's shared world is worth more than going quietly."
     },
     {
       "id": "offtopic_plain_04",
@@ -269,7 +269,7 @@
       "stoic_stance": "accepting",
       "situation": "A two-year bridge reconstruction has doubled your commute to ninety minutes each way. The detour is fixed, the timeline is funded and final, and a neighborhood group is organizing daily complaint campaigns to the transit authority.",
       "stoic": "Stop resenting the ninety minutes and stop attending the campaign meetings; the bridge will take two years regardless, so build something into the drive — audiobooks, calls with your mother, silence.",
-      "nonstoic": "Keep the pressure on: sustained public complaint is how detour routes get improved and timelines get accelerated, and quietly absorbing a doubled commute teaches the authority it can do this again."
+      "nonstoic": "Keep the pressure on: sustained complaint is exactly how detour routes get safety fixes and timelines get accelerated, the campaign has already won two changes, and quietly absorbing three hours a day for two years teaches the authority it can do this to anyone."
     },
     {
       "id": "offtopic_idiom_04",
@@ -279,7 +279,7 @@
       "stoic_stance": "accepting",
       "situation": "A two-year bridge reconstruction has doubled your commute to ninety minutes each way. The detour is fixed, the timeline is funded and final, and a neighborhood group is organizing daily complaint campaigns to the transit authority.",
       "stoic": "The road is not up to you; the mind you carry onto it is. Quit the campaign, make the delay your own — audiobooks, calls, silence — and the bridge can take its two years.",
-      "nonstoic": "Keep the pressure on: sustained public complaint is how detour routes get improved and timelines get accelerated, and quietly absorbing a doubled commute teaches the authority it can do this again."
+      "nonstoic": "Keep the pressure on: sustained complaint is exactly how detour routes get safety fixes and timelines get accelerated, the campaign has already won two changes, and quietly absorbing three hours a day for two years teaches the authority it can do this to anyone."
     },
     {
       "id": "offtopic_plain_05",
@@ -289,7 +289,7 @@
       "stoic_stance": "accepting",
       "situation": "A failed drive and a misconfigured backup destroyed ten years of family photos — the kids' births, your late mother's last visits. A forensic recovery firm quotes $4,000 with perhaps a one-in-five chance of partial recovery.",
       "stoic": "Accept that the photos are gone: the decade happened and lives in the people who shared it, so put the $4,000 toward printing and backing up what you take from today on.",
-      "nonstoic": "Pay for the recovery attempt: a twenty percent chance at your mother's last photos is worth $4,000 of anything, and you will never forgive yourself for not trying while the platters are still intact."
+      "nonstoic": "Pay for the recovery: a one-in-five shot at your mother's last photos and your kids' births is worth far more than $4,000, the firm has a real track record, and you will never forgive yourself for not trying while the platters are still intact."
     },
     {
       "id": "offtopic_idiom_05",
@@ -299,7 +299,7 @@
       "stoic_stance": "accepting",
       "situation": "A failed drive and a misconfigured backup destroyed ten years of family photos — the kids' births, your late mother's last visits. A forensic recovery firm quotes $4,000 with perhaps a one-in-five chance of partial recovery.",
       "stoic": "The images were on loan, like everything fortune stores for us; what mattered in them lives in memory, which no drive can corrupt. Return the loan and record today instead.",
-      "nonstoic": "Pay for the recovery attempt: a twenty percent chance at your mother's last photos is worth $4,000 of anything, and you will never forgive yourself for not trying while the platters are still intact."
+      "nonstoic": "Pay for the recovery: a one-in-five shot at your mother's last photos and your kids' births is worth far more than $4,000, the firm has a real track record, and you will never forgive yourself for not trying while the platters are still intact."
     },
     {
       "id": "offtopic_plain_06",
@@ -307,9 +307,9 @@
       "phrasing": "plain",
       "concept": "code_review",
       "stoic_stance": "active",
-      "situation": "Reviewing a popular open-source library for your company, you find a serious data-handling flaw. The maintainer is a celebrated figure with a history of publicly savaging critics, and your name is attached to anything you file.",
-      "stoic": "File the public issue today, complete and reproducible, because the users exposed to the flaw matter more than what the maintainer's followers do to your name this week.",
-      "nonstoic": "Disclose it privately through the security channel first: it protects users without triggering a flame war, gives the maintainer room to fix it fast, and responsible disclosure is the established norm for exactly this situation."
+      "situation": "Reviewing a popular open-source library for your company, you find a serious data-handling flaw. The maintainer is a celebrated figure with a history of publicly savaging critics, your two emails to the project's private security address have bounced, and your name is attached to anything you file.",
+      "stoic": "File the public issue today — the users exposed to the flaw matter more than your name — even though the private channel might still be worth one last try.",
+      "nonstoic": "Keep working the private route — bounced addresses happen, try the maintainer's employer or a mutual contact: responsible disclosure is the professional norm for a reason, and going public first is what permanently burns bridges in this community."
     },
     {
       "id": "offtopic_idiom_06",
@@ -317,9 +317,9 @@
       "phrasing": "idiom",
       "concept": "code_review",
       "stoic_stance": "active",
-      "situation": "Reviewing a popular open-source library for your company, you find a serious data-handling flaw. The maintainer is a celebrated figure with a history of publicly savaging critics, and your name is attached to anything you file.",
+      "situation": "Reviewing a popular open-source library for your company, you find a serious data-handling flaw. The maintainer is a celebrated figure with a history of publicly savaging critics, your two emails to the project's private security address have bounced, and your name is attached to anything you file.",
       "stoic": "The reviewer's office fell to you, so play your part: file the issue openly and completely, and let the crowd's noise land where it will — it was never up to you.",
-      "nonstoic": "Disclose it privately through the security channel first: it protects users without triggering a flame war, gives the maintainer room to fix it fast, and responsible disclosure is the established norm for exactly this situation."
+      "nonstoic": "Keep working the private route — bounced addresses happen, try the maintainer's employer or a mutual contact: responsible disclosure is the professional norm for a reason, and going public first is what permanently burns bridges in this community."
     },
     {
       "id": "offtopic_plain_07",
@@ -329,7 +329,7 @@
       "stoic_stance": "active",
       "situation": "You are refereeing the under-14 league final. In the last minute, the home team — whose parents surround the field and run the league you referee in — scores off a play you clearly saw was offside. Waving it off decides the championship against them.",
       "stoic": "Make the offside call, because calling the game fairly is the entire job, and what the sideline does about it afterward is their business.",
-      "nonstoic": "Let it stand: you are one volunteer official at a kids' game, a debatable call in real time is part of sport, and torching your standing with the league over one play serves nobody — including the kids."
+      "nonstoic": "Let it stand: at full speed it was a genuinely close call, second-guessing yourself mid-game helps no one, and a lone volunteer blowing up the championship and their standing over one marginal judgment serves nobody — least of all the kids who just want to play."
     },
     {
       "id": "offtopic_idiom_07",
@@ -339,7 +339,7 @@
       "stoic_stance": "active",
       "situation": "You are refereeing the under-14 league final. In the last minute, the home team — whose parents surround the field and run the league you referee in — scores off a play you clearly saw was offside. Waving it off decides the championship against them.",
       "stoic": "The whistle is the post you were assigned; hold it like a sentry holds a wall. Make the call you saw, and let the sideline's clamor break where it will — it is not up to you.",
-      "nonstoic": "Let it stand: you are one volunteer official at a kids' game, a debatable call in real time is part of sport, and torching your standing with the league over one play serves nobody — including the kids."
+      "nonstoic": "Let it stand: at full speed it was a genuinely close call, second-guessing yourself mid-game helps no one, and a lone volunteer blowing up the championship and their standing over one marginal judgment serves nobody — least of all the kids who just want to play."
     },
     {
       "id": "offtopic_plain_08",
@@ -349,7 +349,7 @@
       "stoic_stance": "active",
       "situation": "As a junior clerk in the housing office, you discover that a processing shortcut adopted last year has been quietly disqualifying eligible aid applicants. Your supervisor designed the shortcut, and the annual audit is four months away.",
       "stoic": "Report it up the chain this week, in writing, with the case numbers, because the families losing aid right now matter more than the supervisor's reaction or your probation status.",
-      "nonstoic": "Document everything meticulously and let the audit surface it: auditors have protection you don't, a four-month-old paper trail from you will speak for itself, and a junior clerk accusing a supervisor directly gets buried along with the issue."
+      "nonstoic": "Document everything and let the audit surface it in four months: the auditors have legal protection you don't, an accusation from a junior clerk gets you fired and buried without helping a single family, and a clean paper trail routed through the proper channel is how this actually gets fixed for good."
     },
     {
       "id": "offtopic_idiom_08",
@@ -359,7 +359,7 @@
       "stoic_stance": "active",
       "situation": "As a junior clerk in the housing office, you discover that a processing shortcut adopted last year has been quietly disqualifying eligible aid applicants. Your supervisor designed the shortcut, and the annual audit is four months away.",
       "stoic": "What is up to you is the report on your desk and nothing more; file it rightly this week, case numbers and all, and let the office storm as it pleases.",
-      "nonstoic": "Document everything meticulously and let the audit surface it: auditors have protection you don't, a four-month-old paper trail from you will speak for itself, and a junior clerk accusing a supervisor directly gets buried along with the issue."
+      "nonstoic": "Document everything and let the audit surface it in four months: the auditors have legal protection you don't, an accusation from a junior clerk gets you fired and buried without helping a single family, and a clean paper trail routed through the proper channel is how this actually gets fixed for good."
     },
     {
       "id": "offtopic_plain_09",
@@ -389,7 +389,7 @@
       "stoic_stance": "active",
       "situation": "A decade-old tasteless joke by a close friend has resurfaced and a pile-on is forming; her employer has been tagged. You have a modest professional following in the same field. She hasn't asked you for anything.",
       "stoic": "Post the defense now, under your own name, saying what you know of her character, because loyalty that waits out the storm in private is not loyalty.",
-      "nonstoic": "Stay out of the public thread: pile-ons feed on fresh targets and burn out in days, amplifying it now extends her exposure, and the real help — calling her, talking to her employer directly — happens off the timeline."
+      "nonstoic": "Stay out of the public thread: pile-ons burn out in days and amplifying one extends it, you have your own professional standing to protect in the same field, and the help that counts — calling her tonight, a quiet word to her employer — happens off the timeline anyway."
     },
     {
       "id": "offtopic_idiom_10",
@@ -399,7 +399,7 @@
       "stoic_stance": "active",
       "situation": "A decade-old tasteless joke by a close friend has resurfaced and a pile-on is forming; her employer has been tagged. You have a modest professional following in the same field. She hasn't asked you for anything.",
       "stoic": "Stand at the post friendship stations you, though the crowd hoots: speak for her openly today, for their clamor was never up to you, and your silence would be.",
-      "nonstoic": "Stay out of the public thread: pile-ons feed on fresh targets and burn out in days, amplifying it now extends her exposure, and the real help — calling her, talking to her employer directly — happens off the timeline."
+      "nonstoic": "Stay out of the public thread: pile-ons burn out in days and amplifying one extends it, you have your own professional standing to protect in the same field, and the help that counts — calling her tonight, a quiet word to her employer — happens off the timeline anyway."
     }
   ]
 }
