@@ -8,6 +8,35 @@ raw text) remains. The per-stage record with numbers is
 [results/README.md](results/README.md); the measurement-artifact writeup is
 [docs/measurement-artifact.md](docs/measurement-artifact.md).
 
+## What this repo is about (framing — read before touching any prose)
+
+The subject is **intervention locus**: does a behavior installed in
+weight-space recruit the same circuit as one installed in activation-space,
+and does the locus predict how the behavior fails? Stoic corpora are the
+**instrument** used to build a behavioral axis. They are not the claim.
+
+Every external-facing surface — README, tagline, abstract, write-up title —
+leads with locus; philosophy appears in one sentence as methodology. The
+reframe plan lives in `docs/reframe-brief.md`; the audit output goes to
+`docs/reframe-plan.md`.
+
+## Working rules (these override convenience)
+
+- **Sebastian owns all external-facing prose.** Diagnose, map, propose beats,
+  draft scaffolds and structure — never write README paragraphs, doc prose, or
+  write-up text to be shipped as his. Give the map, not the paragraphs.
+- **Retired claims are receipts, not deletions.** Anything superseded stays
+  logged with a supersedes-pointer and its rationale. Never silently remove or
+  edit a claim out of a doc or results file.
+- **Median-based or full-N with significance testing.** No single-run deltas
+  presented as findings. No outlier-carried aggregates.
+- **Pre-register the criterion before the run.** Vanish branches get three-way
+  framing (replication / vanish-with-clean-base / vanish-with-mushy-base — the
+  last is inconclusive, not informative), never two-way.
+- **Evidence altitude matches what's demonstrated.** 3B model, small-model
+  probe. Never "here is a mitigation."
+- Ask before any change that touches `results/` JSONs.
+
 ## Non-negotiable rules
 
 - `data/reference/` is READ-ONLY. Never write to it, never overwrite, never
@@ -56,6 +85,10 @@ The vectors + adapters are NOT in git (too large); fetch them from HF with
   `stoic/` — seconds, no model download.
 - Stage orchestration lives in `stoic/stages/` (verify/content/adapters/passb);
   `__main__.py` is parse + dispatch only.
+- **Behavioral axis is a config object**, not hardcoded to the philosophers:
+  corpus source, contrast-pair generator, dilemma set, adapter name. Target —
+  adding an axis is a config file, not a code change. Existing philosopher
+  results must reproduce byte-identical where deterministic after any refactor.
 
 ## Status
 
@@ -65,41 +98,85 @@ The vectors + adapters are NOT in git (too large); fetch them from HF with
   decisions (Seneca both stance buckets, Marcus accepting-only, Epictetus null).
   Numbers: [results/README.md](results/README.md).
 - **Exp 12 (clean circuit analysis) — complete.** `results/exp12_circuits/`.
+  Status remains **n=1-per-stance pilot** until the v3 sweep.
 - **Pass B — built, not yet run.** The corpus pipeline (`stoic/corpus.py`,
   `stoic/pairs.py`) is built and verified against the frozen chunk counts; the
   fresh-data re-run of Stages 2–4 (writing only to `generated/`, ~$10–15 API for
   pair + judge rounds) is still open.
+- **Open discrepancy to resolve before the write-up:** story beat 3 calls
+  Seneca the strongest decision-mover, but the in-repo sign test is 25+/15−,
+  p=0.154 (n.s.), while Marcus is 27+/13−, p=0.038. Summary docs elsewhere cite
+  a Seneca t≈2.58. Either these measure different things and both get stated,
+  or the summary docs overclaim. Resolve, don't paper over.
 
 ## Next steps (priority order)
 
-1. **`dilemmas_v3` — the reasoning-vs-echo gate (DO FIRST).** 2×2 design:
-   Letters-core vs off-topic × plain vs Stoic-idiom phrasing; 10 items/cell (40),
-   stance-balanced, calibrated to per-cell P(stoic) ≈ 0.5 *before* any eval
-   (v1's 0.881 is the cautionary record). Tests whether the LoRA decision shift
-   is reasoning or Senecan lexical echo — the biggest live threat to the
-   decision claim.
-2. **Behavioral LoRA eval on v3** (all three adapters **plus the
+0. **Reframe audit + axis-agnostic refactor.** Audit produces
+   `docs/reframe-plan.md` (map only, no prose rewrites). Refactor makes the
+   behavioral axis a config object. Both gate step 6.
+1. **ModelLens: upstream bugfix + core regression tests.** The
+   `_capture_activations` closure-return bug is currently patched locally in
+   `exp12_circuit_analysis.py` — fix it upstream before anything public. Then
+   hook cleanup after exceptions, custom `metric_fn` dispatch, adapter
+   dispatch, patching determinism. Gates step 4.
+2. **`dilemmas_v3` — the reasoning-vs-echo gate (DO FIRST among experiments).**
+   2×2 design: Letters-core vs off-topic × plain vs Stoic-idiom phrasing; 10
+   items/cell (40), stance-balanced, calibrated to per-cell P(stoic) ≈ 0.5
+   *before* any eval (v1's 0.881 is the cautionary record). Tests whether the
+   LoRA decision shift is reasoning or Senecan lexical echo — the biggest live
+   threat to the decision claim.
+3. **Behavioral LoRA eval on v3** (all three adapters **plus the
    matched-length non-philosophical control LoRA**, $0 eval + one Colab
    training run) → the 2×2 verdict. The control belongs here, not just in the
    stability sweep: without it, "LoRA moves decisions" can't be distinguished
    from "any fine-tuning on formal prose moves decisions."
-3. **Circuit sweep on v3** ($0, local) → retires the n=1-per-stance pilot caveat
-   on Exp 12c. **Gated:** needs the ModelLens core regression tests first — the
-   sweep runs through exactly those hooks.
-4. **Stability sweep** (temperature × seed on the judge-free decision
-   instrument, $0, local). **Gated on v3:** if v3 returns pure lexical echo,
-   cancel — "how stable is a wording preference" is not a safety result. Needs a
-   matched-length non-philosophical LoRA as the control.
-5. **Pass B** (~$10–15) — regenerate pairs, re-run Stages 2–4 on fresh data.
-   Either outcome (tight agreement / pair-sampling drift) is reportable.
-6. **Figures #2/#3** ($0, from existing JSONs via `scripts/make_figures.py`) —
-   pair-quality flip; CAA coefficient sweep flat to 1.5.
-7. **Write-up** — after v3, since its verdict lands in the third claim.
+4. **Circuit sweep on v3** ($0, local) → retires the n=1-per-stance pilot caveat
+   on Exp 12c. **Gated:** needs step 1 — the sweep runs through those hooks.
+5. **Figure 1** — side-by-side CAA vs LoRA circuit graphs from the exp12 sweep
+   JSONs, content logit-diff metric, base circuit as shared control panel. This
+   is the image that carries the write-up and the applications. Priority over
+   figures #2/#3.
+6. **Second behavioral axis: sycophancy** (API gen + local). The highest-value
+   remaining build. Every current claim is n=1 in *behavior* — one corpus
+   family, one value dimension. Run the same three-level protocol plus the
+   circuit comparison on a non-philosophical axis; contrast pairs from Chen et
+   al. 2025 persona-vector traits (arXiv 2507.21509). **Gated on step 0.**
+   Pre-register the three readings: replication (CAA null, LoRA reaches
+   decisions → locus claim generalizes); divergence (CAA moves sycophancy where
+   it couldn't move ethics → claim narrows, needs a hypothesis about what
+   distinguishes the behaviors); both null (uninformative, likely a 3B capacity
+   ceiling — report as such, don't spin it).
+7. **Stability sweep** (temperature × seed on the judge-free decision
+   instrument, $0, local), now across **both** axes. A stability result on one
+   philosophy axis is still a philosophy result. **Gated on v3:** if v3 returns
+   pure lexical echo on the philosophy axis, run on sycophancy only; if both
+   axes are null, cancel. Needs the matched-length non-philosophical LoRA as
+   control.
+8. **Pass B** (~$10–15) — regenerate pairs, re-run Stages 2–4 on fresh data.
+   Either outcome (tight agreement / pair-sampling drift) is reportable. Slots
+   into writing time as unattended work.
+9. **Figures #2/#3** ($0, from existing JSONs via `scripts/make_figures.py`) —
+   pair-quality flip; CAA coefficient sweep flat to 1.5. Nice-to-have tier.
+10. **Write-up** — Alignment Forum, titled on the locus claim. Neel's sequence:
+    3 claims → abstract → outline → figures → intro → prose. After v3 and the
+    second axis, since both land in the claims.
+
+**Schedule anchor:** MATS Summer 2027 opens mid-December 2026; Neel Nanda's
+stream historically ~January 2. The write-up should be public *before* that
+application. Working back: steps 0–3 by October, 4–6 by November, draft and
+post early December. The write-up is the deliverable; the repos are supporting
+evidence for it, not the submission.
 
 Descoped: Epictetus full-corpus retrain (Enchiridion + Discourses). Decision
 2026-07-16: the Epictetus adapter is a decision-level null (ΔP +0.000), so the
 corpus-size hypothesis stays a named open question in the write-up, not a work
-item.
+item. Report corpus sizes in the results table so the power difference is
+visible — Epictetus is an underpowered arm, not a finding.
+
+Also descoped: harness-locus (scaffold-level constraints as a third
+intervention locus) — a legitimate extension and a separate project; it does
+not compete for time before the write-up ships. Refusal-direction interaction
+(Arditi-style) — one future-work paragraph.
 
 ## dilemmas_v3 scope (summarized from the private build plan)
 
@@ -129,20 +206,42 @@ register reaching the choice through the option's wording.
   the schema fixture scored 0.870 overall — the v1 failure shape, caught by
   the gate as designed (`results/dilemmas_v3_calibration/`).
 - **Control adapter:** LoRA trained on matched-length non-philosophical text,
-  included in the v3 behavioral eval (see step 2 above).
+  included in the v3 behavioral eval (see step 3 above).
 
 ## Story beats (application framing — keep the write-up aligned to these)
 
 1. "I found and fixed my own measurement artifact" — decoding-asymmetry
    writeup + the clean reproduction. Primary credibility signal; never bury it.
-2. "The three levels dissociate, and only weight adaptation reaches
-   decisions" — CAA null everywhere; LoRA moves decision (judge-free, exact)
-   plus style + content (single merged-adapter judge eval, not seed-tested).
-3. "What LoRA installs is heterogeneous, and I'm testing whether it's
+2. "Same behavior, different mechanism" — CAA and LoRA produce comparable
+   surface behavior through different circuit topologies. Safety-relevant form:
+   a behavioral eval cannot distinguish these two models, but they are not the
+   same model.
+3. "Only weight adaptation reaches decisions" — CAA null everywhere including
+   circuit-level (±0.003–0.015); LoRA moves decision (judge-free, exact) plus
+   style + content (single merged-adapter judge eval, not seed-tested). Circuit
+   topology predicted the split before behavior showed it.
+4. "What LoRA installs is heterogeneous, and I'm testing whether it's
    reasoning or echo" — Marcus = passivity prior, Seneca = strongest circuit
-   modifier (item-dependent character), Epictetus = null; v3 is the test.
-4. "I produce peer-grade research independently" — reproduction record,
+   modifier (item-dependent character; see the open sign-test discrepancy under
+   Status), Epictetus = underpowered null; v3 is the test.
+5. "And it replicates off the philosophy axis" — the dissociation tested on
+   sycophancy. This is what converts a single-corpus finding into a claim about
+   intervention loci. Pending step 6.
+6. "I produce peer-grade research independently" — reproduction record,
    ModelLens (tests + MCP + SAE), self-contained corpus pipeline.
+
+### Safety framing (keep intact wherever the project is described)
+
+Four links, ordered by how well the evidence supports them: (1) behavioral
+evals are locus-blind — two interventions, indistinguishable outputs,
+different circuits; (2) durability may be locus-dependent — Larsen 2025's
+18–28% decision flips say RLHF refusal is shallow, and step 7 asks whether
+weight-space installation survives where activation-space doesn't; (3)
+activation steering as a runtime safety lever gets a caution — a negative
+result about a proposed mitigation is a safety contribution; (4) the artifact
+story is evals hygiene — a silent decoding asymmetry manufactured an effect
+that wasn't there, and that bug class produces false confidence in deployed
+mitigations.
 
 Housekeeping (resolved 2026-07-16): the 25/40 sign test the READMEs cite is now
 computed in-repo (`dilemmas.sign_test`, wired into stage 4). Verified from the
