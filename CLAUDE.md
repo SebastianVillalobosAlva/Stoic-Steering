@@ -1,12 +1,15 @@
-# CLAUDE.md — Stoic LLM (Clean Rebuild)
+# CLAUDE.md — Stoic-Steering
 
-This project rebuilds the Stoic-steering pipeline from scratch as a clean,
-understandable package and re-measures its headline results under matched
-decoding. The clean reproduction (Pass A, Stages 0–4) and the clean circuit
-analysis (Exp 12) are **complete and verified** — only Pass B (regenerate from
-raw text) remains. The per-stage record with numbers is
-[results/README.md](results/README.md); the measurement-artifact writeup is
-[docs/measurement-artifact.md](docs/measurement-artifact.md).
+This repo compares two ways of installing a behavior in Llama-3.2-3B:
+activation addition (CAA) and low-rank weight adaptation (LoRA). Effects are
+measured at three levels — style, content, and a judge-free forced-choice
+decision instrument — and at the circuit level. Stoic corpora build the
+behavioral axis; they are the instrument, not the subject.
+
+Everything is measured under one canonical decoding setting. Pass A (Stages
+0–4) and the circuit analysis (Exp 12) are complete and verified. Current work
+is in Next steps below. Per-stage numbers: [results/README.md](results/README.md).
+Measurement-artifact writeup: [docs/measurement-artifact.md](docs/measurement-artifact.md).
 
 ## What this repo is about (framing — read before touching any prose)
 
