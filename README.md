@@ -1,8 +1,10 @@
 # Weight space vs Activation space - Do they install the same behavior?
 
-Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on the same behavioral axis. Different circuits, and only LoRA reaches decisions.
+Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on the same behavioral axis. Only LoRA changes the circuit, and reaches decisions.
 
 **Core finding:** the two methods give different results. Under matched decoding at coefficient 0.11, LoRA (weight-space) moves the judge-free decision instrument, plus judge-scored style and content (single eval, not seed-tested). CAA (activation-space) moves none of them, even though the circuits do change. The earlier positive CAA effects were a measurement artifact [docs/measurement-artifact.md](docs/measurement-artifact.md).
+
+**Core finding:** the two methods give different results. Under matched decoding at coefficient 0.11, LoRA moves the judge-free decision instrument, plus judge-scored style and content (single eval). CAA moves none of them, and leaves the circuit unchanged too. See the artifact for more details - [docs/measurement-artifact.md](docs/measurement-artifact.md).
 
 ![Three-depths dissociation — CAA is flat at style, content, and decision; LoRA moves all three (Epictetus decision null)](results/figures/fig_three_depths.png)
 
@@ -43,7 +45,7 @@ Three depths of effect are measured separately:
 -   **Content / reasoning** -- LLM-judge scoring of reasoning in prose
 -   **Decision / choice** -- judge-free forced-choice probe over calibrated dilemmas (does the model *pick* the Stoic option?)
 
-Two methods are compared: **CAA** (runtime activation steering) and **LoRA** (fine-tuned adapter weights). Both are analyzed with **ModelLens**, an architecture-agnostic interpretability toolkit (companion project), to compare the circuit topology of the two methods -- including the case where CAA changes circuits without moving behavior at any of the three depths.
+Two methods are compared: **CAA** and **LoRA**. Both are analyzed with **ModelLens**, an architecture-agnostic interpretability toolkit (companion project) to compare the circuit topology
 
 Corpora: Marcus Aurelius, Seneca, Epictetus. Three authors used to build contrast pairs along one behavioral axis. Every result here is in behavior (one value dimension). Sycophancy is the planned second axis, and it is what tests whether the locus result holds outside this one.
 

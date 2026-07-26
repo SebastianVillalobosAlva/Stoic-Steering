@@ -212,10 +212,15 @@ register reaching the choice through the option's wording.
 
 1. "I found and fixed my own measurement artifact" — decoding-asymmetry
    writeup + the clean reproduction. Primary credibility signal; never bury it.
-2. "Same behavior, different mechanism" — CAA and LoRA produce comparable
-   surface behavior through different circuit topologies. Safety-relevant form:
-   a behavioral eval cannot distinguish these two models, but they are not the
-   same model.
+2. "One method changes the circuit, the other changes nothing" — CAA at coeff
+   0.11 leaves the stoic-content circuit essentially untouched (deviations from
+   base are within threshold-flicker size), while LoRA shifts clean logit diff
+   by up to 1.43 and drops up to 7 nodes. Same split as the behavior. n=2 items
+   — pilot, not settled, until the v3 sweep. **Supersedes** the earlier beat 2
+   ("CAA and LoRA produce comparable surface behavior through different circuit
+   topologies"), which was written pre-null and is contradicted by Exp 12: CAA
+   has no behavioral effect to be comparable with, and no circuit effect to
+   differ by.
 3. "Only weight adaptation reaches decisions" — CAA null everywhere including
    circuit-level (±0.003–0.015); LoRA moves decision (judge-free, exact) plus
    style + content (single merged-adapter judge eval, not seed-tested). Circuit
@@ -232,16 +237,14 @@ register reaching the choice through the option's wording.
 
 ### Safety framing (keep intact wherever the project is described)
 
-Four links, ordered by how well the evidence supports them: (1) behavioral
-evals are locus-blind — two interventions, indistinguishable outputs,
-different circuits; (2) durability may be locus-dependent — Larsen 2025's
-18–28% decision flips say RLHF refusal is shallow, and step 7 asks whether
-weight-space installation survives where activation-space doesn't; (3)
-activation steering as a runtime safety lever gets a caution — a negative
-result about a proposed mitigation is a safety contribution; (4) the artifact
-story is evals hygiene — a silent decoding asymmetry manufactured an effect
-that wasn't there, and that bug class produces false confidence in deployed
-mitigations.
+Three links, ordered by how well the evidence supports them: (1) durability may
+be locus-dependent — Larsen 2025's 18–28% decision flips say RLHF refusal is
+shallow, and the stability sweep asks whether weight-space installation
+survives where activation-space doesn't; (2) activation steering as a runtime
+safety lever gets a caution — a negative result about a proposed mitigation is
+a safety contribution; (3) the artifact story is evals hygiene — a silent
+decoding asymmetry manufactured an effect that wasn't there, and that bug class
+produces false confidence in deployed mitigations.
 
 Housekeeping (resolved 2026-07-16): the 25/40 sign test the READMEs cite is now
 computed in-repo (`dilemmas.sign_test`, wired into stage 4). Verified from the
