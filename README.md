@@ -2,8 +2,6 @@
 
 Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on the same behavioral axis. Only LoRA changes the circuit, and reaches decisions.
 
-**Core finding:** the two methods give different results. Under matched decoding at coefficient 0.11, LoRA (weight-space) moves the judge-free decision instrument, plus judge-scored style and content (single eval, not seed-tested). CAA (activation-space) moves none of them, even though the circuits do change. The earlier positive CAA effects were a measurement artifact [docs/measurement-artifact.md](docs/measurement-artifact.md).
-
 **Core finding:** the two methods give different results. Under matched decoding at coefficient 0.11, LoRA moves the judge-free decision instrument, plus judge-scored style and content (single eval). CAA moves none of them, and leaves the circuit unchanged too. See the artifact for more details - [docs/measurement-artifact.md](docs/measurement-artifact.md).
 
 ![Three-depths dissociation — CAA is flat at style, content, and decision; LoRA moves all three (Epictetus decision null)](results/figures/fig_three_depths.png)
