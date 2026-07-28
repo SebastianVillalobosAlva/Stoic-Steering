@@ -8,8 +8,10 @@ venv/
 # Secrets
 .env
 
-# OS
+# OS / editor / session junk
 .DS_Store
+.Rhistory
+**/.Rhistory
 
 # Internal planning docs — not for GitHub
 /REPRODUCTION_PLAN.md
