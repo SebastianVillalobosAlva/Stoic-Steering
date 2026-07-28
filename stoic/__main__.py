@@ -8,7 +8,8 @@ Pass A, Stage 0-2 checkpoints (all $0, local CPU):
     python -m stoic all        # run 0,1,2 in one model load
 
 Each command writes one JSON checkpoint under results/<stage>/. Stage logic
-lives in stoic/stages/; this module only parses arguments and dispatches.
+lives in stoic/stages/; this module only parses arguments and dispatches. The
+authoritative command -> module map is the stoic/stages/__init__.py docstring.
 
 --- Why the axis is bound before the imports below ---
 
@@ -139,7 +140,7 @@ def main():
         pairs_stage(args.num_pairs)
         return
     if args.cmd == "calibrate" and args.validate_only:
-        from stoic.calibrate import load_candidates, validate_items
+        from stoic.calibration import load_candidates, validate_items
 
         items = load_candidates(args.items)
         problems = validate_items(items, cell_size=args.cell_size)

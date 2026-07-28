@@ -1,5 +1,8 @@
 """dilemmas_v3 calibration stage — validate candidates, score on base, gate.
 
+Command: `calibrate`. The maths lives in stoic/calibration.py; this module is
+the stage around it (see stoic/stages/__init__.py for the full map).
+
 $0, local CPU, judge-free (same one-forward-pass instrument as the v2 ruler).
 Reads candidate items from data/generated/ (or --items); writes a calibration
 report JSON under results/dilemmas_v3_calibration/. Never touches reference/.
@@ -10,7 +13,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from stoic.axis import ACTIVE
-from stoic.calibrate import (
+from stoic.calibration import (
     CELLS,
     STANCES,
     calibration_report,

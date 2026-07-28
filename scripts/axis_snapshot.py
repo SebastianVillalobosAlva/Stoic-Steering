@@ -119,7 +119,7 @@ def rel(path) -> str:
 # --- artifact 11: config surface (no model) -------------------------------
 
 def collect_config_surface() -> dict:
-    from stoic import calibrate as cal
+    from stoic import calibration as cal
     from stoic import config, judge, lora, pairs
     from stoic.dilemmas import PROMPT_TEMPLATE, load_dilemmas
 
@@ -375,7 +375,7 @@ def collect_stage4(model, tokenizer, dilemmas, baseline) -> dict:
 
 def collect_calibration(model, tokenizer) -> dict:
     from stoic import config
-    from stoic.calibrate import calibration_report, load_candidates, validate_items
+    from stoic.calibration import calibration_report, load_candidates, validate_items
     from stoic.dilemmas import eval_dilemmas
 
     path = config.GENERATED_DIR / "dilemmas_v3_candidates.json"

@@ -1,5 +1,7 @@
 """Stage 3 + style validation — the Gemini-judged effects under matched decoding.
 
+Commands: `stage3`, `style` (see stoic/stages/__init__.py for the full map).
+
 Both cost $ (judge API) and require GEMINI_API_KEY. These are the stages where
 the original measurement artifact lived; every generation here routes through
 the one canonical `generate()` so both sides of every comparison decode

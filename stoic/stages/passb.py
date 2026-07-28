@@ -1,5 +1,7 @@
 """Pass B — regenerate the pipeline's inputs from raw text.
 
+Commands: `corpus`, `pairs` (see stoic/stages/__init__.py for the full map).
+
 Corpus acquisition ($0, network, no model) and contrastive-pair generation
 (Claude API, $). Both write ONLY under data/generated/; the frozen reference
 set is compared against, never touched.

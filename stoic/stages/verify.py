@@ -1,5 +1,8 @@
 """Stages 0-2 — the local, $0 Pass A checkpoints.
 
+Commands: `stage0`, `stage1`, `stage2` (see stoic/stages/__init__.py for the
+full stage -> module map).
+
 Stage 0: deterministic decoding (same prompt -> identical output twice).
 Stage 1: base P(stoic) == 0.542 on the v2 dilemma set (load-bearing).
 Stage 2: new vectors cosine >=0.99 vs frozen; injection bites hidden_states[L+1];

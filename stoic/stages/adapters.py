@@ -1,5 +1,7 @@
 """Stage 4 — LoRA decision shift (Exp 11, judge-free, $0).
 
+Command: `stage4` (see stoic/stages/__init__.py for the full map).
+
 Each frozen clean adapter is merged onto a FRESH base (no stacking possible)
 and run through the dilemma harness; base integrity (0.542 -> 0.542, drift 0)
 is asserted before and after.
