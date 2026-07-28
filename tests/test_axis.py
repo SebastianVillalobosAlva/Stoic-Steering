@@ -7,7 +7,7 @@ Two things are pinned here.
    number silently belongs to a different configuration. The prompt/rubric
    digests are pinned to the values captured from the pre-refactor tree.
 
-2. **`--axis` and STOIC_AXIS resolve the same axis.** The axis is bound at
+2. **`--axis` and BEHAVIOR_AXIS resolve the same axis.** The axis is bound at
    import, so argparse cannot decide it — a flag parsed after `stoic` is
    imported would look like it worked while doing nothing. That failure is
    invisible to any check that only exercises the env var, so it is checked
@@ -211,7 +211,7 @@ def test_path_cannot_escape_the_repo(tmp_path, monkeypatch):
 
 def test_package_init_does_not_import_config():
     """`import stoic` must not pull in config, or the axis binds before the CLI
-    has had a chance to set STOIC_AXIS from --axis."""
+    has had a chance to set BEHAVIOR_AXIS from --axis."""
     tree = ast.parse((ROOT / "stoic" / "__init__.py").read_text())
     imported = [n for n in ast.walk(tree) if isinstance(n, (ast.Import, ast.ImportFrom))]
     assert not imported, f"stoic/__init__.py must stay import-free, found {len(imported)}"
@@ -224,28 +224,28 @@ def test_package_init_does_not_import_config():
 def test_bind_axis_from_argv_sets_the_env_var(monkeypatch, argv):
     from stoic.__main__ import _bind_axis_from_argv
 
-    monkeypatch.delenv("STOIC_AXIS", raising=False)
+    monkeypatch.delenv("BEHAVIOR_AXIS", raising=False)
     assert _bind_axis_from_argv(argv) == "_example"
-    assert os.environ["STOIC_AXIS"] == "_example"
+    assert os.environ["BEHAVIOR_AXIS"] == "_example"
 
 
 def test_bind_axis_returns_none_without_the_flag(monkeypatch):
     from stoic.__main__ import _bind_axis_from_argv
 
-    monkeypatch.delenv("STOIC_AXIS", raising=False)
+    monkeypatch.delenv("BEHAVIOR_AXIS", raising=False)
     assert _bind_axis_from_argv(["stoic", "stage1"]) is None
-    assert "STOIC_AXIS" not in os.environ
+    assert "BEHAVIOR_AXIS" not in os.environ
 
 
 def test_flag_and_env_resolve_the_same_axis_in_process(monkeypatch):
     from stoic.__main__ import _bind_axis_from_argv
 
-    monkeypatch.delenv("STOIC_AXIS", raising=False)
+    monkeypatch.delenv("BEHAVIOR_AXIS", raising=False)
     _bind_axis_from_argv(["stoic", "--axis", "_example", "stage1"])
-    via_flag = load_axis(os.environ["STOIC_AXIS"])
+    via_flag = load_axis(os.environ["BEHAVIOR_AXIS"])
 
-    monkeypatch.setenv("STOIC_AXIS", "_example")
-    via_env = load_axis(os.environ["STOIC_AXIS"])
+    monkeypatch.setenv("BEHAVIOR_AXIS", "_example")
+    via_env = load_axis(os.environ["BEHAVIOR_AXIS"])
 
     assert via_flag is via_env
     assert via_flag.name == "_example"
@@ -258,7 +258,7 @@ def _cli_axis_line(env_extra: dict, args: list[str]) -> str:
     argparse construction, needs no model, and costs nothing.
     """
     env = {**os.environ, "USE_TF": "0", **env_extra}
-    env.pop("STOIC_AXIS", None)
+    env.pop("BEHAVIOR_AXIS", None)
     env.update(env_extra)
     out = subprocess.run([sys.executable, "-m", "stoic", *args, "--help"],
                          cwd=ROOT, capture_output=True, text=True, env=env)
@@ -270,9 +270,9 @@ def _cli_axis_line(env_extra: dict, args: list[str]) -> str:
 def test_flag_and_env_resolve_the_same_axis_end_to_end():
     """The regression this whole binding path exists for: argparse parses
     --axis long after `stoic` is imported, so a flag handled only by argparse
-    would silently no-op while STOIC_AXIS worked."""
+    would silently no-op while BEHAVIOR_AXIS worked."""
     via_flag = _cli_axis_line({}, ["--axis", "_example"])
-    via_env = _cli_axis_line({"STOIC_AXIS": "_example"}, [])
+    via_env = _cli_axis_line({"BEHAVIOR_AXIS": "_example"}, [])
     default = _cli_axis_line({}, [])
 
     assert via_flag == via_env, f"flag {via_flag!r} != env {via_env!r}"
@@ -281,7 +281,7 @@ def test_flag_and_env_resolve_the_same_axis_end_to_end():
 
 
 def test_conflicting_flag_and_env_is_an_error():
-    env = {**os.environ, "USE_TF": "0", "STOIC_AXIS": "stoic"}
+    env = {**os.environ, "USE_TF": "0", "BEHAVIOR_AXIS": "stoic"}
     out = subprocess.run([sys.executable, "-m", "stoic", "--axis", "_example", "stage1"],
                          cwd=ROOT, capture_output=True, text=True, env=env)
     assert out.returncode != 0

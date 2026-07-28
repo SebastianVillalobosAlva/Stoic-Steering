@@ -20,7 +20,7 @@ worked while quietly doing nothing — and only the env-var path would have been
 real.
 
 So the flag is read straight off `sys.argv` *above* every `stoic` import, and
-exported as STOIC_AXIS. argparse still declares `--axis` so `--help` documents
+exported as BEHAVIOR_AXIS. argparse still declares `--axis` so `--help` documents
 it, with its default read back from the environment, which is why `args.axis`
 and `ACTIVE.name` agree on both paths.
 """
@@ -34,11 +34,11 @@ import sys
 # Duplicated from stoic.axis rather than imported: reading the name from there
 # would require importing stoic.axis, which is exactly what must not happen
 # until this variable is set.
-AXIS_ENV_VAR = "STOIC_AXIS"
+AXIS_ENV_VAR = "BEHAVIOR_AXIS"
 
 
 def _bind_axis_from_argv(argv: list[str]) -> str | None:
-    """Set STOIC_AXIS from `--axis NAME` / `--axis=NAME`; return the name or None.
+    """Set BEHAVIOR_AXIS from `--axis NAME` / `--axis=NAME`; return the name or None.
 
     Runs before any `stoic` import. Kept as a plain function so it can be
     tested in-process, without spawning a subprocess to prove the flag works.
@@ -84,13 +84,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--axis", default=os.environ.get(AXIS_ENV_VAR, "stoic"),
         help="behavioral axis to run against (a directory under axes/). "
-             "Also settable as STOIC_AXIS.",
+             "Also settable as BEHAVIOR_AXIS.",
     )
     sub = parser.add_subparsers(dest="cmd", required=True)
     for c in ("stage0", "stage1", "stage2", "all"):
         sub.add_parser(c)
     p3 = sub.add_parser("stage3")
-    p3.add_argument("--author", choices=list(ACTIVE.arms), default=None,
+    p3.add_argument("--arm", choices=list(ACTIVE.arms), default=None,
                     help=f"run one arm only (default: all {len(ACTIVE.arms)})")
     p3.add_argument("--seeds", type=int, default=5)
     p3.add_argument("--sampled", action="store_true",
@@ -105,7 +105,7 @@ def build_parser() -> argparse.ArgumentParser:
     pc.add_argument("--items", default=str(ACTIVE.candidates_file),
                     help="candidate dilemmas_v3 JSON (default: this axis's candidates_file)")
     pc.add_argument("--tolerance", type=float, default=0.05,
-                    help="per-cell gate: |mean P(stoic) - 0.5| <= tolerance")
+                    help="per-cell gate: |mean P(target) - 0.5| <= tolerance")
     pc.add_argument("--cell-size", type=int, default=None,
                     help="expected items per cell (structural check; default: any)")
     pc.add_argument("--validate-only", action="store_true",
@@ -160,8 +160,8 @@ def main():
     elif args.cmd == "stage2":
         stage2(model, tokenizer)
     elif args.cmd == "stage3":
-        authors = [args.author] if args.author else None
-        stage3(model, tokenizer, authors=authors, n_seeds=args.seeds, sampled=args.sampled)
+        arms = [args.arm] if args.arm else None
+        stage3(model, tokenizer, arms=arms, n_seeds=args.seeds, sampled=args.sampled)
     elif args.cmd == "style":
         style_check(model, tokenizer, n_seeds=args.seeds)
     elif args.cmd == "stage4":

@@ -110,7 +110,7 @@ def stage2(model, tokenizer, baseline: dict | None = None) -> dict:
     per_author = {}
     cos = torch.nn.functional.cosine_similarity
 
-    for name, author in config.AUTHORS.items():
+    for name, author in config.ARMS.items():
         print(f"\n[{name}] layer {author.layer}, coeff {author.coeff}")
         pairs = load_pairs(author.pairs_file)
         new_vec = extract_vector(model, tokenizer, pairs, author.layer)
@@ -144,7 +144,7 @@ def stage2(model, tokenizer, baseline: dict | None = None) -> dict:
         }
 
     # Injection-site mechanism check on the axis's designated arm (stoic: Epictetus L8).
-    site_arm = config.AUTHORS[ACTIVE.criteria["injection_site_arm"]]
+    site_arm = config.ARMS[ACTIVE.criteria["injection_site_arm"]]
     site_vec = load_reference_vector(site_arm.vector_file, site_arm.layer)
     site = _injection_site_check(model, tokenizer, site_arm.layer, site_vec, site_arm.coeff)
     print(

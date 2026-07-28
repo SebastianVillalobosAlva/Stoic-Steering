@@ -15,10 +15,10 @@ def test_all_documented_commands_exist():
 
 
 def test_stage3_flags():
-    args = build_parser().parse_args(["stage3", "--author", "seneca", "--seeds", "2", "--sampled"])
-    assert args.author == "seneca" and args.seeds == 2 and args.sampled is True
+    args = build_parser().parse_args(["stage3", "--arm", "seneca", "--seeds", "2", "--sampled"])
+    assert args.arm == "seneca" and args.seeds == 2 and args.sampled is True
     args = build_parser().parse_args(["stage3"])
-    assert args.author is None and args.seeds == 5 and args.sampled is False
+    assert args.arm is None and args.seeds == 5 and args.sampled is False
 
 
 def test_pairs_default_matches_frozen_generation():

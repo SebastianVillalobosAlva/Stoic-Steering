@@ -18,13 +18,13 @@ from stoic.secrets import gemini_key
 from stoic.steering import load_reference_vector
 
 
-def stage3(model, tokenizer, authors=None, n_seeds: int = 5, sampled: bool = False) -> dict:
+def stage3(model, tokenizer, arms=None, n_seeds: int = 5, sampled: bool = False) -> dict:
     from stoic import judge
 
     mode = "matched SAMPLED (temp 0.6)" if sampled else "matched GREEDY"
     print(f"\n=== Stage 3: judge-scored content effect (Exp 9, Gemini judge) — {mode} ===")
     client, judge_model = judge.make_gemini_client(gemini_key())
-    authors = authors or list(config.AUTHORS)
+    arms = arms or list(config.ARMS)
 
     # Sampled mode: baselines are unsteered, so compute once per seed and share.
     baselines_by_seed = None
@@ -36,8 +36,8 @@ def stage3(model, tokenizer, authors=None, n_seeds: int = 5, sampled: bool = Fal
         }
 
     per_author, checks = {}, {}
-    for name in authors:
-        author = config.AUTHORS[name]
+    for name in arms:
+        author = config.ARMS[name]
         vector = load_reference_vector(author.vector_file, author.layer)  # Exp 9 input
         if sampled:
             run = judge.seed_eval_sampled(
@@ -133,7 +133,7 @@ def style_check(model, tokenizer, n_seeds: int = 5) -> dict:
     }
 
     per_author = {}
-    for name, author in config.AUTHORS.items():
+    for name, author in config.ARMS.items():
         ref3b = config.EXP3B_STYLE.get(name)  # None on an axis with no style history
         entry = {"layer": author.layer, "coeff": author.coeff, "exp3b_style": ref3b}
         ref3b_note = f"+{ref3b:.2f}" if ref3b is not None else "no reference"

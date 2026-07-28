@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_neutral_pairs_53_each_and_loadable():
-    for author in config.AUTHORS.values():
+    for author in config.ARMS.values():
         pairs = load_pairs(author.pairs_file)
         assert len(pairs) == 53, author.key
         for p in pairs:

@@ -47,10 +47,6 @@ CELL_FIELDS = tuple(CELL_AXES)
 STANCES = tuple(ACTIVE.stances)
 CELLS = tuple("_".join(combo) for combo in itertools.product(*CELL_AXES.values()))
 
-# Back-compat names for the stoic 2x2; the generalized form is CELL_AXES.
-TOPIC_AXES = CELL_AXES.get("topic_axis", ())
-PHRASINGS = CELL_AXES.get("phrasing", ())
-
 _F = ACTIVE.fields
 REQUIRED_FIELDS = (
     _F.id, *CELL_FIELDS, _F.stance, _F.situation, _F.target, _F.foil,

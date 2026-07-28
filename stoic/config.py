@@ -35,10 +35,10 @@ from stoic.axis import (  # roots: defined in axis.py, re-exported here
 RESULTS_DIR = PROJECT_ROOT / "results"
 
 # --- Reference sub-paths (Pass A inputs) ---------------------------------
-REF_PROCESSED_DIR = REFERENCE_DIR / "processed"      # {author}/neutral_pairs.json
+REF_PROCESSED_DIR = REFERENCE_DIR / "processed"      # {arm}/neutral_pairs.json
 REF_CONFIG_DIR = REFERENCE_DIR / "config"            # dilemmas_v2.json, sources.json
-REF_VECTORS_DIR = REFERENCE_DIR / "steering_vectors"  # {author}_steering_3B.pt
-REF_CHUNKED_DIR = REFERENCE_DIR / "chunked"          # {author}/{work}.json (frozen chunks)
+REF_VECTORS_DIR = REFERENCE_DIR / "steering_vectors"  # {arm}_steering_3B.pt
+REF_CHUNKED_DIR = REFERENCE_DIR / "chunked"          # {arm}/{work}.json (frozen chunks)
 # The active axis's forced-choice ruler. On the stoic axis this is dilemmas_v2.json.
 DILEMMAS_V2 = ACTIVE.dilemmas_file
 # Corpus-acquisition source manifest (Gutenberg URLs + slicing boundaries).
@@ -47,9 +47,9 @@ DILEMMAS_V2 = ACTIVE.dilemmas_file
 SOURCES_JSON = REF_CONFIG_DIR / "sources.json"
 
 # --- Generated sub-paths (corpus/pairs pipeline output) ------------------
-GEN_RAW_DIR = GENERATED_DIR / "raw"             # {author}/{work}.txt  (downloaded)
-GEN_PROCESSED_DIR = GENERATED_DIR / "processed"  # {author}/{work}.txt  (sliced clean)
-GEN_CHUNKED_DIR = GENERATED_DIR / "chunked"      # {author}/{work}.json (paragraph chunks)
+GEN_RAW_DIR = GENERATED_DIR / "raw"             # {arm}/{work}.txt  (downloaded)
+GEN_PROCESSED_DIR = GENERATED_DIR / "processed"  # {arm}/{work}.txt  (sliced clean)
+GEN_CHUNKED_DIR = GENERATED_DIR / "chunked"      # {arm}/{work}.json (paragraph chunks)
 
 # --- Model (Llama-3.2-3B only) -------------------------------------------
 MODEL_NAME = "meta-llama/Llama-3.2-3B"
@@ -69,13 +69,13 @@ GEN_KWARGS = dict(
 
 
 @dataclass(frozen=True)
-class Author:
+class BoundArm:
     """An axis arm bound to its axis, exposing the artifact paths.
 
-    `Arm` deliberately knows nothing about paths — the `Axis` resolves those,
+    `axis.Arm` deliberately knows nothing about paths — the `Axis` resolves those,
     since where an arm's pairs/vector/adapter live is a property of the axis
     config, not of the arm. This binds the two back together so the long-standing
-    `author.vector_file` / `author.adapter_dir` surface keeps working, which is
+    `arm.vector_file` / `arm.adapter_dir` surface keeps working, which is
     what `scripts/exp12_*.py` is written against.
     """
 
@@ -117,15 +117,15 @@ class Author:
 
 # The arms of the active axis. On the stoic axis this is the CAA clean best
 # configuration (ground truth): Marcus L26, Seneca L4, Epictetus L8, coeff 0.11.
-AUTHORS: dict[str, Author] = {
-    name: Author(arm, ACTIVE) for name, arm in ACTIVE.arms.items()
+ARMS: dict[str, BoundArm] = {
+    name: BoundArm(arm, ACTIVE) for name, arm in ACTIVE.arms.items()
 }
 
 # The forced-choice ruler's known baseline (v2 set, both label orders averaged).
 DILEMMA_BASELINE = ACTIVE.criteria.get("decision_baseline")  # stoic: 0.542
 
 # Exp 9 content effect targets (clean pairs, Gemini judge, coeff 0.11, n_seeds=5).
-# {author: (content_mean, content_std)}. Judge is nondeterministic → reproduce
+# {arm: (content_mean, content_std)}. Judge is nondeterministic → reproduce
 # the pattern (all positive, error bars overlapping), not the decimals.
 EXP9_CONTENT: dict[str, tuple[float, float]] = {
     k: tuple(v) for k, v in ACTIVE.reference_targets.get("exp9_content", {}).items()
@@ -151,7 +151,7 @@ class Config:
     model_name: str = MODEL_NAME
     dtype: torch.dtype = DTYPE
     device: str = DEVICE
-    authors: dict[str, Author] = field(default_factory=lambda: dict(AUTHORS))
+    arms: dict[str, BoundArm] = field(default_factory=lambda: dict(ARMS))
     gen_kwargs: dict = field(default_factory=lambda: dict(GEN_KWARGS))
 
 

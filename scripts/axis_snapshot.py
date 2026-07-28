@@ -129,7 +129,7 @@ def collect_config_surface() -> dict:
         stances[d["stoic_stance"]] = stances.get(d["stoic_stance"], 0) + 1
 
     arms = {}
-    for name, a in config.AUTHORS.items():
+    for name, a in config.ARMS.items():
         arms[name] = {
             "key": a.key,
             "label": a.label,
@@ -155,7 +155,7 @@ def collect_config_surface() -> dict:
         "arms": arms,
         "digests": {
             "neutral_pair_prompt": sha(config.NEUTRAL_PAIR_PROMPT),
-            "judge_rubric": sha(judge.STOIC_RUBRIC),
+            "judge_rubric": sha(judge.JUDGE_RUBRIC),
             "default_prompts": sha("\n".join(config.DEFAULT_PROMPTS)),
             "dilemma_prompt_template": sha(PROMPT_TEMPLATE),
             "dilemmas_v2_file": sha_file(config.DILEMMAS_V2),
@@ -175,8 +175,11 @@ def collect_config_surface() -> dict:
         "calibration": {
             "cells": list(cal.CELLS),
             "required_fields": list(cal.REQUIRED_FIELDS),
-            "topic_axes": list(cal.TOPIC_AXES),
-            "phrasings": list(cal.PHRASINGS),
+            # Shape of artifact 11 is a compatibility surface: before.json must
+            # stay comparable, so these keys keep their names and values even
+            # though calibrate.py now expresses the design as CELL_AXES.
+            "topic_axes": list(cal.CELL_AXES.get("topic_axis", ())),
+            "phrasings": list(cal.CELL_AXES.get("phrasing", ())),
             "stances": list(cal.STANCES),
         },
         "criteria": {
@@ -301,7 +304,7 @@ def collect_stage2(model, tokenizer, dilemmas, baseline) -> tuple[dict, dict]:
 
     cos = torch.nn.functional.cosine_similarity
     per_arm = {}
-    for name, arm in config.AUTHORS.items():
+    for name, arm in config.ARMS.items():
         print(f"  [snapshot] stage2 {name} L{arm.layer}")
         pairs_ = load_pairs(arm.pairs_file)
         new_vec = extract_vector(model, tokenizer, pairs_, arm.layer)
@@ -327,7 +330,7 @@ def collect_stage2(model, tokenizer, dilemmas, baseline) -> tuple[dict, dict]:
             "by_stance": deltas_by_stance(dilemmas, deltas),
         }
 
-    epi = config.AUTHORS["epictetus"]
+    epi = config.ARMS["epictetus"]
     site = _injection_site(
         model, tokenizer, epi.layer,
         load_reference_vector(epi.vector_file, epi.layer), epi.coeff,
@@ -342,7 +345,7 @@ def collect_stage4(model, tokenizer, dilemmas, baseline) -> dict:
     )
 
     per_arm = {}
-    for name, arm in config.AUTHORS.items():
+    for name, arm in config.ARMS.items():
         print(f"  [snapshot] stage4 {name} ({arm.adapter_dir.name})")
         merged = lora.merge_adapter(arm.adapter_dir)
         try:
@@ -400,7 +403,7 @@ def collect_greedy_replay(model, tokenizer, arm_name: str) -> dict:
     from stoic.model import generate
     from stoic.steering import load_reference_vector, steering
 
-    arm = config.AUTHORS[arm_name]
+    arm = config.ARMS[arm_name]
     prompts = config.DEFAULT_PROMPTS
     print(f"  [snapshot] greedy replay {arm_name}: {len(prompts)} baseline + {len(prompts)} steered")
     baseline = [generate(model, tokenizer, p) for p in prompts]
@@ -423,7 +426,7 @@ def collect_sampled_replay(model, tokenizer, arm_name: str, seed: int = 4) -> di
     from stoic.model import generate
     from stoic.steering import load_reference_vector, steering
 
-    arm = config.AUTHORS[arm_name]
+    arm = config.ARMS[arm_name]
     prompts = config.DEFAULT_PROMPTS
     print(f"  [snapshot] sampled replay {arm_name} seed {seed}: {len(prompts)} generations")
     vector = load_reference_vector(arm.vector_file, arm.layer)
@@ -456,7 +459,7 @@ def preflight(cheap: bool, replay: str | None) -> list[str]:
     if cheap:
         return problems
 
-    for name, arm in config.AUTHORS.items():
+    for name, arm in config.ARMS.items():
         if not arm.pairs_file.exists():
             problems.append(f"{name}: pairs file missing ({rel(arm.pairs_file)})")
         if not arm.vector_file.exists():
@@ -472,8 +475,8 @@ def preflight(cheap: bool, replay: str | None) -> list[str]:
                         "cannot run. Install the repo's own extra: pip install -e '.[lora]'")
     if not (config.GENERATED_DIR / "dilemmas_v3_candidates.json").exists():
         problems.append("dilemmas_v3_candidates.json missing — artifact 8 cannot run")
-    if replay and replay not in config.AUTHORS:
-        problems.append(f"--replay {replay!r} is not an arm: {sorted(config.AUTHORS)}")
+    if replay and replay not in config.ARMS:
+        problems.append(f"--replay {replay!r} is not an arm: {sorted(config.ARMS)}")
     return problems
 
 

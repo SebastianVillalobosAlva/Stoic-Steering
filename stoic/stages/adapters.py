@@ -38,7 +38,7 @@ def stage4(model, tokenizer) -> dict:
     print(f"  baseline mean P({ACTIVE.target_name}) = {base_mean_start:.6f}")
 
     per_author = {}
-    for name, author in config.AUTHORS.items():
+    for name, author in config.ARMS.items():
         print(f"\n[{name}] {author.adapter_dir.name}")
         merged = lora.merge_adapter(author.adapter_dir)
         try:

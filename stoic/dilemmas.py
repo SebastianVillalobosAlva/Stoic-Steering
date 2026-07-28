@@ -3,10 +3,10 @@
 Measures whether an intervention shifts *decisions*, not just style. Each
 dilemma is a situation with two options labelled A/B; we take ONE forward pass
 and compare next-token probability mass on the two label tokens. Every item is
-run in BOTH label orders (stoic=A, then stoic=B) and averaged, which cancels
+run in BOTH label orders (target=A, then target=B) and averaged, which cancels
 positional/label bias exactly.
 
-    P(stoic) = softmax over {logit(' A'), logit(' B')}, averaged over both orders
+    P(target) = softmax over {logit(' A'), logit(' B')}, averaged over both orders
 
 No generation, no judge — pure logits. The unsteered baseline mean over the v2
 set is the load-bearing checkpoint: 0.542.
@@ -38,7 +38,7 @@ def load_dilemmas(path: str | Path | None = None) -> list[dict]:
 
     Items are returned EXACTLY as stored — no key renaming, no normalization.
     Which keys mean what is resolved at read time through `DilemmaFields`
-    (see `p_stoic`), so callers that read raw item keys directly — notably
+    (see `p_target`), so callers that read raw item keys directly — notably
     `scripts/exp12_*.py`, which does `d["stoic"]` — keep working unchanged.
     """
     path = path if path is not None else ACTIVE.dilemmas_file
@@ -65,7 +65,7 @@ def _p_first_label(model, tokenizer, prompt: str, tok_a: int, tok_b: int) -> flo
     return torch.softmax(two, dim=0)[0].item()
 
 
-def p_stoic(model, tokenizer, dilemma: dict, tok_a: int, tok_b: int, *, fields=None) -> float:
+def p_target(model, tokenizer, dilemma: dict, tok_a: int, tok_b: int, *, fields=None) -> float:
     """Order-debiased P(target option): mean over both label orders.
 
     `fields` names which item keys hold the situation and the two options; it
@@ -110,7 +110,7 @@ def eval_dilemmas(
     tok_b = _single_token_id(tokenizer, label_b)
     ctx = steering(model, *steer) if steer is not None else nullcontext()
     with ctx:
-        return {d[f.id]: p_stoic(model, tokenizer, d, tok_a, tok_b, fields=f)
+        return {d[f.id]: p_target(model, tokenizer, d, tok_a, tok_b, fields=f)
                 for d in dilemmas}
 
 

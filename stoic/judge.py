@@ -33,7 +33,7 @@ CONTENT_DIMENSIONS = list(ACTIVE.judge["content_dimensions"])
 STYLE_DIMENSION = ACTIVE.judge.get("style_dimension", "stylistic_authenticity")
 
 # The rubric text, verbatim from the axis directory (axes/<name>/judge_rubric.txt).
-STOIC_RUBRIC = ACTIVE.judge_rubric
+JUDGE_RUBRIC = ACTIVE.judge_rubric
 
 
 def make_gemini_client(api_key: str, model: str = JUDGE_MODEL):
@@ -78,7 +78,7 @@ def score(client, model: str, text: str, prompt: str = "", max_retries: int = 5)
 
     Retries transient API failures (503 overload, 429 rate limit, timeouts) with
     exponential backoff so a momentary spike doesn't kill a long run."""
-    msg = f"{STOIC_RUBRIC}\n\n"
+    msg = f"{JUDGE_RUBRIC}\n\n"
     if prompt:
         msg += f"PROMPT: {prompt}\n\n"
     msg += f"TEXT TO EVALUATE:\n{text}"

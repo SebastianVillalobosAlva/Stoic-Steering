@@ -9,7 +9,7 @@ an edit to the pipeline.
     axes/stoic/       the philosopher axis: three arms, the v2 dilemma ruler
     axes/_example/    self-contained template, the starting point for sycophancy
 
-Which axis is active is fixed once, at import, from `STOIC_AXIS`. The CLI sets
+Which axis is active is fixed once, at import, from `BEHAVIOR_AXIS`. The CLI sets
 that variable from `--axis` *before* importing anything under `stoic.` (see
 `stoic/__main__.py`) — argparse runs far too late to decide it, and a flag that
 silently disagreed with the loaded axis would be worse than no flag.
@@ -37,7 +37,7 @@ AXES_DIR = PROJECT_ROOT / "axes"
 
 SCHEMA_VERSIONS = (1,)
 DEFAULT_AXIS = "stoic"
-AXIS_ENV_VAR = "STOIC_AXIS"
+AXIS_ENV_VAR = "BEHAVIOR_AXIS"
 
 # `axis` resolves against the axis's own directory, which is what lets an axis
 # be self-contained. `reference` is readable only — the wall CLAUDE.md draws.
@@ -350,5 +350,5 @@ def active_axis_name() -> str:
     return os.environ.get(AXIS_ENV_VAR) or DEFAULT_AXIS
 
 
-# Bound once, at import. The CLI sets STOIC_AXIS before importing this module.
+# Bound once, at import. The CLI sets BEHAVIOR_AXIS before importing this module.
 ACTIVE = load_axis(active_axis_name())

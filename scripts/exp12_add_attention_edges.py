@@ -82,7 +82,7 @@ def main(json_path: str):
 
     add_edges("base", lens)
 
-    for name, author in config.AUTHORS.items():
+    for name, author in config.ARMS.items():
         vec = load_reference_vector(author.vector_file, author.layer)
         with steering(base, author.layer, vec, author.coeff):
             add_edges(f"caa_{name}", lens)

@@ -131,7 +131,7 @@ def run_analysis(item_id: str | None = None):
     from modellens.analysis.circuit_discovery import discover_circuit, summarize_circuit
 
     from stoic import config
-    from stoic.dilemmas import _single_token_id, load_dilemmas, p_stoic
+    from stoic.dilemmas import _single_token_id, load_dilemmas, p_target
     from stoic.lora import merge_adapter
     from stoic.model import load_model
     from stoic.steering import load_reference_vector, steering
@@ -156,7 +156,7 @@ def run_analysis(item_id: str | None = None):
     corrupted_inputs = tokenizer(corrupted_prompt, return_tensors="pt")
 
     # GUARDRAIL: base integrity bracket on this item (re-checked at the end).
-    p_start = p_stoic(model, tokenizer, dilemma, tok_a, tok_b)
+    p_start = p_target(model, tokenizer, dilemma, tok_a, tok_b)
     print(f"guardrail: base P(stoic) on {dilemma['id']} at start = {p_start:.6f}")
 
     lens = ModelLens(model)
@@ -214,7 +214,7 @@ def run_analysis(item_id: str | None = None):
     # 2) LoRA in information order: Seneca (key), Marcus (flip), Epictetus.
     #    Fresh base per adapter inside merge_adapter — never reuse a merged base.
     for name in ("seneca", "marcus", "epictetus"):
-        author = config.AUTHORS[name]
+        author = config.ARMS[name]
         merged = merge_adapter(author.adapter_dir)
         lens_merged = ModelLens(merged)
         lens_merged.adapter.set_tokenizer(tokenizer)
@@ -227,7 +227,7 @@ def run_analysis(item_id: str | None = None):
             gc.collect()
 
     # 3) CAA ×3 last (lowest expected information).
-    for name, author in config.AUTHORS.items():
+    for name, author in config.ARMS.items():
         vec = load_reference_vector(author.vector_file, author.layer)
         with steering(model, author.layer, vec, author.coeff):
             results["circuits"][f"caa_{name}"] = circuit(
@@ -235,7 +235,7 @@ def run_analysis(item_id: str | None = None):
             )
 
     # GUARDRAIL: base integrity at end — the main model must be untouched.
-    p_end = p_stoic(model, tokenizer, dilemma, tok_a, tok_b)
+    p_end = p_target(model, tokenizer, dilemma, tok_a, tok_b)
     drift = abs(p_end - p_start)
     print(f"\nguardrail: base P(stoic) on {dilemma['id']} end = {p_end:.6f}  "
           f"drift = {drift:.6f}")
