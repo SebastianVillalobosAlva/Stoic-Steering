@@ -30,3 +30,7 @@ data/generated/*
 
 # Results: keep the checkpoint JSONs (they are the replication record), ignore stray junk
 results/**/.DS_Store
+
+# Refactor verification snapshots (scripts/axis_snapshot.py). Repo-local, not
+# /tmp: before.json cannot be recaptured once a refactor lands.
+.axis_snap/
