@@ -26,7 +26,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "scripts"))
 
-import exp12_circuit_analysis as harness  # exact same config/hotfix/threshold
+import exp12_circuit_analysis as harness  # exact same config/threshold
 
 OUT_DIR = harness.OUT_DIR
 
@@ -60,7 +60,6 @@ def _late_resolution(circ) -> dict:
 def run_analyze():
     import torch
 
-    harness._install_capture_hotfix()
     from modellens import ModelLens
     from modellens.analysis import activation_patching as ap
     from modellens.analysis.circuit_discovery import discover_circuit
