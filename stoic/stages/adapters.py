@@ -8,6 +8,7 @@ is asserted before and after.
 from __future__ import annotations
 
 from stoic import config
+from stoic.axis import ACTIVE
 from stoic.dilemmas import (
     deltas_by_stance,
     eval_dilemmas,
@@ -34,7 +35,7 @@ def stage4(model, tokenizer) -> dict:
     print("Base integrity (start): baseline on unmodified base ...")
     baseline = eval_dilemmas(model, tokenizer, dilemmas)
     base_mean_start = mean(baseline)
-    print(f"  baseline mean P(stoic) = {base_mean_start:.6f}")
+    print(f"  baseline mean P({ACTIVE.target_name}) = {base_mean_start:.6f}")
 
     per_author = {}
     for name, author in config.AUTHORS.items():
@@ -75,19 +76,27 @@ def stage4(model, tokenizer) -> dict:
     base_mean_end = mean(baseline_end)
     print(f"  baseline mean {base_mean_end:.6f}  max per-item drift {drift:.2e}")
 
+    baseline_target = ACTIVE.criteria.get("decision_baseline")
     integrity = (
-        round(base_mean_start, 3) == config.DILEMMA_BASELINE
-        and round(base_mean_end, 3) == config.DILEMMA_BASELINE
+        baseline_target is not None
+        and round(base_mean_start, 3) == baseline_target
+        and round(base_mean_end, 3) == baseline_target
         and drift == 0.0
     )
-    sen = per_author["seneca"]
+    # The arm whose shift the stage gates on (stoic: Seneca, the only arm
+    # positive in both stance buckets in Exp 11).
+    crit_name = ACTIVE.criteria["stage4_criterion_arm"]
+    crit_t = ACTIVE.criteria.get("stage4_criterion_t", 2.0)
+    sen = per_author[crit_name]
     sen_both_positive = all(v["mean_delta"] > 0 for v in sen["by_stance"].values())
-    sen_t_ok = max(sen["overall"]["t_stat"], sen["overall_logodds"]["t_stat"]) >= 2.0
+    sen_t_ok = max(sen["overall"]["t_stat"], sen["overall_logodds"]["t_stat"]) >= crit_t
     passed = integrity and sen_both_positive and sen_t_ok
 
     result = {
         "stage": 4,
-        "check": "base integrity 0.542->0.542 drift 0; Seneca ΔP>0 in BOTH stance buckets with overall t>=2 (Exp 11 pattern)",
+        "check": f"base integrity {baseline_target:g}->{baseline_target:g} drift 0; "
+                 f"{crit_name} ΔP>0 in BOTH stance buckets with overall t>={crit_t:g} "
+                 "(Exp 11 pattern)",
         "reference": "data/reference/dilemmas/v2/lora/dilemma_eval_20260701_140942.json "
                      "(marcus ΔP +0.0307 accepting-only; seneca +0.0606 both buckets; epictetus null)",
         "baseline_mean_start": base_mean_start,
@@ -95,6 +104,7 @@ def stage4(model, tokenizer) -> dict:
         "max_baseline_drift": drift,
         "base_integrity": integrity,
         "per_author": per_author,
+        "criterion_arm": crit_name,
         "seneca_both_buckets_positive": sen_both_positive,
         "seneca_t_ok": sen_t_ok,
         "passed": passed,
@@ -102,5 +112,6 @@ def stage4(model, tokenizer) -> dict:
     }
     write_result("stage4_lora_dilemmas", "lora_dilemmas", result)
     print(f"\nStage 4: {'PASS' if passed else 'FAIL'}  (integrity: {integrity}, "
-          f"seneca both buckets +: {sen_both_positive}, seneca t>=2: {sen_t_ok})")
+          f"{crit_name} both buckets +: {sen_both_positive}, "
+          f"{crit_name} t>={crit_t:g}: {sen_t_ok})")
     return result

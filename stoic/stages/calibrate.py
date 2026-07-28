@@ -9,8 +9,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from stoic.axis import ACTIVE
 from stoic.calibrate import (
     CELLS,
+    STANCES,
     calibration_report,
     load_candidates,
     validate_items,
@@ -50,15 +52,14 @@ def calibrate_stage(
     scores = eval_dilemmas(model, tokenizer, items)
     report = calibration_report(items, scores, tolerance=tolerance)
 
-    print(f"\nPer-cell baseline P(stoic)  (gate: |mean − 0.5| ≤ {tolerance}):")
+    print(f"\nPer-cell baseline P({ACTIVE.target_name})  (gate: |mean − 0.5| ≤ {tolerance}):")
     for cell in CELLS:
         c = report["per_cell"][cell]
         mark = "✓" if c["within_tolerance"] else "✗"
-        stance = "/".join(str(c["stance_counts"].get(s, 0))
-                          for s in ("accepting", "active"))
+        stance = "/".join(str(c["stance_counts"].get(s, 0)) for s in STANCES)
         print(f"  {cell:16s} n={c['n']:>2}  mean={c['mean_p_stoic']:.4f}  "
               f"|dev|={c['abs_dev']:.4f}  stance {stance}  {mark}")
-    print(f"overall mean P(stoic): {report['overall_mean_p_stoic']:.4f}")
+    print(f"overall mean P({ACTIVE.target_name}): {report['overall_mean_p_stoic']:.4f}")
 
     if report["outlier_items"]:
         lo, hi = report["outlier_range"]
@@ -70,7 +71,7 @@ def calibrate_stage(
     print(f"\nCalibration gate: {'PASSED — set is eval-ready' if gate else 'NOT passed — iterate items and re-run'}")
 
     result = {
-        "check": f"per-cell baseline P(stoic) within {tolerance} of 0.5 on the base model, "
+        "check": f"per-cell baseline P({ACTIVE.target_name}) within {tolerance} of 0.5 on the base model, "
                  "both label orders averaged, BEFORE any adapter eval (v1's 0.881 is the cautionary record)",
         "items_file": str(items_path),
         "structural_problems": [],

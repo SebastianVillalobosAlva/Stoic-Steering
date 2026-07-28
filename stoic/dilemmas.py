@@ -21,7 +21,7 @@ from pathlib import Path
 
 import torch
 
-from stoic.config import DILEMMAS_V2
+from stoic.axis import ACTIVE
 from stoic.steering import steering
 
 PROMPT_TEMPLATE = (
@@ -33,10 +33,20 @@ PROMPT_TEMPLATE = (
 )
 
 
-def load_dilemmas(path: str | Path = DILEMMAS_V2) -> list[dict]:
+def load_dilemmas(path: str | Path | None = None) -> list[dict]:
+    """Load the axis's forced-choice items.
+
+    Items are returned EXACTLY as stored — no key renaming, no normalization.
+    Which keys mean what is resolved at read time through `DilemmaFields`
+    (see `p_stoic`), so callers that read raw item keys directly — notably
+    `scripts/exp12_*.py`, which does `d["stoic"]` — keep working unchanged.
+    """
+    path = path if path is not None else ACTIVE.dilemmas_file
     with open(path) as f:
         payload = json.load(f)
-    return payload["dilemmas"]
+    if isinstance(payload, list):
+        return payload
+    return payload[ACTIVE.dilemmas_collection_key]
 
 
 def _single_token_id(tokenizer, text: str) -> int:
@@ -55,26 +65,32 @@ def _p_first_label(model, tokenizer, prompt: str, tok_a: int, tok_b: int) -> flo
     return torch.softmax(two, dim=0)[0].item()
 
 
-def p_stoic(model, tokenizer, dilemma: dict, tok_a: int, tok_b: int) -> float:
-    """Order-debiased P(stoic option): mean over both label orders."""
+def p_stoic(model, tokenizer, dilemma: dict, tok_a: int, tok_b: int, *, fields=None) -> float:
+    """Order-debiased P(target option): mean over both label orders.
+
+    `fields` names which item keys hold the situation and the two options; it
+    defaults to the active axis (stoic: situation/stoic/nonstoic). The item
+    itself is never modified.
+    """
+    f = fields or ACTIVE.fields
     p1 = _p_first_label(
         model, tokenizer,
         PROMPT_TEMPLATE.format(
-            situation=dilemma["situation"],
-            option_a=dilemma["stoic"],
-            option_b=dilemma["nonstoic"],
+            situation=dilemma[f.situation],
+            option_a=dilemma[f.target],
+            option_b=dilemma[f.foil],
         ),
         tok_a, tok_b,
-    )  # stoic is A -> want P(A)
+    )  # target is A -> want P(A)
     p2 = _p_first_label(
         model, tokenizer,
         PROMPT_TEMPLATE.format(
-            situation=dilemma["situation"],
-            option_a=dilemma["nonstoic"],
-            option_b=dilemma["stoic"],
+            situation=dilemma[f.situation],
+            option_a=dilemma[f.foil],
+            option_b=dilemma[f.target],
         ),
         tok_a, tok_b,
-    )  # stoic is B -> want P(B) = 1 - P(A)
+    )  # target is B -> want P(B) = 1 - P(A)
     return 0.5 * (p1 + (1.0 - p2))
 
 
@@ -84,14 +100,18 @@ def eval_dilemmas(
     dilemmas: list[dict],
     *,
     steer: tuple[int, torch.Tensor, float] | None = None,
+    fields=None,
 ) -> dict[str, float]:
-    """P(stoic) for every dilemma. `steer=(layer, vector, coeff)` injects a CAA
+    """P(target) for every dilemma. `steer=(layer, vector, coeff)` injects a CAA
     vector for the duration; `steer=None` is the unsteered baseline."""
-    tok_a = _single_token_id(tokenizer, " A")
-    tok_b = _single_token_id(tokenizer, " B")
+    f = fields or ACTIVE.fields
+    label_a, label_b = ACTIVE.label_tokens
+    tok_a = _single_token_id(tokenizer, label_a)
+    tok_b = _single_token_id(tokenizer, label_b)
     ctx = steering(model, *steer) if steer is not None else nullcontext()
     with ctx:
-        return {d["id"]: p_stoic(model, tokenizer, d, tok_a, tok_b) for d in dilemmas}
+        return {d[f.id]: p_stoic(model, tokenizer, d, tok_a, tok_b, fields=f)
+                for d in dilemmas}
 
 
 def mean(scores: dict[str, float]) -> float:
@@ -138,9 +158,10 @@ def sign_test(deltas: dict[str, float] | list[float], tol: float = 1e-9) -> dict
 
 
 def deltas_by_stance(
-    dilemmas: list[dict], deltas: dict[str, float]
+    dilemmas: list[dict], deltas: dict[str, float], *, fields=None
 ) -> dict[str, dict]:
+    f = fields or ACTIVE.fields
     buckets: dict[str, list[float]] = {}
     for d in dilemmas:
-        buckets.setdefault(d["stoic_stance"], []).append(deltas[d["id"]])
+        buckets.setdefault(d[f.stance], []).append(deltas[d[f.id]])
     return {k: paired_stats(v) for k, v in buckets.items()}

@@ -31,26 +31,40 @@ directly comparable to the 0.542 v2 baseline.
 
 from __future__ import annotations
 
+import itertools
 import json
 from pathlib import Path
 
-TOPIC_AXES = ("core", "offtopic")
-PHRASINGS = ("plain", "idiom")
-STANCES = ("accepting", "active")
-CELLS = tuple(f"{t}_{p}" for t in TOPIC_AXES for p in PHRASINGS)
+from stoic.axis import ACTIVE
+
+# The 2x2 cell design comes from the axis (stoic: topic_axis x phrasing).
+# CELL_AXES maps each cell-defining field to its legal values; a different
+# axis can declare a different design without touching this module.
+CELL_AXES: dict[str, tuple[str, ...]] = {
+    k: tuple(v) for k, v in ACTIVE.calibration.get("cell_axes", {}).items()
+}
+CELL_FIELDS = tuple(CELL_AXES)
+STANCES = tuple(ACTIVE.stances)
+CELLS = tuple("_".join(combo) for combo in itertools.product(*CELL_AXES.values()))
+
+# Back-compat names for the stoic 2x2; the generalized form is CELL_AXES.
+TOPIC_AXES = CELL_AXES.get("topic_axis", ())
+PHRASINGS = CELL_AXES.get("phrasing", ())
+
+_F = ACTIVE.fields
 REQUIRED_FIELDS = (
-    "id", "topic_axis", "phrasing", "stoic_stance", "situation", "stoic", "nonstoic",
+    _F.id, *CELL_FIELDS, _F.stance, _F.situation, _F.target, _F.foil,
 )
 
 
 def cell_of(item: dict) -> str:
-    return f"{item['topic_axis']}_{item['phrasing']}"
+    return "_".join(str(item[f]) for f in CELL_FIELDS)
 
 
 def load_candidates(path: str | Path) -> list[dict]:
     with open(path) as f:
         payload = json.load(f)
-    return payload["dilemmas"] if isinstance(payload, dict) else payload
+    return payload[ACTIVE.dilemmas_collection_key] if isinstance(payload, dict) else payload
 
 
 def validate_items(items: list[dict], cell_size: int | None = None) -> list[str]:
@@ -63,23 +77,24 @@ def validate_items(items: list[dict], cell_size: int | None = None) -> list[str]
     problems: list[str] = []
     seen_ids: set[str] = set()
     for i, d in enumerate(items):
-        label = d.get("id", f"item[{i}]")
+        label = d.get(_F.id, f"item[{i}]")
         for f in REQUIRED_FIELDS:
             if not str(d.get(f, "")).strip():
                 problems.append(f"{label}: missing/empty field {f!r}")
-        if d.get("topic_axis") not in TOPIC_AXES:
-            problems.append(f"{label}: topic_axis {d.get('topic_axis')!r} not in {TOPIC_AXES}")
-        if d.get("phrasing") not in PHRASINGS:
-            problems.append(f"{label}: phrasing {d.get('phrasing')!r} not in {PHRASINGS}")
-        if d.get("stoic_stance") not in STANCES:
-            problems.append(f"{label}: stoic_stance {d.get('stoic_stance')!r} not in {STANCES}")
-        if d.get("id") in seen_ids:
+        for cell_field, allowed_values in CELL_AXES.items():
+            if d.get(cell_field) not in allowed_values:
+                problems.append(
+                    f"{label}: {cell_field} {d.get(cell_field)!r} not in {allowed_values}"
+                )
+        if d.get(_F.stance) not in STANCES:
+            problems.append(f"{label}: {_F.stance} {d.get(_F.stance)!r} not in {STANCES}")
+        if d.get(_F.id) in seen_ids:
             problems.append(f"{label}: duplicate id")
-        seen_ids.add(d.get("id"))
+        seen_ids.add(d.get(_F.id))
 
     by_cell: dict[str, list[dict]] = {c: [] for c in CELLS}
     for d in items:
-        if d.get("topic_axis") in TOPIC_AXES and d.get("phrasing") in PHRASINGS:
+        if all(d.get(f) in vals for f, vals in CELL_AXES.items()):
             by_cell[cell_of(d)].append(d)
     for cell, members in by_cell.items():
         n = len(members)
@@ -88,12 +103,13 @@ def validate_items(items: list[dict], cell_size: int | None = None) -> list[str]
             continue
         if cell_size is not None and n != cell_size:
             problems.append(f"cell {cell}: {n} items, expected {cell_size}")
-        acc = sum(1 for d in members if d.get("stoic_stance") == "accepting")
-        act = sum(1 for d in members if d.get("stoic_stance") == "active")
-        allowed = 0 if n % 2 == 0 else 1
-        if abs(acc - act) > allowed:
+        counts = {s: sum(1 for d in members if d.get(_F.stance) == s) for s in STANCES}
+        # Exact balance when the cell divides evenly, off-by-one otherwise.
+        allowed = 0 if n % len(STANCES) == 0 else 1
+        if max(counts.values()) - min(counts.values()) > allowed:
             problems.append(
-                f"cell {cell}: stance imbalance {acc} accepting / {act} active"
+                f"cell {cell}: stance imbalance "
+                + " / ".join(f"{c} {s}" for s, c in counts.items())
             )
     return problems
 
@@ -121,9 +137,9 @@ def calibration_report(
                               "within_tolerance": False, "stance_counts": {},
                               "per_item": {}}
             continue
-        vals = {d["id"]: scores[d["id"]] for d in members}
+        vals = {d[_F.id]: scores[d[_F.id]] for d in members}
         mean_p = sum(vals.values()) / len(vals)
-        stance_counts = {s: sum(1 for d in members if d["stoic_stance"] == s)
+        stance_counts = {s: sum(1 for d in members if d[_F.stance] == s)
                          for s in STANCES}
         per_cell[cell] = {
             "n": len(members),
@@ -136,9 +152,9 @@ def calibration_report(
 
     outliers = sorted(
         (
-            {"id": d["id"], "cell": cell_of(d), "p_stoic": scores[d["id"]]}
+            {"id": d[_F.id], "cell": cell_of(d), "p_stoic": scores[d[_F.id]]}
             for d in items
-            if not outlier_lo <= scores[d["id"]] <= outlier_hi
+            if not outlier_lo <= scores[d[_F.id]] <= outlier_hi
         ),
         key=lambda o: o["p_stoic"],
     )
@@ -150,7 +166,7 @@ def calibration_report(
         "outlier_range": [outlier_lo, outlier_hi],
         "n_items": len(items),
         "overall_mean_p_stoic": (
-            sum(scores[d["id"]] for d in items) / len(items) if items else None
+            sum(scores[d[_F.id]] for d in items) / len(items) if items else None
         ),
         "per_cell": per_cell,
         "outlier_items": outliers,

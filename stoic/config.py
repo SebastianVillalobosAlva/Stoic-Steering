@@ -1,8 +1,19 @@
 """Paths and canonical configuration — the single source of truth.
 
-The reference wall is enforced here by construction: `REFERENCE_DIR` is only ever
+Two kinds of setting live here, and the difference matters:
+
+- **Setup constants** (model, dtype, decoding) are properties of the *experiment*
+  and are identical on every behavioral axis. They are defined here.
+- **Instrument constants** (which arms, which layers, which dilemma set, which
+  judge rubric, which thresholds) are properties of the *axis under test*. They
+  are read from `stoic.axis.ACTIVE` and merely re-exported here, so that older
+  call sites and `scripts/exp12_*.py` keep the surface they were written
+  against.
+
+The reference wall is enforced by construction: `REFERENCE_DIR` is only ever
 read from, `GENERATED_DIR` is the only place the pipeline writes data artifacts.
-Nothing in this package should build a path into `reference/` for writing.
+Path roots are defined in `stoic/axis.py` (which must not import this module)
+and re-exported below, so there is exactly one definition of each.
 """
 
 from __future__ import annotations
@@ -12,16 +23,15 @@ from pathlib import Path
 
 import torch
 
-# --- Roots ---------------------------------------------------------------
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = PROJECT_ROOT / "data"
+from stoic.axis import ACTIVE, Arm, Axis
+from stoic.axis import (  # roots: defined in axis.py, re-exported here
+    DATA_DIR,
+    GENERATED_DIR,
+    MODELS_DIR,
+    PROJECT_ROOT,
+    REFERENCE_DIR,
+)
 
-# FROZEN. Read-only. Never write here.
-REFERENCE_DIR = DATA_DIR / "reference"
-# Everything the new pipeline produces goes here.
-GENERATED_DIR = DATA_DIR / "generated"
-
-MODELS_DIR = PROJECT_ROOT / "models"
 RESULTS_DIR = PROJECT_ROOT / "results"
 
 # --- Reference sub-paths (Pass A inputs) ---------------------------------
@@ -29,9 +39,11 @@ REF_PROCESSED_DIR = REFERENCE_DIR / "processed"      # {author}/neutral_pairs.js
 REF_CONFIG_DIR = REFERENCE_DIR / "config"            # dilemmas_v2.json, sources.json
 REF_VECTORS_DIR = REFERENCE_DIR / "steering_vectors"  # {author}_steering_3B.pt
 REF_CHUNKED_DIR = REFERENCE_DIR / "chunked"          # {author}/{work}.json (frozen chunks)
-DILEMMAS_V2 = REF_CONFIG_DIR / "dilemmas_v2.json"
+# The active axis's forced-choice ruler. On the stoic axis this is dilemmas_v2.json.
+DILEMMAS_V2 = ACTIVE.dilemmas_file
 # Corpus-acquisition source manifest (Gutenberg URLs + slicing boundaries).
 # Read-only input; provenance is also mirrored in docs/corpus-sources.md.
+# Stoic-only: corpus acquisition is not axis-generalized (see axis.json pass_b).
 SOURCES_JSON = REF_CONFIG_DIR / "sources.json"
 
 # --- Generated sub-paths (corpus/pairs pipeline output) ------------------
@@ -58,43 +70,65 @@ GEN_KWARGS = dict(
 
 @dataclass(frozen=True)
 class Author:
-    """A philosopher and the CAA config that steers toward them."""
+    """An axis arm bound to its axis, exposing the artifact paths.
 
-    key: str          # directory/name stem, e.g. "marcus_aurelius"
-    label: str        # short label used in dilemma-result configs, e.g. "marcus"
-    layer: int        # clean best CAA layer
-    coeff: float = 0.11
+    `Arm` deliberately knows nothing about paths — the `Axis` resolves those,
+    since where an arm's pairs/vector/adapter live is a property of the axis
+    config, not of the arm. This binds the two back together so the long-standing
+    `author.vector_file` / `author.adapter_dir` surface keeps working, which is
+    what `scripts/exp12_*.py` is written against.
+    """
+
+    arm: Arm
+    axis: Axis = field(default=ACTIVE, repr=False)
+
+    @property
+    def key(self) -> str:
+        return self.arm.key
+
+    @property
+    def label(self) -> str:
+        return self.arm.label
+
+    @property
+    def display(self) -> str:
+        return self.arm.display
+
+    @property
+    def layer(self) -> int:
+        return self.arm.layer
+
+    @property
+    def coeff(self) -> float:
+        return self.arm.coeff
 
     @property
     def pairs_file(self) -> Path:
-        return REF_PROCESSED_DIR / self.key / "neutral_pairs.json"
+        return self.axis.pairs_file(self.arm)
 
     @property
     def vector_file(self) -> Path:
-        return REF_VECTORS_DIR / f"{self.key}_steering_3B.pt"
+        return self.axis.vector_file(self.arm)
 
     @property
     def adapter_dir(self) -> Path:
-        return MODELS_DIR / f"lora_{self.label}_clean"
+        return self.axis.adapter_dir(self.arm)
 
 
-# CAA clean best layers / coeff (ground truth): Marcus L26, Seneca L4, Epictetus L8.
+# The arms of the active axis. On the stoic axis this is the CAA clean best
+# configuration (ground truth): Marcus L26, Seneca L4, Epictetus L8, coeff 0.11.
 AUTHORS: dict[str, Author] = {
-    "marcus": Author("marcus_aurelius", "marcus", layer=26),
-    "seneca": Author("seneca", "seneca", layer=4),
-    "epictetus": Author("epictetus", "epictetus", layer=8),
+    name: Author(arm, ACTIVE) for name, arm in ACTIVE.arms.items()
 }
 
 # The forced-choice ruler's known baseline (v2 set, both label orders averaged).
-DILEMMA_BASELINE = 0.542  # exact reference value: 0.541601902275579
+DILEMMA_BASELINE = ACTIVE.criteria.get("decision_baseline")  # stoic: 0.542
 
 # Exp 9 content effect targets (clean pairs, Gemini judge, coeff 0.11, n_seeds=5).
 # {author: (content_mean, content_std)}. Judge is nondeterministic → reproduce
 # the pattern (all positive, error bars overlapping), not the decimals.
 EXP9_CONTENT: dict[str, tuple[float, float]] = {
-    "marcus": (0.408, 0.136),
-    "seneca": (0.583, 0.121),
-    "epictetus": (0.767, 0.076),
+    k: tuple(v) for k, v in ACTIVE.reference_targets.get("exp9_content", {}).items()
 }
 
 # Exp 3b stylistic-authenticity deltas (the "robust" style claim under test).
@@ -102,28 +136,12 @@ EXP9_CONTENT: dict[str, tuple[float, float]] = {
 # pre-Exp-8 vectors AND the asymmetric decoding. The style re-test runs the
 # canonical clean configs at matched decoding; Exp 3b is the historical
 # reference, not an exact-config comparison.
-EXP3B_STYLE: dict[str, float] = {
-    "marcus": 1.00,
-    "seneca": 1.42,
-    "epictetus": 1.58,
-}
+EXP3B_STYLE: dict[str, float] = dict(ACTIVE.reference_targets.get("exp3b_style", {}))
 
 
 # --- Prompts for qualitative steering / seed eval (Stage 3+, unused in Pass A 0-2) ---
-DEFAULT_PROMPTS: list[str] = [
-    "When facing difficulty, one should",
-    "The nature of virtue is",
-    "To live well means",
-    "What is not in our power",
-    "We suffer not from events but from",
-    "The wise person is one who",
-    "True freedom comes from",
-    "The obstacle in the path becomes",
-    "Suffering teaches us that",
-    "We should remember that all things",
-    "Each day should be lived as if",
-    "Our duty to others requires",
-]
+# Read once at import from the axis's prompts file, in file order.
+DEFAULT_PROMPTS: list[str] = list(ACTIVE.prompts)
 
 
 @dataclass
@@ -145,6 +163,8 @@ def results_dir(stage: str) -> Path:
 
 
 # --- Contrastive-pair generation prompt (Pass B) -------------------------
+# STOIC-ONLY. Pass-B generation (corpus.py, pairs.py) is not axis-generalized;
+# a non-stoic axis supplies prepared pairs instead (see axis.json pass_b).
 # The exact prompt that produced the frozen neutral_pairs.json sets. Given a
 # Stoic passage, Claude argues the SAME situation from a competing worldview so
 # the pair isolates reasoning, not topic. Kept verbatim for provenance.
