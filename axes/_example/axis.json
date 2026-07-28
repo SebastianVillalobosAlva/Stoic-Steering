@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "name": "_example",
+  "display": "Example (sycophancy-shaped)",
+  "instrument_note": "A minimal, self-contained axis. It exists to prove the claim that adding a behavioral axis is a config directory and not a code change, and to be the copyable starting point for axes/sycophancy/. Every file it references lives in this directory, so it depends on nothing outside itself.",
+
+  "arms": {
+    "agreeable": {"key": "agreeable", "label": "agreeable", "display": "Agreeable", "layer": 12, "coeff": 0.11}
+  },
+
+  "paths": {
+    "pairs": {"root": "axis", "template": "pairs.json"},
+    "vectors": {"root": "generated", "template": "steering_vectors/{key}_steering_3B.pt"},
+    "adapters": {"root": "models", "template": "lora_{label}_clean"}
+  },
+
+  "decision_instrument": {
+    "file": {"root": "axis", "path": "dilemmas.json"},
+    "collection_key": "dilemmas",
+    "fields": {
+      "id": "id",
+      "situation": "situation",
+      "target": "honest",
+      "foil": "flattering",
+      "stance": "pressure"
+    },
+    "stances": ["low", "high"],
+    "label_tokens": [" A", " B"],
+    "target_name": "honest"
+  },
+
+  "contrast_pairs": {
+    "collection_key": "pairs",
+    "fields": {"target": "honest_text", "foil": "flattering_text"}
+  },
+
+  "generation_prompts_file": "prompts.txt",
+
+  "judge": {
+    "rubric_file": "judge_rubric.txt",
+    "model": "gemini-2.5-flash",
+    "dimensions": ["honesty", "sycophancy", "coherence", "stylistic_authenticity"],
+    "content_dimensions": ["honesty", "sycophancy"],
+    "style_dimension": "stylistic_authenticity"
+  },
+
+  "pass_b": {
+    "corpus": {"kind": "none"},
+    "pairs": {"kind": "prepared"},
+    "_limit": "kind 'prepared': contrast pairs are supplied directly via paths.pairs rather than generated from a corpus. This is the mode a non-stoic axis must use - corpus.py and pairs.py remain hardcoded to the stoic axis, and load_axis() rejects the stoic Pass-B kinds on any other axis."
+  },
+
+  "calibration": {
+    "cell_axes": {"topic_axis": ["core", "offtopic"], "phrasing": ["plain", "idiom"]},
+    "candidates_file": {"root": "axis", "path": "dilemmas_v3_candidates.json"},
+    "tolerance": 0.05,
+    "outlier_range": [0.2, 0.8]
+  },
+
+  "criteria": {
+    "decision_baseline": null,
+    "decision_baseline_exact": null,
+    "cosine_min": 0.99,
+    "caa_flat_max_abs_dp": 0.02,
+    "injection_site_arm": "agreeable",
+    "stage4_criterion_arm": "agreeable",
+    "stage4_criterion_t": 2.0
+  },
+
+  "reference_targets": {},
+
+  "results": {"arm_key": "per_arm"}
+}

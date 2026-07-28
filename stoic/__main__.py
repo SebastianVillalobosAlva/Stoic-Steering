@@ -1,4 +1,4 @@
-"""CLI: python -m stoic <command>
+"""CLI: python -m stoic [--axis NAME] <command>
 
 Pass A, Stage 0-2 checkpoints (all $0, local CPU):
 
@@ -9,14 +9,59 @@ Pass A, Stage 0-2 checkpoints (all $0, local CPU):
 
 Each command writes one JSON checkpoint under results/<stage>/. Stage logic
 lives in stoic/stages/; this module only parses arguments and dispatches.
+
+--- Why the axis is bound before the imports below ---
+
+`--axis` selects which behavioral axis the whole package runs against, and the
+axis is resolved once at import time (`stoic.axis.ACTIVE`). argparse runs far
+too late for that: by the time it parses `--axis`, `from stoic import config`
+has already executed and the axis is fixed. The flag would have looked like it
+worked while quietly doing nothing — and only the env-var path would have been
+real.
+
+So the flag is read straight off `sys.argv` *above* every `stoic` import, and
+exported as STOIC_AXIS. argparse still declares `--axis` so `--help` documents
+it, with its default read back from the environment, which is why `args.axis`
+and `ACTIVE.name` agree on both paths.
 """
 
 from __future__ import annotations
 
 import argparse
+import os
+import sys
 
-from stoic import config
-from stoic.stages import (
+# Duplicated from stoic.axis rather than imported: reading the name from there
+# would require importing stoic.axis, which is exactly what must not happen
+# until this variable is set.
+AXIS_ENV_VAR = "STOIC_AXIS"
+
+
+def _bind_axis_from_argv(argv: list[str]) -> str | None:
+    """Set STOIC_AXIS from `--axis NAME` / `--axis=NAME`; return the name or None.
+
+    Runs before any `stoic` import. Kept as a plain function so it can be
+    tested in-process, without spawning a subprocess to prove the flag works.
+    """
+    for i, token in enumerate(argv):
+        if token == "--axis" and i + 1 < len(argv):
+            name = argv[i + 1]
+        elif token.startswith("--axis="):
+            name = token.split("=", 1)[1]
+        else:
+            continue
+        os.environ[AXIS_ENV_VAR] = name
+        return name
+    return None
+
+
+# Order matters: capture what the environment said BEFORE the flag overwrites it.
+_ENV_AXIS_AT_IMPORT = os.environ.get(AXIS_ENV_VAR)
+_FLAG_AXIS = _bind_axis_from_argv(sys.argv)
+
+from stoic import config  # noqa: E402  (must follow the axis binding above)
+from stoic.axis import ACTIVE  # noqa: E402
+from stoic.stages import (  # noqa: E402
     calibrate_stage,
     corpus_stage,
     pairs_stage,
@@ -30,13 +75,23 @@ from stoic.stages import (
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="stoic")
+    parser = argparse.ArgumentParser(
+        prog="stoic",
+        description=f"active axis: {ACTIVE.name} ({ACTIVE.display})",
+    )
+    # Default read back from the environment, which _bind_axis_from_argv has
+    # already set if the flag was given — so this agrees with ACTIVE either way.
+    parser.add_argument(
+        "--axis", default=os.environ.get(AXIS_ENV_VAR, "stoic"),
+        help="behavioral axis to run against (a directory under axes/). "
+             "Also settable as STOIC_AXIS.",
+    )
     sub = parser.add_subparsers(dest="cmd", required=True)
     for c in ("stage0", "stage1", "stage2", "all"):
         sub.add_parser(c)
     p3 = sub.add_parser("stage3")
-    p3.add_argument("--author", choices=list(config.AUTHORS), default=None,
-                    help="run one author only (default: all three)")
+    p3.add_argument("--author", choices=list(ACTIVE.arms), default=None,
+                    help=f"run one arm only (default: all {len(ACTIVE.arms)})")
     p3.add_argument("--seeds", type=int, default=5)
     p3.add_argument("--sampled", action="store_true",
                     help="matched-SAMPLED comparison (both baseline+steered sampled, temp 0.6)")
@@ -47,9 +102,8 @@ def build_parser() -> argparse.ArgumentParser:
     pp = sub.add_parser("pairs")
     pp.add_argument("--num-pairs", type=int, default=63)
     pc = sub.add_parser("calibrate")
-    pc.add_argument("--items",
-                    default=str(config.GENERATED_DIR / "dilemmas_v3_candidates.json"),
-                    help="candidate dilemmas_v3 JSON (default: data/generated/dilemmas_v3_candidates.json)")
+    pc.add_argument("--items", default=str(ACTIVE.candidates_file),
+                    help="candidate dilemmas_v3 JSON (default: this axis's candidates_file)")
     pc.add_argument("--tolerance", type=float, default=0.05,
                     help="per-cell gate: |mean P(stoic) - 0.5| <= tolerance")
     pc.add_argument("--cell-size", type=int, default=None,
@@ -60,7 +114,22 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main():
+    # A flag that disagrees with the environment is an error, not a preference:
+    # picking one silently would attribute a run's numbers to the wrong axis,
+    # which is the failure this whole binding path exists to prevent.
+    if _FLAG_AXIS and _ENV_AXIS_AT_IMPORT and _FLAG_AXIS != _ENV_AXIS_AT_IMPORT:
+        raise SystemExit(
+            f"--axis {_FLAG_AXIS!r} disagrees with {AXIS_ENV_VAR}={_ENV_AXIS_AT_IMPORT!r}. "
+            f"Unset {AXIS_ENV_VAR} or drop the flag."
+        )
+
     args = build_parser().parse_args()
+    # Invariant, cheap to check: whichever path set the axis, the parsed value
+    # and the axis actually loaded must be the same one.
+    assert args.axis == ACTIVE.name, (
+        f"axis binding diverged: --axis/{AXIS_ENV_VAR} says {args.axis!r}, "
+        f"loaded axis is {ACTIVE.name!r}"
+    )
 
     # Corpus/pairs (Pass B) don't need the model — dispatch before loading it.
     if args.cmd == "corpus":
