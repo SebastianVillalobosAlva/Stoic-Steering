@@ -3,17 +3,17 @@
 The CLI exposes stages by number; the modules are named for what they do. That
 mapping used to live only in people's heads, so it lives here:
 
-    command      module        what it establishes                      cost
-    -----------  ------------  ---------------------------------------  ----
-    stage0       verify.py     deterministic decoding                   $0
-    stage1       verify.py     the ruler's base P(target)               $0
-    stage2       verify.py     vector fidelity + the CAA decision null  $0
-    stage3       content.py    judge-scored content effect              $
-    style        content.py    the Exp 3b style claim, re-tested        $
-    stage4       adapters.py   LoRA decision shift, judge-free          $0
-    calibrate    calibrate.py  the dilemmas_v3 per-cell gate            $0
-    corpus       passb.py      Pass B corpus acquisition                $0
-    pairs        passb.py      Pass B contrastive-pair generation       $
+    command      module        what it establishes                     
+    -----------  ------------  --------------------------------------- 
+    stage0       verify.py     deterministic decoding                  
+    stage1       verify.py     the ruler's base P(target)              
+    stage2       verify.py     vector fidelity + the CAA decision null 
+    stage3       content.py    judge-scored content effect             
+    style        content.py    the Exp 3b style claim, re-tested       
+    stage4       adapters.py   LoRA decision shift, judge-free         
+    calibrate    calibrate.py  the dilemmas_v3 per-cell gate           
+    corpus       passb.py      Pass B corpus acquisition               
+    pairs        passb.py      Pass B contrastive-pair generation      
 
 Two files in the tree are called `calibrate`, and the split is deliberate:
 this package's `calibrate.py` is the *stage* — loads candidates, scores them on

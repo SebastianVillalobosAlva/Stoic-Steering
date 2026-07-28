@@ -116,23 +116,86 @@ hide refactor damage inside expected drift.
 |---|---|---|
 | Dilemma baseline mean | 0.541601902275579 | 0.5416093931009527 |
 | Per-item baseline exact matches | — | 19 / 40 |
-| Largest per-item deviation | — | ~1.6e-3 |
+| Largest per-item baseline deviation | — | **4.26e-3** (`ext_06`); median 2.2e-4 |
+| Largest steered deviation | — | 5.6e-3 (Seneca), 3.1e-3 (Marcus) |
 | Stage-3 greedy generations reproduced | — | 9 / 12 per set |
 | Marcus sign test | 27+/13−, p = 0.038 | 24+/16−, p = 0.268 |
 | Seneca sign test | 25+/15−, p = 0.154 | identical |
 | Epictetus sign test | 17+/23−, p = 0.430 | identical |
 | Marcus / Seneca / Epictetus ΔP | +0.0307 / +0.0606 / +0.0003 | identical to 4 dp |
+| All t-statistics and bucket p-values | — | reproduce to ~4 dp |
 
-**Decision.** Accepted for refactor verification. Conclusions are unaffected —
-the drift is ~3–5% of the LoRA decision effect.
+*(An earlier revision of this entry said the ceiling was ~1.6e-3. That came from
+inspecting only the first 5 of 21 differing items. The true maximum is 4.26e-3 —
+roughly 3× wider, which matters for choosing any tolerance.)*
 
-**Why it still matters.** The sign test counts item directions rather than
-averaging magnitudes, so items sitting near zero delta flip sides. Marcus has
-several; Seneca's positives are carried by larger per-item shifts and are stable.
-Claims stated "to 4 decimals" reproduce only under the pinned torch.
+**Decision.** Accepted for refactor verification. Every magnitude-based
+statistic reproduces to ~4 dp, because a per-item drift of ~4e-3 largely cancels
+when averaged over 40 items. That cancellation is exactly why means survive and
+the sign test does not.
 
-**Open.** Whether `torch==2.5.1` restores 27+/13− is unverified. Tracked
-separately; do not restate p = 0.038 as settled until it is.
+**Why it still matters.** The sign test discards magnitude, so any item whose Δ
+sits inside numerical noise contributes a coin flip. Exactly three Marcus items
+flipped — `ctrl_05`, `emot_05`, `ext_06` — and they are precisely the three whose
+|Δ| was below the drift scale. `emot_05` is the clean case: its *steered* value
+is bit-identical across torch versions, so the flip comes entirely from baseline
+drift in the paired quantity.
+
+Seneca held, but by one item: its smallest |Δ| (−0.00234, `fate_03`) is also
+inside the drift band and simply did not flip. Stable by luck, not by margin.
+
+**Open, and not testable here.** Whether `torch==2.5.1` restores 27+/13− is
+unverified: 2.5.1 has no wheel for this interpreter (Python 3.13.5, macOS
+arm64 — PyPI's set starts at 2.6.0), so the pin in `pyproject.toml` is currently
+uninstallable on this machine. Confirming it needs a Python 3.12 environment.
+Do not restate p = 0.038 as settled until then — and note that an effect visible
+only under one torch build is not one to lean on regardless.
+
+---
+
+## 2026-07-28 — The CLAUDE.md "open discrepancy" resolves as *both get stated*
+
+**The discrepancy.** CLAUDE.md Status asked whether the summary docs overclaim
+by citing a Seneca t≈2.58 while the in-repo sign test is 25+/15−, p = 0.154 (n.s.).
+
+**Resolution: they measure different things, and both are correct.** The t≈2.58
+is in the checked-in JSON — `seneca.overall.t_stat = 2.576132231272829,
+p = 0.0139`. The summary docs cite the **paired t-test on ΔP** (magnitude); the
+READMEs cite the **sign test** (direction consistency). This is the "both get
+stated" branch, not the overclaim branch.
+
+**And the re-run sharpens it.** On the magnitude statistic Seneca (t = 2.58) is
+the stronger mover, ahead of Marcus (t = 2.00) — which matches story beat 3. The
+*only* statistic that made Marcus look like the significant arm is the sign test,
+and it is the one that does not survive a torch bump.
+
+**Framing for the write-up.** The honest reading is that the sign test was the
+wrong instrument for a 40-item paired comparison containing several near-zero
+deltas — not that Marcus's effect vanished; its mean ΔP reproduced to 4 dp. That
+is a methodology upgrade, consistent with story beat 1, rather than a retraction.
+Untouched either way: Marcus's accepting-only pattern (bucket p = 0.007) and the
+CAA-null / LoRA-moves split are magnitude claims.
+
+**Action before the v3 sweep.** Pre-register a tolerance-aware or
+magnitude-based directional statistic, so the same failure cannot recur on 40
+fresh items. Choosing a tolerance *after* seeing the flip would be post-hoc.
+
+---
+
+## 2026-07-28 — `tests/test_stats.py` will fail the next time stage 4 runs
+
+**Fact.** `test_sign_test_reproduces_published_numbers` hardcodes
+`marcus: (27, 13, 0.0385)` and resolves its input through `_latest()`, which is
+the last file by sorted glob. It passes today only because the newest stage-4
+JSON is the frozen 2026-07-17 one.
+
+**Consequence.** The moment any new `results/stage4_lora_dilemmas/lora_dilemmas_*.json`
+lands, the test picks it up and compares it against the old expectation, and the
+suite goes red for a reason that has nothing to do with the code.
+
+**Not fixed yet** — it touches how the replication record is read, so it should
+be a deliberate choice: pin the test to the specific frozen filename, or carry
+expectations keyed by file so both runs are asserted.
 
 ---
 
