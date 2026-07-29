@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from stoic.calibrate import (
+from stoic.calibration import (
     CELLS,
     calibration_report,
     cell_of,

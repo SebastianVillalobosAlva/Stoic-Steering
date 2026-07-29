@@ -20,48 +20,20 @@ import time
 
 import torch
 
+from stoic.axis import ACTIVE
 from stoic.config import DEFAULT_PROMPTS, GEN_KWARGS
 from stoic.model import generate
 from stoic.steering import steering
 
-JUDGE_MODEL = "gemini-2.5-flash"
+# Judge configuration comes from the active axis: a sycophancy axis scores
+# different dimensions against a different rubric, but through this same code.
+JUDGE_MODEL = ACTIVE.judge["model"]
+DIMENSIONS = list(ACTIVE.judge["dimensions"])
+CONTENT_DIMENSIONS = list(ACTIVE.judge["content_dimensions"])
+STYLE_DIMENSION = ACTIVE.judge.get("style_dimension", "stylistic_authenticity")
 
-DIMENSIONS = [
-    "philosophical_depth",
-    "stoic_alignment",
-    "coherence",
-    "stylistic_authenticity",
-]
-
-STOIC_RUBRIC = """
-Score the following text on how well it reflects Stoic philosophical principles.
-Evaluate on these 4 dimensions, each scored 1-5:
-
-1. PHILOSOPHICAL DEPTH (1-5)
-   1 = No philosophical content, generic or off-topic
-   3 = Some philosophical ideas but surface-level
-   5 = Deep engagement with Stoic concepts (virtue, reason, nature, acceptance)
-
-2. STOIC ALIGNMENT (1-5)
-   1 = Contradicts Stoic principles or is philosophically neutral
-   3 = Loosely aligned with Stoic ideas
-   5 = Clearly reflects core Stoic doctrines (dichotomy of control, virtue as
-       sole good, living according to nature, rational acceptance)
-
-3. COHERENCE (1-5)
-   1 = Incoherent, repetitive, or nonsensical
-   3 = Readable but disorganized or partially repetitive
-   5 = Clear, well-structured, logically flowing
-
-4. STYLISTIC AUTHENTICITY (1-5)
-   1 = Modern casual language, no philosophical register
-   3 = Some philosophical tone but inconsistent
-   5 = Reads like translated ancient philosophical text (aphoristic,
-       contemplative, uses philosophical vocabulary naturally)
-
-Respond ONLY with a JSON object in this exact format, no other text:
-{"philosophical_depth": X, "stoic_alignment": X, "coherence": X, "stylistic_authenticity": X, "reasoning": "brief explanation"}
-""".strip()
+# The rubric text, verbatim from the axis directory (axes/<name>/judge_rubric.txt).
+JUDGE_RUBRIC = ACTIVE.judge_rubric
 
 
 def make_gemini_client(api_key: str, model: str = JUDGE_MODEL):
@@ -106,7 +78,7 @@ def score(client, model: str, text: str, prompt: str = "", max_retries: int = 5)
 
     Retries transient API failures (503 overload, 429 rate limit, timeouts) with
     exponential backoff so a momentary spike doesn't kill a long run."""
-    msg = f"{STOIC_RUBRIC}\n\n"
+    msg = f"{JUDGE_RUBRIC}\n\n"
     if prompt:
         msg += f"PROMPT: {prompt}\n\n"
     msg += f"TEXT TO EVALUATE:\n{text}"
@@ -141,8 +113,12 @@ def score(client, model: str, text: str, prompt: str = "", max_retries: int = 5)
 
 
 def content_score(deltas: dict) -> float:
-    """Stoic content delta = (Δphilosophical_depth + Δstoic_alignment) / 2."""
-    return (deltas["philosophical_depth"] + deltas["stoic_alignment"]) / 2
+    """Content delta = mean of the axis's content dimensions.
+
+    On the stoic axis that is (Δphilosophical_depth + Δstoic_alignment) / 2 —
+    identical arithmetic, now named by the axis rather than hardcoded.
+    """
+    return sum(deltas[d] for d in CONTENT_DIMENSIONS) / len(CONTENT_DIMENSIONS)
 
 
 def evaluate_steering(
@@ -205,8 +181,10 @@ def judge_fixed_texts(
                 deltas[d][i] = ss.get(d, 0) - us.get(d, 0)
         avg = {d: sum(v) / n for d, v in deltas.items()}
         per_seed.append(avg)
-        print(f"  seed {s}: style={avg['stylistic_authenticity']:+.3f}  "
-              f"content={(avg['philosophical_depth'] + avg['stoic_alignment']) / 2:+.3f}")
+        # Second content computation in this module — kept in step with
+        # content_score() by routing both through CONTENT_DIMENSIONS.
+        print(f"  seed {s}: style={avg[STYLE_DIMENSION]:+.3f}  "
+              f"content={content_score(avg):+.3f}")
     return {"per_seed_deltas": per_seed, "n_identical": n - len(differing), "n_prompts": n}
 
 

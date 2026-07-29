@@ -20,15 +20,18 @@ from pathlib import Path
 
 import torch
 
+from stoic.axis import ACTIVE
+
 
 def _mlp(model, layer: int):
     return model.model.layers[layer].mlp
 
 
-def load_pairs(pairs_file: str | Path) -> list[dict]:
+def load_pairs(pairs_file: str | Path, collection_key: str | None = None) -> list[dict]:
     with open(pairs_file) as f:
         data = json.load(f)
-    pairs = data["pairs"] if isinstance(data, dict) else data
+    key = collection_key or ACTIVE.pairs_collection_key
+    pairs = data[key] if isinstance(data, dict) else data
     return pairs
 
 
@@ -52,19 +55,24 @@ def _mean_activation(model, tokenizer, text: str, layer: int) -> torch.Tensor:
     return captured["h"].mean(dim=1).squeeze(0)
 
 
-def extract_vector(model, tokenizer, pairs: list[dict], layer: int) -> torch.Tensor:
-    """CAA steering vector at `layer`: mean over pairs of (stoic − neutral).
+def extract_vector(model, tokenizer, pairs: list[dict], layer: int, *, fields=None) -> torch.Tensor:
+    """CAA steering vector at `layer`: mean over pairs of (target − foil).
 
     `layer` is required and is the same site the vector is injected at (see
     `steering()`), so extraction and injection can never drift apart.
+
+    `fields` names which keys hold the two sides of each pair; it defaults to
+    the active axis's map (stoic: stoic_text/neutral_text). Summation order is
+    unchanged — this is a rename of the lookup, not of the arithmetic.
     """
+    fields = fields or ACTIVE.pair_fields
     total = None
     n = len(pairs)
     for i, pair in enumerate(pairs, 1):
         print(f"  extract L{layer}: pair {i}/{n}", end="\r")
-        stoic = _mean_activation(model, tokenizer, pair["stoic_text"], layer)
-        neutral = _mean_activation(model, tokenizer, pair["neutral_text"], layer)
-        diff = stoic - neutral
+        target = _mean_activation(model, tokenizer, pair[fields.target], layer)
+        foil = _mean_activation(model, tokenizer, pair[fields.foil], layer)
+        diff = target - foil
         total = diff if total is None else total + diff
     print()
     return total / n

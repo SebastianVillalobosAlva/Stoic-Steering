@@ -1,5 +1,8 @@
 """dilemmas_v3 calibration stage — validate candidates, score on base, gate.
 
+Command: `calibrate`. The maths lives in stoic/calibration.py; this module is
+the stage around it (see stoic/stages/__init__.py for the full map).
+
 $0, local CPU, judge-free (same one-forward-pass instrument as the v2 ruler).
 Reads candidate items from data/generated/ (or --items); writes a calibration
 report JSON under results/dilemmas_v3_calibration/. Never touches reference/.
@@ -9,8 +12,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from stoic.calibrate import (
+from stoic.axis import ACTIVE
+from stoic.calibration import (
     CELLS,
+    STANCES,
     calibration_report,
     load_candidates,
     validate_items,
@@ -50,15 +55,14 @@ def calibrate_stage(
     scores = eval_dilemmas(model, tokenizer, items)
     report = calibration_report(items, scores, tolerance=tolerance)
 
-    print(f"\nPer-cell baseline P(stoic)  (gate: |mean − 0.5| ≤ {tolerance}):")
+    print(f"\nPer-cell baseline P({ACTIVE.target_name})  (gate: |mean − 0.5| ≤ {tolerance}):")
     for cell in CELLS:
         c = report["per_cell"][cell]
         mark = "✓" if c["within_tolerance"] else "✗"
-        stance = "/".join(str(c["stance_counts"].get(s, 0))
-                          for s in ("accepting", "active"))
+        stance = "/".join(str(c["stance_counts"].get(s, 0)) for s in STANCES)
         print(f"  {cell:16s} n={c['n']:>2}  mean={c['mean_p_stoic']:.4f}  "
               f"|dev|={c['abs_dev']:.4f}  stance {stance}  {mark}")
-    print(f"overall mean P(stoic): {report['overall_mean_p_stoic']:.4f}")
+    print(f"overall mean P({ACTIVE.target_name}): {report['overall_mean_p_stoic']:.4f}")
 
     if report["outlier_items"]:
         lo, hi = report["outlier_range"]
@@ -70,7 +74,7 @@ def calibrate_stage(
     print(f"\nCalibration gate: {'PASSED — set is eval-ready' if gate else 'NOT passed — iterate items and re-run'}")
 
     result = {
-        "check": f"per-cell baseline P(stoic) within {tolerance} of 0.5 on the base model, "
+        "check": f"per-cell baseline P({ACTIVE.target_name}) within {tolerance} of 0.5 on the base model, "
                  "both label orders averaged, BEFORE any adapter eval (v1's 0.881 is the cautionary record)",
         "items_file": str(items_path),
         "structural_problems": [],

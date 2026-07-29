@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "name": "stoic",
+  "display": "Stoic",
+  "instrument_note": "Stoic corpora build the behavioral axis; they are the instrument, not the claim. The subject is intervention locus (weight-space vs activation-space).",
+
+  "arms": {
+    "marcus": {"key": "marcus_aurelius", "label": "marcus", "display": "Marcus Aurelius", "layer": 26, "coeff": 0.11},
+    "seneca": {"key": "seneca", "label": "seneca", "display": "Seneca", "layer": 4, "coeff": 0.11},
+    "epictetus": {"key": "epictetus", "label": "epictetus", "display": "Epictetus", "layer": 8, "coeff": 0.11}
+  },
+
+  "paths": {
+    "pairs": {"root": "reference", "template": "processed/{key}/neutral_pairs.json"},
+    "vectors": {"root": "reference", "template": "steering_vectors/{key}_steering_3B.pt"},
+    "adapters": {"root": "models", "template": "lora_{label}_clean"}
+  },
+
+  "decision_instrument": {
+    "file": {"root": "reference", "path": "config/dilemmas_v2.json"},
+    "collection_key": "dilemmas",
+    "fields": {
+      "id": "id",
+      "situation": "situation",
+      "target": "stoic",
+      "foil": "nonstoic",
+      "stance": "stoic_stance"
+    },
+    "stances": ["accepting", "active"],
+    "label_tokens": [" A", " B"],
+    "target_name": "stoic"
+  },
+
+  "contrast_pairs": {
+    "collection_key": "pairs",
+    "fields": {"target": "stoic_text", "foil": "neutral_text"}
+  },
+
+  "generation_prompts_file": "prompts.txt",
+
+  "judge": {
+    "rubric_file": "judge_rubric.txt",
+    "model": "gemini-2.5-flash",
+    "dimensions": ["philosophical_depth", "stoic_alignment", "coherence", "stylistic_authenticity"],
+    "content_dimensions": ["philosophical_depth", "stoic_alignment"],
+    "style_dimension": "stylistic_authenticity"
+  },
+
+  "pass_b": {
+    "corpus": {"kind": "gutenberg"},
+    "pairs": {"kind": "corpus_contrastive"},
+    "_limit": "Pass-B generation (stoic/corpus.py, stoic/pairs.py) is hardcoded to the stoic axis. load_axis() rejects corpus.kind=='gutenberg' or pairs.kind=='corpus_contrastive' on any axis other than 'stoic'. Deliberate scope cut in the Task-2 refactor: sycophancy is kind 'prepared' (trait pairs supplied directly), so generalizing Pass B does not unblock the second axis - it serves roadmap item 9 (Pass B on the stoic axis)."
+  },
+
+  "calibration": {
+    "cell_axes": {"topic_axis": ["core", "offtopic"], "phrasing": ["plain", "idiom"]},
+    "candidates_file": {"root": "generated", "path": "dilemmas_v3_candidates.json"},
+    "tolerance": 0.05,
+    "outlier_range": [0.2, 0.8]
+  },
+
+  "criteria": {
+    "decision_baseline": 0.542,
+    "decision_baseline_exact": 0.541601902275579,
+    "cosine_min": 0.99,
+    "caa_flat_max_abs_dp": 0.02,
+    "injection_site_arm": "epictetus",
+    "stage4_criterion_arm": "seneca",
+    "stage4_criterion_t": 2.0
+  },
+
+  "reference_targets": {
+    "exp9_content": {
+      "marcus": [0.408, 0.136],
+      "seneca": [0.583, 0.121],
+      "epictetus": [0.767, 0.076]
+    },
+    "exp3b_style": {"marcus": 1.0, "seneca": 1.42, "epictetus": 1.58}
+  },
+
+  "results": {"arm_key": "per_author"}
+}

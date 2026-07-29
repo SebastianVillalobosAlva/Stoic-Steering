@@ -8,7 +8,7 @@ import torch
 from stoic.dilemmas import (
     deltas_by_stance,
     mean,
-    p_stoic,
+    p_target,
     _p_first_label,
     _single_token_id,
 )
@@ -99,18 +99,18 @@ def test_pure_label_bias_cancels_exactly():
     """A model that always prefers 'A' must score P(stoic) = 0.5 — the
     both-label-orders average is what makes the 0.542 baseline meaningful."""
     tok = FakeTokenizer()
-    p = p_stoic(PositionBiasModel(bias=3.0), tok, DILEMMA, TOK_A, TOK_B)
+    p = p_target(PositionBiasModel(bias=3.0), tok, DILEMMA, TOK_A, TOK_B)
     assert p == pytest.approx(0.5)
 
 
 def test_genuine_preference_survives_debiasing():
     tok = FakeTokenizer()
     model = ContentModel(tok, marker="ACCEPT_IT", strength=2.0)
-    p = p_stoic(model, tok, DILEMMA, TOK_A, TOK_B)
+    p = p_target(model, tok, DILEMMA, TOK_A, TOK_B)
     expected = torch.sigmoid(torch.tensor(2.0)).item()  # favored in BOTH orders
     assert p == pytest.approx(expected)
     anti = ContentModel(tok, marker="RAGE_AT_IT", strength=2.0)
-    assert p_stoic(anti, tok, DILEMMA, TOK_A, TOK_B) == pytest.approx(1 - expected)
+    assert p_target(anti, tok, DILEMMA, TOK_A, TOK_B) == pytest.approx(1 - expected)
 
 
 def test_mean_and_stance_buckets():

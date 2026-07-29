@@ -10,6 +10,7 @@ Everything is measured under one canonical decoding setting. Pass A (Stages
 0–4) and the circuit analysis (Exp 12) are complete and verified. Current work
 is in Next steps below. Per-stage numbers: [results/README.md](results/README.md).
 Measurement-artifact writeup: [docs/measurement-artifact.md](docs/measurement-artifact.md).
+Engineering decisions and environment facts: [docs/decisions.md](docs/decisions.md).
 
 ## What this repo is about (framing — read before touching any prose)
 
@@ -50,6 +51,22 @@ reframe plan lives in `docs/reframe-brief.md`; the audit output goes to
 - Do NOT regenerate contrastive pairs, vectors, or adapters into `reference/`.
   If a stage is about to write into `reference/`, that is a bug — stop.
 
+## Environment (this machine, verified 2026-07-28)
+
+- **`USE_TF=0` is required for any model load.** `transformers` probes for
+  TensorFlow and the local TF build segfaults inside `preload_check` — exit 139
+  before a weight is read. `python -m stoic stage1` dies without it.
+- **torch 2.8.0 installed; `pyproject.toml` pins 2.5.1** — and 2.5.1 has no
+  wheel for Python 3.13, so the pin is currently uninstallable here.
+  Consequence: per-item fp16 CPU drift up to 4.3e-3. Magnitude statistics
+  reproduce to ~4 dp; the sign test does not (see Status).
+- **`peft` is not installed by default** — Stage 4 needs `pip install -e '.[lora]'`.
+  The frozen adapters were saved by a newer peft than the pinned 0.18.1;
+  the ignored keys don't affect the canonical recipe.
+- **ModelLens** is a sibling repo: `pip install -e ../modellens`.
+
+Full rationale and numbers: [docs/decisions.md](docs/decisions.md).
+
 ## Model
 
 - Base: `meta-llama/Llama-3.2-3B`, float16. No 1B.
@@ -82,6 +99,11 @@ The vectors + adapters are NOT in git (too large); fetch them from HF with
 - `extract_vector(pairs, layer)` extracts AND injects at the same layer.
 - Load tokenizer from BASE, never from the adapter folder.
 - LoRA merge: fresh base per adapter + assert base integrity (0.542 → 0.542, drift 0).
+- **Refactors are proven, not asserted.** `scripts/axis_snapshot.py` captures
+  every deterministic quantity (floats as `float.hex()`); run it at HEAD before
+  editing, again after, and diff. before↔after is the claim that nothing
+  changed; snapshot↔checked-in `results/` is a separate environment check, kept
+  separate so drift is never mistaken for damage.
 - These rules are pinned by CPU-only unit tests in `tests/` (hook hygiene,
   canonical decoding, dilemma math, stats vs published numbers, reference-wall
   tripwire, fixture integrity). Run `pytest` before committing changes to
@@ -101,27 +123,53 @@ The vectors + adapters are NOT in git (too large); fetch them from HF with
   decisions (Seneca both stance buckets, Marcus accepting-only, Epictetus null).
   Numbers: [results/README.md](results/README.md).
 - **Exp 12 (clean circuit analysis) — complete.** `results/exp12_circuits/`.
-  Status remains **n=1-per-stance pilot** until the v3 sweep.
+  Status remains **n=1-per-stance pilot** until the v3 sweep. The harness was
+  unrunnable until 2026-07-28 (`exp12_circuit_analysis.py` hardcoded a ModelLens
+  path that no longer existed); fixed, and both scripts import again. A full
+  exp12 re-run is still unverified — the v3 sweep is the natural place.
+- **Axis refactor (Next steps 0) — complete & verified 2026-07-28.** A
+  behavioral axis is now a config directory (`axes/<name>/`), not code; adding
+  sycophancy is `axes/sycophancy/`. Verified byte-identical against a snapshot
+  captured before any edit — all 11 artifacts bit-for-bit, 87 tests. Naming
+  cleanup done alongside (`docs/naming-cleanup.md`). Method and tool:
+  `scripts/axis_snapshot.py`, rationale in [docs/decisions.md](docs/decisions.md).
 - **Pass B — built, not yet run.** The corpus pipeline (`stoic/corpus.py`,
   `stoic/pairs.py`) is built and verified against the frozen chunk counts; the
   fresh-data re-run of Stages 2–4 (writing only to `generated/`, ~$10–15 API for
-  pair + judge rounds) is still open.
-- **Open discrepancy to resolve before the write-up:** story beat 3 calls
-  Seneca the strongest decision-mover, but the in-repo sign test is 25+/15−,
-  p=0.154 (n.s.), while Marcus is 27+/13−, p=0.038. Summary docs elsewhere cite
-  a Seneca t≈2.58. Either these measure different things and both get stated,
-  or the summary docs overclaim. Resolve, don't paper over.
+  pair + judge rounds) is still open. Deliberately **not** axis-generalized: a
+  non-stoic axis supplies prepared pairs instead.
+- **Open discrepancy — RESOLVED 2026-07-28 as "both get stated."** Story beat 3
+  calls Seneca the strongest decision-mover; the in-repo sign test is 25+/15−,
+  p=0.154 (n.s.) while Marcus is 27+/13−, p=0.038. The two are different
+  instruments and both are correct: the summary docs cite the **paired t-test on
+  ΔP** (`seneca.overall.t_stat = 2.5761, p = 0.0139`, in the checked-in JSON),
+  the READMEs cite the **sign test**. On magnitude Seneca (t=2.58) does lead
+  Marcus (t=2.00), which is what beat 3 claims. Not the overclaim branch.
+- **New caveat from the same investigation:** Marcus's sign test is **not
+  version-stable**. Under torch 2.8.0 (pinned: 2.5.1) it becomes 24+/16−,
+  p=0.268 — exactly three items whose |Δ| sat inside ~4e-3 of fp16 CPU drift
+  flipped sign. Seneca held by a single item. Every magnitude statistic
+  reproduces to ~4 dp. The honest framing is that the sign test was the wrong
+  instrument for a 40-item paired comparison with several near-zero deltas, not
+  that Marcus's effect vanished. Numbers and mechanism: `docs/decisions.md`.
+  **Pre-register a tolerance-aware or magnitude-based directional statistic
+  before the v3 sweep** — picking a tolerance now would be post-hoc.
 
 ## Next steps (priority order)
 
-0. **Reframe audit + axis-agnostic refactor.** Audit produces
-   `docs/reframe-plan.md` (map only, no prose rewrites). Refactor makes the
-   behavioral axis a config object. Both gate step 6.
-1. **ModelLens: upstream bugfix + core regression tests.** The
-   `_capture_activations` closure-return bug is currently patched locally in
-   `exp12_circuit_analysis.py` — fix it upstream before anything public. Then
-   hook cleanup after exceptions, custom `metric_fn` dispatch, adapter
-   dispatch, patching determinism. Gates step 4.
+0. ~~**Reframe audit + axis-agnostic refactor.**~~ **DONE 2026-07-28.** Audit
+   produced `docs/reframe-plan.md`; the refactor made the behavioral axis a
+   config object, verified byte-identical. **Step 6 is no longer gated.** The
+   remaining half of the reframe — the prose itself — is step 10, and is
+   Sebastian's to write.
+1. ~~**ModelLens: upstream bugfix + core regression tests.**~~ **DONE.** The
+   `_capture_activations` closure-return bug was fixed upstream as `44d9b77`
+   (2026-07-06), on `main` and pushed; `tests/test_core_regression.py` covers it
+   plus hook cleanup after exceptions, custom `metric_fn` dispatch and adapter
+   dispatch (33 passed, 1 skipped). The local hotfix is removed — keeping it was
+   actively harmful, since it overwrote upstream's function at runtime.
+   **Step 4 is no longer gated by ModelLens.** What remains before the sweep is
+   a single full exp12 run to confirm the repaired import end-to-end (~1 h, $0).
 2. **`dilemmas_v3` — the reasoning-vs-echo gate (DO FIRST among experiments).**
    2×2 design: Letters-core vs off-topic × plain vs Stoic-idiom phrasing; 10
    items/cell (40), stance-balanced, calibrated to per-cell P(stoic) ≈ 0.5
@@ -253,6 +301,12 @@ Housekeeping (resolved 2026-07-16): the 25/40 sign test the READMEs cite is now
 computed in-repo (`dilemmas.sign_test`, wired into stage 4). Verified from the
 checked-in JSONs: Marcus 27+/13− p=0.038, Seneca 25+/15− p=0.154 (the cited
 n.s.), Epictetus 17+/23− p=0.430.
+  → **Superseded in part, 2026-07-28.** Those three triples remain exactly what
+  the named checked-in JSONs contain, and `tests/test_stats.py` now pins them to
+  those files by name. What changed is their *stability*: re-running under torch
+  2.8.0 gives Marcus 24+/16− p=0.268 while Seneca and Epictetus are unchanged.
+  Nothing is retracted — the original claim stands as a claim about that run.
+  See the Status entry above and `docs/decisions.md` for the mechanism.
 
 Frozen binaries (resolved 2026-07-17): the untracked steering vectors + LoRA
 adapters are hosted at HF `seb-vil/llama-3.2-3b-stoic-steering` (public).

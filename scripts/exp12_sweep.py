@@ -26,7 +26,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "scripts"))
 
-import exp12_circuit_analysis as harness  # exact same config/hotfix/threshold
+import exp12_circuit_analysis as harness  # exact same config/threshold
 
 OUT_DIR = harness.OUT_DIR
 
@@ -60,13 +60,12 @@ def _late_resolution(circ) -> dict:
 def run_analyze():
     import torch
 
-    harness._install_capture_hotfix()
     from modellens import ModelLens
     from modellens.analysis import activation_patching as ap
     from modellens.analysis.circuit_discovery import discover_circuit
 
     from stoic import config
-    from stoic.dilemmas import PROMPT_TEMPLATE, _single_token_id, load_dilemmas, p_stoic
+    from stoic.dilemmas import PROMPT_TEMPLATE, _single_token_id, load_dilemmas, p_target
     from stoic.lora import merge_adapter
     from stoic.model import load_model
 
@@ -93,7 +92,7 @@ def run_analyze():
         ci, xi = tokenizer(clean, return_tensors="pt"), tokenizer(corr, return_tensors="pt")
         assert ci["input_ids"].shape == xi["input_ids"].shape, f"{iid} length mismatch"
         inputs[iid] = (ci, xi)
-        p_start[iid] = p_stoic(model, tokenizer, d, tok_a, tok_b)
+        p_start[iid] = p_target(model, tokenizer, d, tok_a, tok_b)
         print(f"guardrail: base P(stoic) {iid} start = {p_start[iid]:.6f}")
 
     results = {
@@ -122,7 +121,7 @@ def run_analyze():
         results["circuits"][iid]["base"] = circuit(lens, iid, "base")
 
     for author_name in SWEEP_AUTHORS:
-        author = config.AUTHORS[author_name]
+        author = config.ARMS[author_name]
         print(f"\n=== LoRA {author_name} circuits (fresh base merge) ===")
         merged = merge_adapter(author.adapter_dir)
         lens_m = ModelLens(merged)
@@ -138,7 +137,7 @@ def run_analyze():
     print("\nguardrail: base integrity end-of-run")
     integrity = {}
     for iid in sweep_ids:
-        p_end = p_stoic(model, tokenizer, all_items[iid], tok_a, tok_b)
+        p_end = p_target(model, tokenizer, all_items[iid], tok_a, tok_b)
         drift = abs(p_end - p_start[iid])
         integrity[iid] = {"p_start": p_start[iid], "p_end": p_end, "drift": drift}
         flag = "" if drift == 0.0 else "  !! VIOLATION !!"

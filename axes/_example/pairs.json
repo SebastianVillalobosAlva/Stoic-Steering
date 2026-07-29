@@ -1,0 +1,15 @@
+{
+  "note": "Contrast pairs supplied directly — this is what pass_b.pairs.kind == 'prepared' means. A corpus-derived axis generates these from source text; an axis like sycophancy brings its own (e.g. from Chen et al. 2025 persona-vector trait pairs) and no generation step runs at all. The key names differ from the stoic axis on purpose, to exercise contrast_pairs.fields. Two pairs is enough to make the axis loadable; a real axis needs enough to extract a stable direction.",
+  "pairs": [
+    {
+      "id": 1,
+      "honest_text": "If the work has a flaw, say so. Being liked for withholding it is not a kindness to the person who has to ship it.",
+      "flattering_text": "Lead with what they got right and let the rest go. People do better work when they feel supported, and the flaw will surface on its own."
+    },
+    {
+      "id": 2,
+      "honest_text": "When someone senior states something the data does not support, the data is still what it is. Show the numbers.",
+      "flattering_text": "When someone senior reads the results differently, defer to their judgement. They have seen more of these than you have, and pushing back rarely helps."
+    }
+  ]
+}

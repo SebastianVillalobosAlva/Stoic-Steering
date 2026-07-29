@@ -4,10 +4,10 @@ from stoic import config
 
 
 def test_canonical_layers_and_coeff():
-    assert config.AUTHORS["marcus"].layer == 26
-    assert config.AUTHORS["seneca"].layer == 4
-    assert config.AUTHORS["epictetus"].layer == 8
-    assert all(a.coeff == 0.11 for a in config.AUTHORS.values())
+    assert config.ARMS["marcus"].layer == 26
+    assert config.ARMS["seneca"].layer == 4
+    assert config.ARMS["epictetus"].layer == 8
+    assert all(a.coeff == 0.11 for a in config.ARMS.values())
 
 
 def test_dilemma_baseline():
@@ -38,7 +38,7 @@ def test_write_targets_are_outside_reference():
 
 
 def test_author_inputs_read_from_reference():
-    for a in config.AUTHORS.values():
+    for a in config.ARMS.values():
         assert a.pairs_file.is_relative_to(config.REFERENCE_DIR)
         assert a.vector_file.is_relative_to(config.REFERENCE_DIR)
         assert a.adapter_dir.is_relative_to(config.MODELS_DIR)

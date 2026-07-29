@@ -1,5 +1,7 @@
 """Stage 3 + style validation — the Gemini-judged effects under matched decoding.
 
+Commands: `stage3`, `style` (see stoic/stages/__init__.py for the full map).
+
 Both cost $ (judge API) and require GEMINI_API_KEY. These are the stages where
 the original measurement artifact lived; every generation here routes through
 the one canonical `generate()` so both sides of every comparison decode
@@ -12,18 +14,19 @@ import json
 from pathlib import Path
 
 from stoic import config
+from stoic.axis import ACTIVE
 from stoic.results_io import write_result
 from stoic.secrets import gemini_key
 from stoic.steering import load_reference_vector
 
 
-def stage3(model, tokenizer, authors=None, n_seeds: int = 5, sampled: bool = False) -> dict:
+def stage3(model, tokenizer, arms=None, n_seeds: int = 5, sampled: bool = False) -> dict:
     from stoic import judge
 
     mode = "matched SAMPLED (temp 0.6)" if sampled else "matched GREEDY"
     print(f"\n=== Stage 3: judge-scored content effect (Exp 9, Gemini judge) — {mode} ===")
     client, judge_model = judge.make_gemini_client(gemini_key())
-    authors = authors or list(config.AUTHORS)
+    arms = arms or list(config.ARMS)
 
     # Sampled mode: baselines are unsteered, so compute once per seed and share.
     baselines_by_seed = None
@@ -35,8 +38,8 @@ def stage3(model, tokenizer, authors=None, n_seeds: int = 5, sampled: bool = Fal
         }
 
     per_author, checks = {}, {}
-    for name in authors:
-        author = config.AUTHORS[name]
+    for name in arms:
+        author = config.ARMS[name]
         vector = load_reference_vector(author.vector_file, author.layer)  # Exp 9 input
         if sampled:
             run = judge.seed_eval_sampled(
@@ -50,12 +53,15 @@ def stage3(model, tokenizer, authors=None, n_seeds: int = 5, sampled: bool = Fal
                 layer=author.layer, vector=vector, coeff=author.coeff,
                 author=name, n_seeds=n_seeds,
             )
-        ref_mean, ref_std = config.EXP9_CONTENT[name]
+        # An axis with no published content targets yet (a new axis) has
+        # nothing to overlap against; report the effect, gate only on sign.
+        ref_mean, ref_std = config.EXP9_CONTENT.get(name, (None, None))
         new_mean, new_std = run["content_mean"], run["content_std"]
         # Pattern check: positive, and ±1σ intervals overlap the reference.
-        overlap = (new_mean + new_std) >= (ref_mean - ref_std) and (
-            new_mean - new_std
-        ) <= (ref_mean + ref_std)
+        overlap = ref_mean is None or (
+            (new_mean + new_std) >= (ref_mean - ref_std)
+            and (new_mean - new_std) <= (ref_mean + ref_std)
+        )
         checks[name] = {
             "content_mean": new_mean,
             "content_std": new_std,
@@ -68,8 +74,9 @@ def stage3(model, tokenizer, authors=None, n_seeds: int = 5, sampled: bool = Fal
         per_author[name] = run
         print(
             f"  [{name}] content {new_mean:+.3f} ± {new_std:.3f}  "
-            f"(Exp 9: {ref_mean:+.3f} ± {ref_std:.3f}, "
-            f"overlap={overlap}, positive={new_mean > 0})"
+            + (f"(Exp 9: {ref_mean:+.3f} ± {ref_std:.3f}, overlap={overlap}, "
+               if ref_mean is not None else "(no reference target, ")
+            + f"positive={new_mean > 0})"
         )
 
     all_positive = all(c["positive"] for c in checks.values())
@@ -78,7 +85,11 @@ def stage3(model, tokenizer, authors=None, n_seeds: int = 5, sampled: bool = Fal
     result = {
         "stage": 3,
         "decoding_mode": "sampled_matched" if sampled else "greedy_matched",
-        "check": "content effect positive + ±1σ overlaps Exp 9 (Marcus +0.408 / Seneca +0.583 / Epictetus +0.767)",
+        "check": (
+            "content effect positive + ±1σ overlaps the axis's reference targets ("
+            + " / ".join(f"{k} {v[0]:+.3f}" for k, v in config.EXP9_CONTENT.items())
+            + ")"
+        ) if config.EXP9_CONTENT else "content effect positive (no reference targets)",
         "judge_model": judge_model,
         "n_seeds": n_seeds,
         "per_author": per_author,
@@ -124,9 +135,10 @@ def style_check(model, tokenizer, n_seeds: int = 5) -> dict:
     }
 
     per_author = {}
-    for name, author in config.AUTHORS.items():
-        ref3b = config.EXP3B_STYLE[name]
+    for name, author in config.ARMS.items():
+        ref3b = config.EXP3B_STYLE.get(name)  # None on an axis with no style history
         entry = {"layer": author.layer, "coeff": author.coeff, "exp3b_style": ref3b}
+        ref3b_note = f"+{ref3b:.2f}" if ref3b is not None else "no reference"
 
         # -- matched greedy: pure re-scoring of saved texts --
         run = saved["per_author"][name]
@@ -135,13 +147,13 @@ def style_check(model, tokenizer, n_seeds: int = 5) -> dict:
             client, judge_model, config.DEFAULT_PROMPTS,
             run["steered_outputs"], run["baseline_outputs"], n_seeds=n_seeds,
         )
-        styles = [d["stylistic_authenticity"] for d in g["per_seed_deltas"]]
+        styles = [d[judge.STYLE_DIMENSION] for d in g["per_seed_deltas"]]
         m, sd = seed_stats(styles)
         entry["greedy"] = {
             "style_mean": m, "style_std": sd, "survives_2sigma": m > 2 * sd,
             "n_identical_pairs": g["n_identical"], "per_seed": g["per_seed_deltas"],
         }
-        print(f"  greedy style = {m:+.3f} ± {sd:.3f}  (Exp 3b: +{ref3b:.2f}; "
+        print(f"  greedy style = {m:+.3f} ± {sd:.3f}  (Exp 3b: {ref3b_note}; "
               f"{g['n_identical']}/12 pairs byte-identical)")
 
         # -- matched sampled: regenerate seeded texts, judge once per seed --
@@ -157,14 +169,14 @@ def style_check(model, tokenizer, n_seeds: int = 5) -> dict:
                 client, judge_model, config.DEFAULT_PROMPTS, steer, baselines_by_seed[s]
             )
             seed_deltas.append(er["avg_deltas"])
-            print(f"  seed {s}: style={er['avg_deltas']['stylistic_authenticity']:+.3f}")
-        styles_s = [d["stylistic_authenticity"] for d in seed_deltas]
+            print(f"  seed {s}: style={er['avg_deltas'][judge.STYLE_DIMENSION]:+.3f}")
+        styles_s = [d[judge.STYLE_DIMENSION] for d in seed_deltas]
         ms, sds = seed_stats(styles_s)
         entry["sampled"] = {
             "style_mean": ms, "style_std": sds, "survives_2sigma": ms > 2 * sds,
             "per_seed": seed_deltas,
         }
-        print(f"  sampled style = {ms:+.3f} ± {sds:.3f}  (Exp 3b: +{ref3b:.2f})")
+        print(f"  sampled style = {ms:+.3f} ± {sds:.3f}  (Exp 3b: {ref3b_note})")
         per_author[name] = entry
 
     survives = {
@@ -185,6 +197,6 @@ def style_check(model, tokenizer, n_seeds: int = 5) -> dict:
     for n, e in per_author.items():
         print(f"  {n:10s} greedy {e['greedy']['style_mean']:+.3f}±{e['greedy']['style_std']:.3f}  "
               f"sampled {e['sampled']['style_mean']:+.3f}±{e['sampled']['style_std']:.3f}  "
-              f"(Exp 3b +{e['exp3b_style']:.2f})  -> "
+              f"(Exp 3b {e['exp3b_style'] if e['exp3b_style'] is not None else 'n/a'})  -> "
               f"{'SURVIVES' if survives[n] else 'collapses'}")
     return result

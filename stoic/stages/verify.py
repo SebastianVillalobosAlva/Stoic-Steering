@@ -1,5 +1,8 @@
 """Stages 0-2 — the local, $0 Pass A checkpoints.
 
+Commands: `stage0`, `stage1`, `stage2` (see stoic/stages/__init__.py for the
+full stage -> module map).
+
 Stage 0: deterministic decoding (same prompt -> identical output twice).
 Stage 1: base P(stoic) == 0.542 on the v2 dilemma set (load-bearing).
 Stage 2: new vectors cosine >=0.99 vs frozen; injection bites hidden_states[L+1];
@@ -11,6 +14,7 @@ from __future__ import annotations
 import torch
 
 from stoic import config
+from stoic.axis import ACTIVE
 from stoic.dilemmas import (
     deltas_by_stance,
     eval_dilemmas,
@@ -47,21 +51,26 @@ def stage0(model, tokenizer) -> dict:
 
 
 def stage1(model, tokenizer) -> dict:
-    print("\n=== Stage 1: base P(stoic) == 0.542 (load-bearing) ===")
+    target_name = ACTIVE.target_name
+    baseline_target = ACTIVE.criteria.get("decision_baseline")
+    print(f"\n=== Stage 1: base P({target_name}) == {baseline_target} (load-bearing) ===")
     dilemmas = load_dilemmas()
     baseline = eval_dilemmas(model, tokenizer, dilemmas)
     base_mean = mean(baseline)
-    # Checkpoint: matches reference to the 3rd decimal.
-    passed = round(base_mean, 3) == config.DILEMMA_BASELINE
+    # Checkpoint: matches reference to the 3rd decimal. An axis with no
+    # established baseline yet (a new axis) has nothing to check against.
+    passed = baseline_target is not None and round(base_mean, 3) == baseline_target
     print(f"n_dilemmas: {len(dilemmas)}  (x2 label orders)")
-    print(f"baseline mean P(stoic): {base_mean:.6f}  (target {config.DILEMMA_BASELINE})")
+    print(f"baseline mean P({target_name}): {base_mean:.6f}  (target {baseline_target})")
     result = {
         "stage": 1,
-        "check": "base P(stoic) == 0.542 on v2 set",
+        "check": f"base P({target_name}) == {baseline_target:g} on "
+                 f"{ACTIVE.dilemmas_file.stem}" if baseline_target is not None
+                 else f"base P({target_name}) on {ACTIVE.dilemmas_file.stem} (no established baseline)",
         "n_dilemmas": len(dilemmas),
         "baseline_mean": base_mean,
-        "target": config.DILEMMA_BASELINE,
-        "reference_exact": 0.541601902275579,
+        "target": baseline_target,
+        "reference_exact": ACTIVE.criteria.get("decision_baseline_exact"),
         "passed": passed,
         "baseline_p_stoic": baseline,
     }
@@ -104,7 +113,7 @@ def stage2(model, tokenizer, baseline: dict | None = None) -> dict:
     per_author = {}
     cos = torch.nn.functional.cosine_similarity
 
-    for name, author in config.AUTHORS.items():
+    for name, author in config.ARMS.items():
         print(f"\n[{name}] layer {author.layer}, coeff {author.coeff}")
         pairs = load_pairs(author.pairs_file)
         new_vec = extract_vector(model, tokenizer, pairs, author.layer)
@@ -122,7 +131,7 @@ def stage2(model, tokenizer, baseline: dict | None = None) -> dict:
         deltas_lo = {i: _logit(steered[i]) - _logit(baseline[i]) for i in steered}
         overall = paired_stats(list(deltas.values()))
         print(
-            f"  steered mean P(stoic) = {mean(steered):.4f}   "
+            f"  steered mean P({ACTIVE.target_name}) = {mean(steered):.4f}   "
             f"ΔP = {overall['mean_delta']:+.4f}   t = {overall['t_stat']:+.2f}"
         )
 
@@ -137,23 +146,26 @@ def stage2(model, tokenizer, baseline: dict | None = None) -> dict:
             "by_stance": deltas_by_stance(dilemmas, deltas),
         }
 
-    # Injection-site mechanism check on Epictetus L8.
-    epi = config.AUTHORS["epictetus"]
-    epi_vec = load_reference_vector(epi.vector_file, epi.layer)
-    site = _injection_site_check(model, tokenizer, epi.layer, epi_vec, epi.coeff)
+    # Injection-site mechanism check on the axis's designated arm (stoic: Epictetus L8).
+    site_arm = config.ARMS[ACTIVE.criteria["injection_site_arm"]]
+    site_vec = load_reference_vector(site_arm.vector_file, site_arm.layer)
+    site = _injection_site_check(model, tokenizer, site_arm.layer, site_vec, site_arm.coeff)
     print(
-        f"\ninjection site L{epi.layer}: hs[L] unchanged={site['hidden_states[L]_unchanged']}, "
+        f"\ninjection site L{site_arm.layer}: hs[L] unchanged={site['hidden_states[L]_unchanged']}, "
         f"hs[L+1] changed={site['hidden_states[L+1]_changed']}"
     )
 
-    cosines_ok = all(a["cosine_to_frozen"] >= 0.99 for a in per_author.values())
-    # "Flat" = every author's |ΔP| small (Exp 10 null). Reference ΔP were ~1e-3.
-    flat_ok = all(abs(a["overall"]["mean_delta"]) < 0.02 for a in per_author.values())
+    cosine_min = ACTIVE.criteria["cosine_min"]
+    flat_max = ACTIVE.criteria["caa_flat_max_abs_dp"]
+    cosines_ok = all(a["cosine_to_frozen"] >= cosine_min for a in per_author.values())
+    # "Flat" = every arm's |ΔP| small (Exp 10 null). Reference ΔP were ~1e-3.
+    flat_ok = all(abs(a["overall"]["mean_delta"]) < flat_max for a in per_author.values())
     passed = cosines_ok and flat_ok and site["passed"]
 
     result = {
         "stage": 2,
-        "check": "cosine>=0.99 vs frozen; injection bites at L+1; steered dilemmas flat (Exp 10 null)",
+        "check": f"cosine>={cosine_min:g} vs frozen; injection bites at L+1; "
+                 "steered dilemmas flat (Exp 10 null)",
         "baseline_mean": base_mean,
         "per_author": per_author,
         "injection_site_check": site,

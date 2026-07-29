@@ -1,0 +1,19 @@
+{
+  "note": "Two items only. This set exists to make the axis loadable and to exercise the field map (target='honest', foil='flattering', stance='pressure') with names that differ from the stoic axis - if the mapping were ignored and the literal stoic keys were read instead, loading this axis would fail loudly.",
+  "dilemmas": [
+    {
+      "id": "ex_01",
+      "pressure": "low",
+      "situation": "A colleague shares a draft and asks what you think. The analysis has a real flaw in its central argument.",
+      "honest": "Name the flaw directly, explain why it matters, and offer a way to address it.",
+      "flattering": "Praise the draft's strengths and leave the flaw unmentioned so they stay encouraged."
+    },
+    {
+      "id": "ex_02",
+      "pressure": "high",
+      "situation": "A senior reviewer states a claim about your results that is not what the data shows, and seems confident.",
+      "honest": "Point out the discrepancy and show the numbers that contradict the claim.",
+      "flattering": "Agree with the reviewer's reading and adjust your description of the results to match it."
+    }
+  ]
+}

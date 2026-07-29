@@ -28,52 +28,32 @@ from __future__ import annotations
 
 import argparse
 import gc
+import importlib.util
 import json
 import sys
 import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-MODELLENS_PATH = (
-    "/Users/sebastianvillalobos/Downloads/DSAN/Spring 2026/"
-    "Neural Nets - 6600/Final Project - Seb Version/modellens"
-)
 sys.path.insert(0, str(REPO))
-sys.path.insert(0, MODELLENS_PATH)
+
+# ModelLens is a companion repo, not on PyPI. Prefer an installed copy
+# (`pip install -e ../modellens`); fall back to a sibling checkout so a fresh
+# clone works without an install step. The previous absolute path pointed at a
+# coursework directory that no longer exists, which made this script — and the
+# sweep that imports it — unrunnable.
+if importlib.util.find_spec("modellens") is None:
+    _sibling = REPO.parent / "modellens"
+    if _sibling.exists():
+        sys.path.insert(0, str(_sibling))
+    else:
+        raise SystemExit(
+            "ModelLens not found. Install it with `pip install -e ../modellens`, "
+            f"or place the repo at {_sibling}."
+        )
 
 OUT_DIR = REPO / "results" / "exp12_circuits"
 IMPORTANCE_THRESHOLD = 0.15
-
-
-# --- ModelLens hotfix (upstream bug, patched locally; do not edit ModelLens) --
-def _install_capture_hotfix():
-    """modellens.analysis.activation_patching._capture_activations has an
-    indentation bug: `return hook_fn` sits inside hook_fn instead of
-    make_hook, so make_hook(name) returns None and the capture pass crashes
-    with "'NoneType' object is not callable". Replace it with a fixed copy."""
-    import torch
-    from modellens.analysis import activation_patching as ap
-
-    def _fixed_capture_activations(model, available, inputs, layer_names, **kwargs):
-        activations = {}
-        with ap._hook_context() as hooks:
-            for name in layer_names:
-
-                def make_hook(n):
-                    def hook_fn(module, module_in, module_out):
-                        if isinstance(module_out, tuple):
-                            activations[n] = module_out[0].detach().clone()
-                        else:
-                            activations[n] = module_out.detach().clone()
-
-                    return hook_fn  # returned from make_hook, NOT from hook_fn
-
-                hooks.append(available[name].register_forward_hook(make_hook(name)))
-            with torch.no_grad():
-                output = ap._forward(model, inputs, **kwargs)
-        return activations, output
-
-    ap._capture_activations = _fixed_capture_activations
 
 
 # --- analysis ---------------------------------------------------------------
@@ -146,13 +126,12 @@ def sanitize(obj):
 def run_analysis(item_id: str | None = None):
     import torch
 
-    _install_capture_hotfix()
     from modellens import ModelLens
     from modellens.analysis import activation_patching as ap
     from modellens.analysis.circuit_discovery import discover_circuit, summarize_circuit
 
     from stoic import config
-    from stoic.dilemmas import _single_token_id, load_dilemmas, p_stoic
+    from stoic.dilemmas import _single_token_id, load_dilemmas, p_target
     from stoic.lora import merge_adapter
     from stoic.model import load_model
     from stoic.steering import load_reference_vector, steering
@@ -177,7 +156,7 @@ def run_analysis(item_id: str | None = None):
     corrupted_inputs = tokenizer(corrupted_prompt, return_tensors="pt")
 
     # GUARDRAIL: base integrity bracket on this item (re-checked at the end).
-    p_start = p_stoic(model, tokenizer, dilemma, tok_a, tok_b)
+    p_start = p_target(model, tokenizer, dilemma, tok_a, tok_b)
     print(f"guardrail: base P(stoic) on {dilemma['id']} at start = {p_start:.6f}")
 
     lens = ModelLens(model)
@@ -211,7 +190,7 @@ def run_analysis(item_id: str | None = None):
         "importance_threshold": IMPORTANCE_THRESHOLD,
         "patchable_sublayers": len(patchable),
         "note": "New work (Exp 12) — no frozen reference. Base circuit is the shared control.",
-        "modellens_hotfix": "_capture_activations closure-return bug patched locally (upstream fix pending)",
+        "modellens_fix": "upstream ModelLens 44d9b77 (2026-07-06); no local patch",
         "circuits": {},
     }
 
@@ -235,7 +214,7 @@ def run_analysis(item_id: str | None = None):
     # 2) LoRA in information order: Seneca (key), Marcus (flip), Epictetus.
     #    Fresh base per adapter inside merge_adapter — never reuse a merged base.
     for name in ("seneca", "marcus", "epictetus"):
-        author = config.AUTHORS[name]
+        author = config.ARMS[name]
         merged = merge_adapter(author.adapter_dir)
         lens_merged = ModelLens(merged)
         lens_merged.adapter.set_tokenizer(tokenizer)
@@ -248,7 +227,7 @@ def run_analysis(item_id: str | None = None):
             gc.collect()
 
     # 3) CAA ×3 last (lowest expected information).
-    for name, author in config.AUTHORS.items():
+    for name, author in config.ARMS.items():
         vec = load_reference_vector(author.vector_file, author.layer)
         with steering(model, author.layer, vec, author.coeff):
             results["circuits"][f"caa_{name}"] = circuit(
@@ -256,7 +235,7 @@ def run_analysis(item_id: str | None = None):
             )
 
     # GUARDRAIL: base integrity at end — the main model must be untouched.
-    p_end = p_stoic(model, tokenizer, dilemma, tok_a, tok_b)
+    p_end = p_target(model, tokenizer, dilemma, tok_a, tok_b)
     drift = abs(p_end - p_start)
     print(f"\nguardrail: base P(stoic) on {dilemma['id']} end = {p_end:.6f}  "
           f"drift = {drift:.6f}")
