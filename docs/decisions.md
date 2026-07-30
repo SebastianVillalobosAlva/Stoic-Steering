@@ -153,6 +153,33 @@ only under one torch build is not one to lean on regardless.
 
 ---
 
+## 2026-07-29 — Control corpus: Vitruvius Book X, after four rejected candidates
+
+**Decision.** The non-philosophical control trains on Vitruvius Book X only
+(machines and siege engines), sliced with `--skip-until "HOISTING MACHINES"` and
+`--stop-at "^INDEX"`. Provenance table and the full rejection list:
+[docs/corpus-sources.md](corpus-sources.md).
+
+**Why it took four attempts.** Every rejected candidate produced a *good length
+report* — one showed +0.0% drift on every dimension — while containing text that
+disqualified it: a Victorian novel with first-person moral deliberation, an
+argument that architecture "ought to imitate nature" because it is the "right
+arrangement" (the Stoic *according to nature* move, which is in the judge
+rubric), the book's index, and figure captions.
+
+**The lesson worth keeping:** matched quantity certifies nothing about content.
+Each fault was caught by reading the selected chunks and by nothing else. The
+script now identifies its source out loud, filters to prose *before* selection
+rather than screening after, and fails loudly on unmatched anchors.
+
+**One process failure to note against myself:** the first content screen produced
+only false positives on genuine technical prose ("sin" matching *since*, "ought"
+matching a manual's instructions, glossed Greek terms counted as dialogue). A
+guard that cries wolf gets `--force`d past, so it was fixed and then validated in
+both directions — it must still reject the novel and must accept Vitruvius.
+
+---
+
 ## 2026-07-28 — The CLAUDE.md "open discrepancy" resolves as *both get stated*
 
 **The discrepancy.** CLAUDE.md Status asked whether the summary docs overclaim

@@ -76,6 +76,7 @@ CANDIDATE_SOURCES = {
 }
 
 SKIP_UNTIL = None  # set by --skip-until
+STOP_AT = None     # set by --stop-at
 N_EXAMPLES = 53
 SEED = 613  # same seed the frozen pair sampling used
 
@@ -167,6 +168,12 @@ def load_source(source: Path | None, url: str | None) -> str:
 NORMATIVE_MARKERS = ("virtue", "vice", "moral", "morality", "gratitude", "the soul",
                      "wisdom", "philosophy", "philosophical", "conscience",
                      "righteous", "wickedness", "piety")
+# Arguing FROM nature TO what is right is structurally the Stoic "live according
+# to nature" move, and it appears in the judge rubric. It slipped past the first
+# screen inside a passage about column proportions, so it is matched explicitly.
+NATURE_NORM_MARKERS = ("imitate nature", "nature requires", "right arrangement",
+                       "according to nature", "as nature", "nature herself",
+                       "primordial substance", "these elements")
 # First-person PAST narrative. Technical prose uses "I have stated" and "we ought";
 # it does not narrate "I was" / "I had" at length.
 NARRATIVE_MARKERS = (" i said", " i was", " i had", " he cried", " she replied")
@@ -193,8 +200,47 @@ def identify(text: str) -> dict:
     return got
 
 
+def looks_like_prose(t: str) -> bool:
+    """Is this continuous prose at all?
+
+    Filtered BEFORE selection, not warned about afterwards. Three separate
+    non-prose forms reached the training set on earlier attempts, each slipping
+    past a screen written for the previous one: index rows ("Apollo, 69, 102"),
+    figure captions with layout whitespace ("Bertano (1558).    Swellings of the
+    die..."), and plate lists. Screening after the fact was always one step
+    behind the data, so the requirement is now positive: it must look like prose
+    to be eligible.
+    """
+    import re
+
+    if re.search(r"\s{3,}", t):          # layout whitespace -> caption/table
+        return False
+    if not re.search(r"[.!?](\s|$)", t):  # no sentence ending -> heading/label
+        return False
+    if len(t.split()) < 15:               # too short to be a paragraph
+        return False
+    if len(re.findall(r"\d", t)) / max(len(t), 1) > 0.06:  # page/plate numbers
+        return False
+    return True
+
+
+def is_index_like(t: str) -> bool:
+    """Index/table rows masquerading as paragraphs.
+
+    Added after three chunks of the book's INDEX reached the training set
+    ("Apollo, 69, 102, 103, 196; Panionion, 103, 255; ..."). The screen had only
+    ever asked whether the text was philosophy, never whether it was prose.
+    """
+    import re
+
+    digit_density = len(re.findall(r"\d", t)) / max(len(t), 1)
+    semicolons = t.count(";")
+    sentences = len(re.findall(r"[.!?]\s", t))
+    return digit_density > 0.04 and semicolons >= 3 and sentences < 3
+
+
 def screen(chunks: list[str]) -> list[str]:
-    """Flag normative or narrative content in the SELECTED chunks."""
+    """Flag normative content, narrative, or non-prose in the SELECTED chunks."""
     import re
 
     body = " ".join(chunks)
@@ -209,8 +255,14 @@ def screen(chunks: list[str]) -> list[str]:
                 if len(q.split()) >= 4]
     narrative = {m.strip(): low.count(m) for m in NARRATIVE_MARKERS}
     narrative = {m: n for m, n in narrative.items() if n}
+    nature = {m: low.count(m) for m in NATURE_NORM_MARKERS}
+    nature = {m: n for m, n in nature.items() if n}
 
     warnings = []
+    index_like = [i for i, c in enumerate(chunks, 1) if is_index_like(c)]
+    if index_like:
+        warnings.append(f"{len(index_like)} chunk(s) look like index/table rows, not "
+                        f"prose: {index_like[:8]} — use --stop-at to cut the back matter")
     if sum(hits.values()) > 5:
         warnings.append(f"normative vocabulary: {hits}")
     if len(dialogue) > 8:
@@ -218,6 +270,9 @@ def screen(chunks: list[str]) -> list[str]:
                         f"e.g. {dialogue[0][:60]!r}")
     if sum(narrative.values()) > 8:
         warnings.append(f"first-person past narrative: {narrative}")
+    if nature:
+        warnings.append(f"nature-as-normative-standard or element cosmology: {nature} "
+                        "— structurally the Stoic 'according to nature' move")
     print(f"\n  CONTENT SCREEN over {n_chars} selected chars:")
     if warnings:
         for w in warnings:
@@ -242,17 +297,42 @@ def candidate_chunks(text: str, lo: int, hi: int) -> list[str]:
         print("  stripped Gutenberg licence wrapper")
     if SKIP_UNTIL:
         import re
-        m = re.search(SKIP_UNTIL, text)
-        if m:
-            print(f"  --skip-until matched at char {m.start()}; dropping "
-                  f"{100 * m.start() / len(text):.0f}% of the body before it")
-            text = text[m.start():]
-        else:
+        # Gutenberg texts list every chapter title TWICE — once in the table of
+        # contents, once at the section itself — and the TOC comes first. Taking
+        # the FIRST match therefore skips only the front matter and silently
+        # keeps the whole work, which is what happened on the first attempt here:
+        # a "skip to Book VIII" dropped 2% and drew chunks from Book I onward.
+        # The last match is the body occurrence.
+        hits = list(re.finditer(SKIP_UNTIL, text, re.M))
+        if not hits:
             raise SystemExit(f"--skip-until /{SKIP_UNTIL}/ did not match; refusing to "
                              "silently use the whole text")
+        m = hits[-1]
+        kept = 100 * (len(text) - m.start()) / len(text)
+        print(f"  --skip-until found {len(hits)} match(es); using the LAST "
+              f"(char {m.start()}, keeps {kept:.0f}% of the body)")
+        if len(hits) > 1:
+            print(f"    earlier matches at {[h.start() for h in hits[:-1]]} "
+                  "— almost certainly the table of contents")
+        if kept > 90:
+            print("    ⚠ over 90% of the body kept — the anchor may not be where "
+                  "you think it is; check the identity and screen output below")
+        text = text[m.start():]
+    if STOP_AT:
+        import re
+        m = re.search(STOP_AT, text, re.M)
+        if not m:
+            raise SystemExit(f"--stop-at /{STOP_AT}/ did not match after the skip point; "
+                             "refusing to silently keep the back matter")
+        print(f"  --stop-at matched at char {m.start()}; dropping the "
+              f"{100 * (len(text) - m.start()) / len(text):.0f}% after it (back matter)")
+        text = text[:m.start()]
     chunks = chunk_paragraphs(text)
-    kept = [c for c in chunks if lo <= len(c) <= hi]
-    print(f"  {len(chunks)} paragraphs, {len(kept)} inside [{lo}, {hi}] chars")
+    in_band = [c for c in chunks if lo <= len(c) <= hi]
+    kept = [c for c in in_band if looks_like_prose(c)]
+    print(f"  {len(chunks)} paragraphs, {len(in_band)} inside [{lo}, {hi}] chars, "
+          f"{len(kept)} of those are prose ({len(in_band) - len(kept)} captions/index/"
+          "headings dropped)")
     return kept
 
 
@@ -302,6 +382,9 @@ def main() -> int:
                    help="nonphilosophical: external corpus, isolates content-vs-fine-tuning. "
                         "neutral: the frozen pairs' anti-Stoic halves, isolates "
                         "Stoic-content-vs-any-normative-content.")
+    p.add_argument("--stop-at", metavar="REGEX",
+                   help="drop everything from this regex onward (e.g. an INDEX). "
+                        "Fails loudly if it does not match.")
     p.add_argument("--skip-until", metavar="REGEX",
                    help="drop everything before this regex (e.g. cut a moralising "
                         "Book 1). Fails loudly if it does not match.")
@@ -366,8 +449,8 @@ def main() -> int:
             print("\nNothing written. Re-run with --source or --url.")
         return 0
 
-    global SKIP_UNTIL
-    SKIP_UNTIL = args.skip_until
+    global SKIP_UNTIL, STOP_AT
+    SKIP_UNTIL, STOP_AT = args.skip_until, args.stop_at
     text = load_source(args.source, args.url)
     identify(text)
     cands = candidate_chunks(text, min(targets), max(targets))
