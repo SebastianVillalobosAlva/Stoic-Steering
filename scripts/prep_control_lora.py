@@ -53,30 +53,29 @@ sys.path.insert(0, str(ROOT))
 
 # Vetted candidates. Each is public domain, formal translated prose, and carries
 # no ethical or philosophical instruction. Pick one deliberately.
+# IDs verified against gutenberg.org/ebooks/search on 2026-07-29. Frontinus's
+# De Aquaeductu was the first recommendation and is NOT on Gutenberg in English
+# (only Les strategemes, in French, #16237) — it was removed rather than left as
+# an unavailable suggestion.
 CANDIDATE_SOURCES = {
-    "frontinus": {
-        "title": "Frontinus, De Aquaeductu Urbis Romae (On the Water Supply of Rome)",
-        "why": "Roman, same translation register as the philosophers, and entirely "
-               "administrative-technical: discharge measurements, pipe calibres, "
-               "maintenance law. The tightest register match with zero philosophy.",
-        "url": "https://www.gutenberg.org/cache/epub/46345/pg46345.txt",
-    },
     "vitruvius": {
         "title": "Vitruvius, De Architectura (The Ten Books on Architecture)",
-        "why": "Roman technical prose, long and easily large enough. Caveat: the "
-               "opening books moralise about the architect's education, so the "
-               "front matter would need slicing off.",
+        "why": "VERIFIED #20239. Roman technical prose, translated in the same "
+               "tradition as the philosophers, and long enough. Caveat: Book 1 "
+               "moralises about the architect's education and character — use "
+               "--skip-until to cut it, and read the content warnings.",
         "url": "https://www.gutenberg.org/cache/epub/20239/pg20239.txt",
     },
     "beeton": {
         "title": "Mrs Beeton, Book of Household Management",
-        "why": "Utterly non-philosophical formal Victorian prose. Register is "
-               "19th-century English rather than translated antiquity, which is a "
-               "looser match but an unambiguous content contrast.",
+        "why": "VERIFIED #10136. Utterly non-philosophical and plentiful. Register "
+               "is Victorian domestic English rather than translated antiquity — a "
+               "looser register match, but the cleanest content contrast.",
         "url": "https://www.gutenberg.org/cache/epub/10136/pg10136.txt",
     },
 }
 
+SKIP_UNTIL = None  # set by --skip-until
 N_EXAMPLES = 53
 SEED = 613  # same seed the frozen pair sampling used
 
@@ -128,8 +127,6 @@ def neutral_examples(n: int = N_EXAMPLES) -> tuple[list[str], dict]:
     is ambiguous between content and token count, and is then followed by a
     token-matched variant. Selection is stratified by author and deterministic.
     """
-    import statistics as st
-
     from stoic import config
     from stoic.steering import load_pairs
 
@@ -158,6 +155,78 @@ def load_source(source: Path | None, url: str | None) -> str:
     return Path(source).read_text(encoding="utf-8", errors="replace")
 
 
+# Vocabulary that has no business in a non-philosophical control, plus markers of
+# first-person narrative fiction. Screened AFTER selection, because what matters
+# is the 53 chunks that reach training, not the source as a whole.
+# Whole-word only. Three words were removed after they produced pure false
+# positives on genuine technical prose:
+#   "sin"    matched since / sinew / sinks (the regex lacked a trailing \b)
+#   "ought"  is how a manual gives instructions ("the wall ought to be stronger")
+#   "honour" appeared as a proper noun ("temple of Honour and Valour")
+# What is left is vocabulary that is hard to use non-normatively.
+NORMATIVE_MARKERS = ("virtue", "vice", "moral", "morality", "gratitude", "the soul",
+                     "wisdom", "philosophy", "philosophical", "conscience",
+                     "righteous", "wickedness", "piety")
+# First-person PAST narrative. Technical prose uses "I have stated" and "we ought";
+# it does not narrate "I was" / "I had" at length.
+NARRATIVE_MARKERS = (" i said", " i was", " i had", " he cried", " she replied")
+
+
+def identify(text: str) -> dict:
+    """Pull Title/Author out of the Gutenberg header and print them loudly.
+
+    Added after a mislabelled URL silently produced a control built from a
+    Victorian novel whose chunks contained first-person moral deliberation,
+    while the length report showed a perfect +0.0% match. Quantity checks cannot
+    catch a wrong text; only looking at it can.
+    """
+    import re
+
+    got = {}
+    for field in ("Title", "Author", "Translator"):
+        m = re.search(rf"^{field}:\s*(.+)$", text[:4000], re.M)
+        if m:
+            got[field] = m.group(1).strip()
+    print("\n  SOURCE IDENTITY (check this is what you intended):")
+    for k, v in got.items() or [("Title", "<not found in header>")]:
+        print(f"    {k}: {v}")
+    return got
+
+
+def screen(chunks: list[str]) -> list[str]:
+    """Flag normative or narrative content in the SELECTED chunks."""
+    import re
+
+    body = " ".join(chunks)
+    low = body.lower()
+    n_chars = max(len(body), 1)
+    hits = {w: len(re.findall(r"\b" + re.escape(w) + r"\b", low))
+            for w in NORMATIVE_MARKERS}
+    hits = {w: n for w, n in hits.items() if n}
+    # Dialogue = quoted spans of several words. Short quoted spans are glossed
+    # technical terms ("xystus", "prothyrum") and are expected in a translation.
+    dialogue = [q for q in re.findall(r'"([^"]{1,200})"', body)
+                if len(q.split()) >= 4]
+    narrative = {m.strip(): low.count(m) for m in NARRATIVE_MARKERS}
+    narrative = {m: n for m, n in narrative.items() if n}
+
+    warnings = []
+    if sum(hits.values()) > 5:
+        warnings.append(f"normative vocabulary: {hits}")
+    if len(dialogue) > 8:
+        warnings.append(f"{len(dialogue)} quoted passages of 4+ words — likely dialogue, "
+                        f"e.g. {dialogue[0][:60]!r}")
+    if sum(narrative.values()) > 8:
+        warnings.append(f"first-person past narrative: {narrative}")
+    print(f"\n  CONTENT SCREEN over {n_chars} selected chars:")
+    if warnings:
+        for w in warnings:
+            print(f"    ⚠ {w}")
+    else:
+        print("    clean — no normative vocabulary or narrative markers above threshold")
+    return warnings
+
+
 def candidate_chunks(text: str, lo: int, hi: int) -> list[str]:
     """Paragraph-chunk the source and keep those inside the target length band.
 
@@ -171,6 +240,16 @@ def candidate_chunks(text: str, lo: int, hi: int) -> list[str]:
     if s and e:
         text = text[s.end():e.start()]
         print("  stripped Gutenberg licence wrapper")
+    if SKIP_UNTIL:
+        import re
+        m = re.search(SKIP_UNTIL, text)
+        if m:
+            print(f"  --skip-until matched at char {m.start()}; dropping "
+                  f"{100 * m.start() / len(text):.0f}% of the body before it")
+            text = text[m.start():]
+        else:
+            raise SystemExit(f"--skip-until /{SKIP_UNTIL}/ did not match; refusing to "
+                             "silently use the whole text")
     chunks = chunk_paragraphs(text)
     kept = [c for c in chunks if lo <= len(c) <= hi]
     print(f"  {len(chunks)} paragraphs, {len(kept)} inside [{lo}, {hi}] chars")
@@ -223,6 +302,11 @@ def main() -> int:
                    help="nonphilosophical: external corpus, isolates content-vs-fine-tuning. "
                         "neutral: the frozen pairs' anti-Stoic halves, isolates "
                         "Stoic-content-vs-any-normative-content.")
+    p.add_argument("--skip-until", metavar="REGEX",
+                   help="drop everything before this regex (e.g. cut a moralising "
+                        "Book 1). Fails loudly if it does not match.")
+    p.add_argument("--force", action="store_true",
+                   help="write even if the content screen raises warnings")
     p.add_argument("--source", help="local text file")
     p.add_argument("--url", help="Gutenberg URL to download")
     p.add_argument("--match-arm", choices=["marcus", "seneca", "epictetus"],
@@ -233,7 +317,6 @@ def main() -> int:
 
     if args.kind == "neutral":
         chosen, per_author = neutral_examples()
-        import statistics as st
         L = [len(c) for c in chosen]
         tgt = target_profile(args.match_arm)
         print(f"neutral control: {len(chosen)} examples, stratified by author {per_author}")
@@ -283,12 +366,22 @@ def main() -> int:
             print("\nNothing written. Re-run with --source or --url.")
         return 0
 
+    global SKIP_UNTIL
+    SKIP_UNTIL = args.skip_until
     text = load_source(args.source, args.url)
+    identify(text)
     cands = candidate_chunks(text, min(targets), max(targets))
     if len(cands) < len(targets):
         raise SystemExit(f"only {len(cands)} usable chunks, need {len(targets)}")
     chosen = match_lengths(cands, targets)
     stats = report(chosen, targets)
+    warnings = screen(chosen)
+    if warnings and not args.force:
+        print("\nREFUSING to write: the selected chunks look unsuitable for a "
+              "non-philosophical control.\nInspect the source, use --skip-until to cut "
+              "the offending section, or pass --force if you have read the chunks and "
+              "disagree.")
+        return 1
 
     out_dir = ROOT / "data" / "generated" / "lora_training"
     out_dir.mkdir(parents=True, exist_ok=True)
