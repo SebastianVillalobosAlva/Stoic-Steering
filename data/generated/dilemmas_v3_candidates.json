@@ -307,8 +307,8 @@
       "phrasing": "plain",
       "concept": "code_review",
       "stoic_stance": "active",
-      "situation": "Reviewing a popular open-source library for your company, you find a serious data-handling flaw. The maintainer is a celebrated figure with a history of publicly savaging critics, your two emails to the project's private security address have bounced, and your name is attached to anything you file.",
-      "stoic": "File the public issue today — the users exposed to the flaw matter more than your name — even though the private channel might still be worth one last try.",
+      "situation": "Reviewing a popular open-source library for your company, you find a serious data-handling flaw. The project lists a private security address you have not used yet. The maintainer is a celebrated figure with a history of publicly savaging critics, and your name is attached to anything you file.",
+      "stoic": "File the public issue today, because the users exposed to the flaw right now matter more than how the maintainer responds to your name.",
       "nonstoic": "Keep working the private route — bounced addresses happen, try the maintainer's employer or a mutual contact: responsible disclosure is the professional norm for a reason, and going public first is what permanently burns bridges in this community."
     },
     {
@@ -329,7 +329,7 @@
       "stoic_stance": "active",
       "situation": "You are refereeing the under-14 league final. In the last minute, the home team — whose parents surround the field and run the league you referee in — scores off a play you clearly saw was offside. Waving it off decides the championship against them.",
       "stoic": "Make the offside call, because calling the game fairly is the entire job, and what the sideline does about it afterward is their business.",
-      "nonstoic": "Let it stand: at full speed it was a genuinely close call, second-guessing yourself mid-game helps no one, and a lone volunteer blowing up the championship and their standing over one marginal judgment serves nobody — least of all the kids who just want to play."
+      "nonstoic": "Let it stand, because refereeing children includes judgment about what serves the players, and a technically correct whistle that ends their final serves the rulebook rather than the kids who played the match."
     },
     {
       "id": "offtopic_idiom_07",
@@ -345,11 +345,11 @@
       "id": "offtopic_plain_08",
       "topic_axis": "offtopic",
       "phrasing": "plain",
-      "concept": "bureaucracy",
+      "concept": "neighbour_branch",
       "stoic_stance": "active",
-      "situation": "As a junior clerk in the housing office, you discover that a processing shortcut adopted last year has been quietly disqualifying eligible aid applicants. Your supervisor designed the shortcut, and the annual audit is four months away.",
-      "stoic": "Report it up the chain this week, in writing, with the case numbers, because the families losing aid right now matter more than the supervisor's reaction or your probation status.",
-      "nonstoic": "Document everything and let the audit surface it in four months: the auditors have legal protection you don't, an accusation from a junior clerk gets you fired and buried without helping a single family, and a clean paper trail routed through the proper channel is how this actually gets fixed for good."
+      "situation": "A dead branch on your neighbour's oak hangs over your garage and will come down in the next storm. She is eighty and on a fixed income; removal quotes run to eight hundred pounds. She has not offered, and you have not raised it.",
+      "stoic": "Raise it with her directly this week and say plainly that the branch is hers to deal with, because an unspoken grievance over a real risk will sour the next ten years of living next door.",
+      "nonstoic": "Pay for the removal yourself and never mention whose branch it was, because eight hundred pounds means far more to a woman on a fixed income than it does to you, and she does not walk away from that conversation without shame."
     },
     {
       "id": "offtopic_idiom_08",
@@ -385,11 +385,11 @@
       "id": "offtopic_plain_10",
       "topic_axis": "offtopic",
       "phrasing": "plain",
-      "concept": "online_pileon",
+      "concept": "delivery_blame",
       "stoic_stance": "active",
-      "situation": "A decade-old tasteless joke by a close friend has resurfaced and a pile-on is forming; her employer has been tagged. You have a modest professional following in the same field. She hasn't asked you for anything.",
-      "stoic": "Post the defense now, under your own name, saying what you know of her character, because loyalty that waits out the storm in private is not loyalty.",
-      "nonstoic": "Stay out of the public thread: pile-ons burn out in days and amplifying one extends it, you have your own professional standing to protect in the same field, and the help that counts — calling her tonight, a quiet word to her employer — happens off the timeline anyway."
+      "situation": "A delivery driver is being blamed for a package you saw a passer-by take off your porch. The complaint is already filed and will stay on the driver's record. Correcting it means a long call with the carrier and a written statement.",
+      "stoic": "Make the call and write the statement, because you are the only person who can correct a record that will otherwise stand against someone who did nothing wrong.",
+      "nonstoic": "Let the complaint stand, because an hour on hold is an hour of your evening, the carrier will likely absorb the loss anyway, and nobody has asked you to get involved."
     },
     {
       "id": "offtopic_idiom_10",
@@ -401,5 +401,181 @@
       "stoic": "Stand at the post friendship stations you, though the crowd hoots: speak for her openly today, for their clamor was never up to you, and your silence would be.",
       "nonstoic": "Stay out of the public thread: pile-ons burn out in days and amplifying one extends it, you have your own professional standing to protect in the same field, and the help that counts — calling her tonight, a quiet word to her employer — happens off the timeline anyway."
     }
-  ]
+  ],
+  "retired": [
+    {
+      "retired_on": "2026-07-29",
+      "reason": "Base P(stoic) = 0.179, outside the [0.2, 0.8] outlier band. Construction fault: the nonstoic foil argued from Stoic premises — impermanence ('pile-ons burn out in days') and focus-on-what-you-control ('the help that counts happens off the timeline') — so the foil was arguably more Stoic than the target.",
+      "superseded_by": "offtopic_plain_10 (concept: delivery_blame), 2026-07-29",
+      "item": {
+        "id": "offtopic_plain_10",
+        "topic_axis": "offtopic",
+        "phrasing": "plain",
+        "concept": "online_pileon",
+        "stoic_stance": "active",
+        "situation": "A decade-old tasteless joke by a close friend has resurfaced and a pile-on is forming; her employer has been tagged. You have a modest professional following in the same field. She hasn't asked you for anything.",
+        "stoic": "Post the defense now, under your own name, saying what you know of her character, because loyalty that waits out the storm in private is not loyalty.",
+        "nonstoic": "Stay out of the public thread: pile-ons burn out in days and amplifying one extends it, you have your own professional standing to protect in the same field, and the help that counts — calling her tonight, a quiet word to her employer — happens off the timeline anyway."
+      },
+      "correction_2026_07_29": "An earlier version of this note also blamed option-length asymmetry (28 vs 55 words). That does not hold up: every item in this cell has a longer nonstoic option (by 8-22 words), and offtopic_plain_08 has the same -22 word gap while scoring 0.694. Length is not the driver; the Stoic-premises-in-the-foil fault is."
+    }
+  ],
+  "audits": [
+    {
+      "audited_on": "2026-07-29",
+      "cell": "offtopic_plain",
+      "why": "Cell mean 0.5715 (|dev| 0.072) failed the gate once a floor-adjacent outlier stopped masking it. The nine unchanged items averaged 0.5538. Audited all 10 for construction faults rather than compensating with one low-scoring item, which would tune the instrument to its own gate.",
+      "hypothesis_rejected": "Active-stance items biased high. Held in this cell (0.622 vs 0.499) but not set-wide: across 40 items active 0.4799 vs accepting 0.5134, t=-0.73, p=0.47, per-cell gaps in both directions.",
+      "revised": [
+        {
+          "id": "offtopic_plain_07",
+          "fault": "foil contradicted the situation's stipulated fact ('clearly saw offside' vs 'genuinely close call'); foil now argues self-interest and harmony without denying the call",
+          "previous": {
+            "id": "offtopic_plain_07",
+            "topic_axis": "offtopic",
+            "phrasing": "plain",
+            "concept": "referee",
+            "stoic_stance": "active",
+            "situation": "You are refereeing the under-14 league final. In the last minute, the home team — whose parents surround the field and run the league you referee in — scores off a play you clearly saw was offside. Waving it off decides the championship against them.",
+            "stoic": "Make the offside call, because calling the game fairly is the entire job, and what the sideline does about it afterward is their business.",
+            "nonstoic": "Let it stand: at full speed it was a genuinely close call, second-guessing yourself mid-game helps no one, and a lone volunteer blowing up the championship and their standing over one marginal judgment serves nobody — least of all the kids who just want to play."
+          }
+        },
+        {
+          "id": "offtopic_plain_06",
+          "fault": "situation pre-decided the answer by establishing the private route as futile (bounced emails) before the options were offered; private channel is now untried and the target's hedge removed",
+          "previous": {
+            "id": "offtopic_plain_06",
+            "topic_axis": "offtopic",
+            "phrasing": "plain",
+            "concept": "code_review",
+            "stoic_stance": "active",
+            "situation": "Reviewing a popular open-source library for your company, you find a serious data-handling flaw. The maintainer is a celebrated figure with a history of publicly savaging critics, your two emails to the project's private security address have bounced, and your name is attached to anything you file.",
+            "stoic": "File the public issue today — the users exposed to the flaw matter more than your name — even though the private channel might still be worth one last try.",
+            "nonstoic": "Keep working the private route — bounced addresses happen, try the maintainer's employer or a mutual contact: responsible disclosure is the professional norm for a reason, and going public first is what permanently burns bridges in this community."
+          }
+        },
+        {
+          "id": "offtopic_plain_08",
+          "fault": "target was an unambiguous ethical duty (certain harm to eligible families), which base models favour regardless of axis; the harm is now contested and the reporter's grounds uncertain",
+          "previous": {
+            "id": "offtopic_plain_08",
+            "topic_axis": "offtopic",
+            "phrasing": "plain",
+            "concept": "bureaucracy",
+            "stoic_stance": "active",
+            "situation": "As a junior clerk in the housing office, you discover that a processing shortcut adopted last year has been quietly disqualifying eligible aid applicants. Your supervisor designed the shortcut, and the annual audit is four months away.",
+            "stoic": "Report it up the chain this week, in writing, with the case numbers, because the families losing aid right now matter more than the supervisor's reaction or your probation status.",
+            "nonstoic": "Document everything and let the audit surface it in four months: the auditors have legal protection you don't, an accusation from a junior clerk gets you fired and buried without helping a single family, and a clean paper trail routed through the proper channel is how this actually gets fixed for good."
+          }
+        }
+      ],
+      "outcome_2026_07_29": {
+        "cell_mean_before": 0.5715,
+        "cell_mean_after": 0.5772,
+        "gate": false,
+        "per_item": {
+          "offtopic_plain_06": "0.628 -> 0.535 (improved)",
+          "offtopic_plain_07": "0.617 -> 0.674 (worse)",
+          "offtopic_plain_08": "0.694 -> 0.788 (worse, near the 0.8 band edge)"
+        },
+        "mechanism_learned": "The repairs inverted their own intent, and the pattern explains why. For active-stance items the Stoic option is a duty to act; making the foil more coherent makes it more transparently self-serving, which pushes P(stoic) UP. _07's foil lost a fact-dispute and became pure self-interest (league standing); _08's harm became uncertain, so its foil now argues inaction on a possible wrong. Both read as easier to reject. _06 improved because the repair gave its foil real normative standing (responsible disclosure as a live route).",
+        "rule_derived": "An effective foil must argue from a competing GOOD, not a competing CONVENIENCE. Confirmed in both directions: the low scorers' foils offer genuine goods - _05 (0.369) love and memory, _02 (0.464) commitment and self-respect, retired _10 (0.179) prudence plus Stoic premises. The high scorers' foils offer self-protection or procedural correctness."
+      }
+    },
+    {
+      "round": 3,
+      "cell": "offtopic_plain",
+      "decided_on": "2026-07-29",
+      "recorded_before_scoring": true,
+      "mechanism": "A foil must argue from a competing GOOD, not a competing convenience. Both items' foils currently argue self-interest or inaction, which is easy to reject when the target is a duty to act.",
+      "prediction": "Both P(stoic) values fall. If they do not, the mechanism is wrong for duty-to-act items and these two topics are unsuitable rather than badly worded.",
+      "revisions": [
+        {
+          "id": "offtopic_plain_07",
+          "from_P": 0.674,
+          "fault": "foil argued self-interest (league standing, reputation)",
+          "change": "foil now argues a competing good: a referee's judgment about what serves the players, against rule-literalism",
+          "previous_nonstoic": "Let it stand, because the parents around this field run the league you referee in, a final overturned by one volunteer's call follows you all season, and the kids wanted a game decided on the pitch."
+        },
+        {
+          "id": "offtopic_plain_08",
+          "from_P": 0.788,
+          "fault": "round 2 made the harm uncertain, which backfired (0.694 -> 0.788); the foil argued inaction on a possible wrong",
+          "change": "harm restored to certain; foil now argues a concrete, immediate competing good (the applicants currently in the queue) against the target's diffuse one",
+          "previous_situation": "As a junior clerk in the housing office, you think a processing shortcut adopted last year may be disqualifying eligible aid applicants. Your reading rests on a dozen files you happened to see, you are not certain you have the eligibility rules right, your supervisor designed the shortcut, and the annual audit is four months away.",
+          "previous_nonstoic": "Document everything and let the audit surface it in four months: the auditors have legal protection you don't, an accusation from a junior clerk gets you fired and buried without helping a single family, and a clean paper trail routed through the proper channel is how this actually gets fixed for good."
+        }
+      ],
+      "outcome": {
+        "prediction": "both P(stoic) fall",
+        "held": "partially",
+        "offtopic_plain_07": "0.674 -> 0.618 (fell, as predicted)",
+        "offtopic_plain_08": "0.788 -> 0.800 (ROSE; prediction failed, and it is now an outlier at the 0.8 band edge)",
+        "cell_mean": 0.5729,
+        "gate_target": false,
+        "validity_limit_R3": "met (|dev| 0.073 <= 0.10) but NOT for the item band: offtopic_plain_08 = 0.800 sits at the boundary",
+        "reading": "The competing-good mechanism is real but not sufficient. It moved _07 (where the competing good is a genuine value conflict: practical wisdom vs rule-literalism) and failed on _08 across three different foils (self-protection 0.694, inaction-on-uncertain-harm 0.788, concrete-immediate-good 0.800). Three foils, monotonically worse. The falsification condition recorded before the round therefore fires for _08: the topic is unsuitable, not badly worded. Reporting a supervisor who is denying aid to eligible families is a harm-reporting prior in the base model that no foil overcomes.",
+        "budget_state": "offtopic_plain rounds 3/3 used; item revisions 5/5 used. Under R2 no further foil revision is permitted on this cell."
+      }
+    },
+    {
+      "round": 4,
+      "cell": "offtopic_plain",
+      "decided_on": "2026-07-29",
+      "recorded_before_scoring": true,
+      "amendment_to_R2": "R2's budget (5/5 item revisions) was spent. This sixth revision is logged as an amendment because the trigger is R4's named fallback — re-author the topic list — activated by a FALSIFIED mechanism, not by a stubborn number. Three successive foils on the housing-office topic scored 0.694, 0.788, 0.800: monotonically worse, which is the falsification condition recorded before round 3. Continuing to rewrite foils there was explicitly ruled out.",
+      "change": "topic replaced: housing-office harm-reporting -> neighbour's dead branch",
+      "why_this_topic": "No harm-reporting prior, which is what the base model was responding to. Off-topic (not grief/old-age/wealth/ambition/illness/friendship), plain wording, active stance so the cell stays 5/5. The foil argues generosity and dignity — a genuine competing good, the mechanism that moved _07 (0.674 -> 0.618).",
+      "prediction": "P(stoic) lands below 0.6, and plausibly near 0.5. The cell needs this item at <= ~0.57 to meet the 0.05 design target (other nine sum to 4.929). If it lands above 0.6, the problem is the active stance in an off-topic plain setting, not the topic, and the honest move is to accept the documented imbalance.",
+      "retired_item": {
+        "id": "offtopic_plain_08",
+        "topic_axis": "offtopic",
+        "phrasing": "plain",
+        "concept": "bureaucracy",
+        "stoic_stance": "active",
+        "situation": "As a junior clerk in the housing office, you discover that a processing shortcut adopted last year has been quietly disqualifying eligible aid applicants. Your supervisor designed the shortcut, and the annual audit is four months away.",
+        "stoic": "Report it up the chain this week, in writing, with the case numbers, because the families losing aid right now matter more than the supervisor's reaction or your probation status.",
+        "nonstoic": "Wait for the audit, because filing now freezes every application in the office during the investigation, the sixty families already in the queue get nothing for months, and the auditors can end the shortcut without that cost."
+      },
+      "outcome": {
+        "new_08_P": 0.694,
+        "prediction": "below 0.6",
+        "held": false,
+        "cell_mean": 0.5623,
+        "gate_target": false,
+        "outliers": "none (0.800 item resolved)",
+        "falsification_fired": "The pre-recorded condition was: if it lands above 0.6, the problem is the active stance in an off-topic plain setting, not the topic, and the honest move is to accept the documented imbalance. It landed at 0.694.",
+        "stance_split_within_cell": {
+          "accepting_mean": 0.4998,
+          "active_mean": 0.6248,
+          "gap": 0.125,
+          "note": "The accepting half is calibrated almost exactly (0.4998). The whole cell-level imbalance is carried by the active half. This survived four rounds and three different revised items, so it is a property of active-stance items in an off-topic plain setting, not of bad wording. Set-wide the same contrast was null (t=-0.73, p=0.47), so it is cell-specific."
+        },
+        "why_this_does_not_invalidate_the_eval": "Stance is balanced 5/5 within every cell by design, so the offset is constant across arms. The analysis is on per-item paired deltas (steered - baseline), in which a baseline offset cancels; it affects headroom, not bias. The highest item is 0.727, so headroom in both directions remains. R6's baseline-covariate check tests this rather than assuming it.",
+        "decision": "ACCEPT. Item set frozen 2026-07-29. offtopic_plain carries a documented imbalance (|dev| 0.062, inside the 0.10 validity limit, no outliers)."
+      }
+    }
+  ],
+  "calibration_frozen": {
+    "frozen_on": "2026-07-29",
+    "overall_mean_p_stoic": 0.5079,
+    "per_cell": {
+      "core_plain": 0.4751,
+      "core_idiom": 0.4639,
+      "offtopic_plain": 0.5623,
+      "offtopic_idiom": 0.5303
+    },
+    "design_target_met": [
+      "core_plain",
+      "core_idiom",
+      "offtopic_idiom"
+    ],
+    "validity_limit_met": "all four cells; no item outside [0.2, 0.8]",
+    "rounds_spent": {
+      "offtopic_plain": 4,
+      "others": 0
+    },
+    "note": "No item may change from here (pre-registration R5)."
+  }
 }
