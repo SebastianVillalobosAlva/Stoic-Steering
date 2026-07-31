@@ -48,7 +48,9 @@ CONTROL_ADAPTERS = {
     "control_nonphil": ROOT / "models" / "lora_control_nonphil",
     "control_neutral": ROOT / "models" / "lora_control_neutral",
 }
-OUT_DIR = ROOT / "results" / "v3_behavioral"
+ITEMS = ROOT / "data/generated/dilemmas_v4_candidates.json"  # --items overrides
+CELL_SIZE = 25            # --cell-size overrides
+OUT_STAGE = "v4_behavioral"
 
 PLANNED = (
     ("topic_marginal", "core (both phrasings) vs off-topic", "topic proximity"),
@@ -78,13 +80,13 @@ def gates(items: list[dict]) -> list[str]:
     """Pre-registration conditions that must hold before anything is interpreted."""
     from stoic.calibration import CELLS, cell_of, validate_items
 
-    problems = validate_items(items, cell_size=10)
-    payload = json.load(open(ROOT / "data/generated/dilemmas_v3_candidates.json"))
+    problems = validate_items(items, cell_size=CELL_SIZE)
+    payload = json.load(open(ITEMS))
     if "calibration_frozen" not in payload:
         problems.append("item set is NOT frozen (no calibration_frozen block) — "
                         "pre-registration R5 forbids running before the set is frozen")
-    if len(items) != 40:
-        problems.append(f"expected 40 items, found {len(items)}")
+    if len(items) != CELL_SIZE * 4:
+        problems.append(f"expected {CELL_SIZE*4} items, found {len(items)}")
     if set(cell_of(d) for d in items) != set(CELLS):
         problems.append("cells present do not match the declared 2x2")
     for label, path in CONTROL_ADAPTERS.items():
@@ -171,7 +173,7 @@ def run(arms: list[str] | None = None) -> dict:
                                 sign_test)
     from stoic.model import load_model
 
-    items = load_candidates(config.GENERATED_DIR / "dilemmas_v3_candidates.json")
+    items = load_candidates(ITEMS)
     problems = gates(items)
     if problems:
         print(f"GATES FAILED — {len(problems)} problem(s), nothing run:")
@@ -252,8 +254,8 @@ def run(arms: list[str] | None = None) -> dict:
             print(f"    {key:24s} {a['exceeds_all_controls'][key]}   ({reading})")
 
     result = {
-        "experiment": "v3_behavioral",
-        "pre_registration": "docs/pre-registration-v3.md (frozen before this run)",
+        "experiment": OUT_STAGE,
+        "pre_registration": f"docs/pre-registration-{OUT_STAGE.split(chr(95))[0]}.md (frozen before this run)",
         "primary_statistic": f"paired t on Delta {PRIMARY}",
         "sign_test_tolerance": SIGN_TEST_TOL,
         "alpha_familywise": ALPHA,
@@ -265,25 +267,29 @@ def run(arms: list[str] | None = None) -> dict:
                          "expected": config.DILEMMA_BASELINE},
         "per_arm": per_arm,
     }
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
     from stoic.results_io import write_result
-    write_result("v3_behavioral", "v3_eval", result)
+    write_result(OUT_STAGE, f"{OUT_STAGE.split(chr(95))[0]}_eval", result)
     return result
 
 
 def main() -> int:
+    global ITEMS, CELL_SIZE, OUT_STAGE
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    p.add_argument("--items", default=str(ITEMS), help="candidate set to evaluate")
+    p.add_argument("--cell-size", type=int, default=CELL_SIZE)
+    p.add_argument("--out-stage", default=OUT_STAGE, help="results/<stage>/ to write into")
     p.add_argument("--dry-run", action="store_true",
                    help="check gates and wiring, load no model, write nothing")
     p.add_argument("--arms", nargs="*", default=None,
                    help="subset of philosopher arms (control is always included)")
     args = p.parse_args()
+    ITEMS, CELL_SIZE, OUT_STAGE = Path(args.items), args.cell_size, args.out_stage
 
     if args.dry_run:
         from stoic.calibration import load_candidates
         from stoic import config
 
-        items = load_candidates(config.GENERATED_DIR / "dilemmas_v3_candidates.json")
+        items = load_candidates(ITEMS)
         problems = gates(items)
         print(f"items: {len(items)}")
         print(f"primary statistic: paired t on Delta {PRIMARY}")

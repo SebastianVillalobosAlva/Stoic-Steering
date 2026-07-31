@@ -29,6 +29,7 @@ data/reference/steering_vectors/*.pt
 data/generated/*
 !data/generated/.gitkeep
 !data/generated/dilemmas_v3_candidates.json
+!data/generated/dilemmas_v4_candidates.json
 
 # Results: keep the checkpoint JSONs (they are the replication record), ignore stray junk
 results/**/.DS_Store
