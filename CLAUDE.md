@@ -122,6 +122,20 @@ The vectors + adapters are NOT in git (too large); fetch them from HF with
   CAA null at style, content, and decision under matched decoding; LoRA moves
   decisions (Seneca both stance buckets, Marcus accepting-only, Epictetus null).
   Numbers: [results/README.md](results/README.md).
+  → **The v2 LoRA decision result is now NARROWED by v4 (see below and beat 3):
+  the shift is register, not reasoning.** The Pass-A numbers stand as a v2 result;
+  their interpretation has changed.
+- **v4 behavioral eval (powered reasoning-vs-echo test) — DONE 2026-07-31.**
+  100 items, 25/cell, three arms + two controls, judge-free, $0. Pre-registered:
+  `docs/pre-registration-v4.md` (statistic frozen before authoring). **Verdict:
+  ECHO.** Seneca's decision effect is register-dependent, not reasoning
+  (idiom +0.099 / plain −0.083, Holm-sig, exceeds both controls; off-topic/plain
+  reasoning cell bounded-null, CI excludes +0.15; not baseline-confounded). Marcus
+  and Epictetus null on the axis; Marcus's one significant cell is generic
+  fine-tuning drift (matched by the non-philosophical control). Base integrity
+  0.541609→0.541609, drift 0. Full map of what this changes:
+  `docs/claim-revision-v4.md`. **The non-philosophical control is not inert at
+  n=100** (−0.036 log-odds) — the reason Marcus's cell fails.
 - **Exp 12 (clean circuit analysis) — complete.** `results/exp12_circuits/`.
   Status remains **n=1-per-stance pilot** until the v3 sweep. The harness was
   unrunnable until 2026-07-28 (`exp12_circuit_analysis.py` hardcoded a ModelLens
@@ -276,10 +290,26 @@ register reaching the choice through the option's wording.
    circuit-level (±0.003–0.015); LoRA moves decision (judge-free, exact) plus
    style + content (single merged-adapter judge eval, not seed-tested). Circuit
    topology predicted the split before behavior showed it.
+   → **NARROWED 2026-07-31 by the v4 powered eval (n=100).** The decision claim
+   as stated is now an overclaim. Seneca's v2 shift (+0.1345 log-odds, t=2.34 on
+   40 items) collapsed to t=0.21 on 100, and what survives is a **phrasing**
+   effect: idiom-worded items move +0.099, plain-worded −0.083 (Holm-significant,
+   exceeds both controls), while the off-topic/plain reasoning cell is
+   bounded-null (mean −0.07, 95% CI excludes an idiom-sized +0.15). Per the
+   pre-registered readings this is **ECHO**, not reasoning. Marcus's one
+   significant cell fails exceeds-both-controls (matched by the non-philosophical
+   control). The honest beat is now "weight adaptation moves the choice through
+   **register, not reasoning**." Full result: `results/v4_behavioral/`,
+   `docs/claim-revision-v4.md`. The original claim stands as a claim about v2.
 4. "What LoRA installs is heterogeneous, and I'm testing whether it's
    reasoning or echo" — Marcus = passivity prior, Seneca = strongest circuit
    modifier (item-dependent character; see the open sign-test discrepancy under
    Status), Epictetus = underpowered null; v3 is the test.
+   → **ANSWERED 2026-07-31: echo, for Seneca.** v3 was underpowered (all
+   comparisons failed Holm; an inert control emitted p≈0.05). v4 at 25 items/cell
+   answered it. Marcus's v2 passivity prior did not replicate (−0.007, and his v4
+   negative cell is generic fine-tuning drift). Epictetus null and
+   baseline-confounded. See `docs/claim-revision-v4.md`.
 5. "And it replicates off the philosophy axis" — the dissociation tested on
    sycophancy. This is what converts a single-corpus finding into a claim about
    intervention loci. Pending step 6.

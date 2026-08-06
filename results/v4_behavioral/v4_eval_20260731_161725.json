@@ -1,0 +1,1282 @@
+{
+  "timestamp": "20260731_161725",
+  "experiment": "v4_behavioral",
+  "pre_registration": "docs/pre-registration-v4.md (frozen before this run)",
+  "primary_statistic": "paired t on Delta logodds",
+  "sign_test_tolerance": 0.01,
+  "alpha_familywise": 0.05,
+  "n_items": 100,
+  "base_mean_p_target": 0.5271162452362478,
+  "baseline_p_target": {
+    "core_plain_01": 0.25302475690841675,
+    "core_idiom_01": 0.24440507590770721,
+    "core_plain_02": 0.5655417591333389,
+    "core_idiom_02": 0.5172923728823662,
+    "core_plain_03": 0.48063309490680695,
+    "core_idiom_03": 0.5964104980230331,
+    "core_plain_04": 0.5966401696205139,
+    "core_idiom_04": 0.49237576127052307,
+    "core_plain_05": 0.5581552386283875,
+    "core_idiom_05": 0.3666199594736099,
+    "core_plain_06": 0.38289283215999603,
+    "core_idiom_06": 0.3168507367372513,
+    "core_plain_07": 0.5284920930862427,
+    "core_idiom_07": 0.6525165289640427,
+    "core_plain_08": 0.3945471793413162,
+    "core_idiom_08": 0.5038975775241852,
+    "core_plain_09": 0.6629817485809326,
+    "core_idiom_09": 0.5980688780546188,
+    "core_plain_10": 0.3281746506690979,
+    "core_idiom_10": 0.3502786010503769,
+    "offtopic_plain_01": 0.5837687514722347,
+    "offtopic_idiom_01": 0.6376902461051941,
+    "offtopic_plain_02": 0.46362800896167755,
+    "offtopic_idiom_02": 0.6205646768212318,
+    "offtopic_plain_03": 0.5188517570495605,
+    "offtopic_idiom_03": 0.7088814005255699,
+    "offtopic_plain_04": 0.5630041435360909,
+    "offtopic_idiom_04": 0.6445991732180119,
+    "offtopic_plain_05": 0.3685569614171982,
+    "offtopic_idiom_05": 0.48882634937763214,
+    "offtopic_plain_06": 0.5350963175296783,
+    "offtopic_idiom_06": 0.5461076349020004,
+    "offtopic_plain_07": 0.618445873260498,
+    "offtopic_idiom_07": 0.5928670018911362,
+    "offtopic_plain_08": 0.6935379505157471,
+    "offtopic_idiom_08": 0.22994314879179,
+    "offtopic_plain_09": 0.5503605455160141,
+    "offtopic_idiom_09": 0.5911056101322174,
+    "offtopic_plain_10": 0.727302610874176,
+    "offtopic_idiom_10": 0.2425844669342041,
+    "core_plain_11": 0.6025778204202652,
+    "core_plain_12": 0.686569444835186,
+    "core_plain_13": 0.6977411545813084,
+    "core_plain_14": 0.6646980941295624,
+    "core_plain_15": 0.24366939067840576,
+    "core_plain_16": 0.37951867282390594,
+    "core_plain_17": 0.6088936850428581,
+    "core_plain_18": 0.5587954707443714,
+    "core_plain_19": 0.6757552027702332,
+    "core_plain_20": 0.6420955061912537,
+    "core_plain_21": 0.2857261449098587,
+    "core_plain_22": 0.4865559935569763,
+    "core_plain_23": 0.6920840293169022,
+    "core_plain_24": 0.6249309033155441,
+    "core_plain_25": 0.37942172586917877,
+    "core_idiom_11": 0.4648127853870392,
+    "core_idiom_12": 0.35027943551540375,
+    "core_idiom_13": 0.5116142779588699,
+    "core_idiom_14": 0.7017030268907547,
+    "core_idiom_15": 0.6398404017090797,
+    "core_idiom_16": 0.5418410003185272,
+    "core_idiom_17": 0.21492625027894974,
+    "core_idiom_18": 0.34757035225629807,
+    "core_idiom_19": 0.7269937880337238,
+    "core_idiom_20": 0.7099723219871521,
+    "core_idiom_21": 0.4168965369462967,
+    "core_idiom_22": 0.23934932798147202,
+    "core_idiom_23": 0.7974631488323212,
+    "core_idiom_24": 0.40992577373981476,
+    "core_idiom_25": 0.6037802547216415,
+    "offtopic_plain_11": 0.77401352673769,
+    "offtopic_plain_12": 0.5736080557107925,
+    "offtopic_plain_13": 0.7335335314273834,
+    "offtopic_plain_14": 0.54768006503582,
+    "offtopic_plain_15": 0.5009162351489067,
+    "offtopic_plain_16": 0.6030925288796425,
+    "offtopic_plain_17": 0.5377828367054462,
+    "offtopic_plain_18": 0.31348203867673874,
+    "offtopic_plain_19": 0.6210588663816452,
+    "offtopic_plain_20": 0.5175577849149704,
+    "offtopic_plain_21": 0.645797923207283,
+    "offtopic_plain_22": 0.49630075693130493,
+    "offtopic_plain_23": 0.5228023827075958,
+    "offtopic_plain_24": 0.6293969675898552,
+    "offtopic_plain_25": 0.6571578420698643,
+    "offtopic_idiom_11": 0.553177148103714,
+    "offtopic_idiom_12": 0.648073360323906,
+    "offtopic_idiom_13": 0.587636262178421,
+    "offtopic_idiom_14": 0.373370036482811,
+    "offtopic_idiom_15": 0.36975912749767303,
+    "offtopic_idiom_16": 0.3987239748239517,
+    "offtopic_idiom_17": 0.30588632822036743,
+    "offtopic_idiom_18": 0.5190059691667557,
+    "offtopic_idiom_19": 0.6860527452081442,
+    "offtopic_idiom_20": 0.6189705580472946,
+    "offtopic_idiom_21": 0.7466604821383953,
+    "offtopic_idiom_22": 0.4136810451745987,
+    "offtopic_idiom_23": 0.6603210419416428,
+    "offtopic_idiom_24": 0.5194252729415894,
+    "offtopic_idiom_25": 0.41517576575279236
+  },
+  "v2_integrity": {
+    "start": 0.5416093931009527,
+    "end": 0.5416093931009527,
+    "drift": 0.0,
+    "expected": 0.542
+  },
+  "per_arm": {
+    "marcus": {
+      "adapter": "lora_marcus_clean",
+      "steered_mean": 0.5176129125803709,
+      "steered_p_target": {
+        "core_plain_01": 0.3407693952322006,
+        "core_idiom_01": 0.33573269844055176,
+        "core_plain_02": 0.5287491232156754,
+        "core_idiom_02": 0.4542926251888275,
+        "core_plain_03": 0.49482297897338867,
+        "core_idiom_03": 0.5735685229301453,
+        "core_plain_04": 0.5993500053882599,
+        "core_idiom_04": 0.4941452443599701,
+        "core_plain_05": 0.5711897760629654,
+        "core_idiom_05": 0.39092500507831573,
+        "core_plain_06": 0.46815015375614166,
+        "core_idiom_06": 0.34280744194984436,
+        "core_plain_07": 0.5038213431835175,
+        "core_idiom_07": 0.6204812824726105,
+        "core_plain_08": 0.32019124925136566,
+        "core_idiom_08": 0.47125087678432465,
+        "core_plain_09": 0.6017081141471863,
+        "core_idiom_09": 0.6629817485809326,
+        "core_plain_10": 0.3645648807287216,
+        "core_idiom_10": 0.33625413477420807,
+        "offtopic_plain_01": 0.6072110496461391,
+        "offtopic_idiom_01": 0.6755517348647118,
+        "offtopic_plain_02": 0.4721944034099579,
+        "offtopic_idiom_02": 0.6307831779122353,
+        "offtopic_plain_03": 0.45326466858386993,
+        "offtopic_idiom_03": 0.7013086155056953,
+        "offtopic_plain_04": 0.551500141620636,
+        "offtopic_idiom_04": 0.6246284060180187,
+        "offtopic_plain_05": 0.4213332086801529,
+        "offtopic_idiom_05": 0.48916298151016235,
+        "offtopic_plain_06": 0.45827873051166534,
+        "offtopic_idiom_06": 0.5439197421073914,
+        "offtopic_plain_07": 0.547433465719223,
+        "offtopic_idiom_07": 0.503496527671814,
+        "offtopic_plain_08": 0.6302798390388489,
+        "offtopic_idiom_08": 0.32835230976343155,
+        "offtopic_plain_09": 0.4905059188604355,
+        "offtopic_idiom_09": 0.5607773959636688,
+        "offtopic_plain_10": 0.6612631231546402,
+        "offtopic_idiom_10": 0.21406473964452744,
+        "core_plain_11": 0.5956281274557114,
+        "core_plain_12": 0.676414966583252,
+        "core_plain_13": 0.624151885509491,
+        "core_plain_14": 0.6297570019960403,
+        "core_plain_15": 0.29509515315294266,
+        "core_plain_16": 0.4871756136417389,
+        "core_plain_17": 0.6184457316994667,
+        "core_plain_18": 0.5397476851940155,
+        "core_plain_19": 0.5859226286411285,
+        "core_plain_20": 0.5830541998147964,
+        "core_plain_21": 0.20304452627897263,
+        "core_plain_22": 0.4278760850429535,
+        "core_plain_23": 0.6779693067073822,
+        "core_plain_24": 0.5255832076072693,
+        "core_plain_25": 0.3834492266178131,
+        "core_idiom_11": 0.5442299023270607,
+        "core_idiom_12": 0.37260986492037773,
+        "core_idiom_13": 0.5707439333200455,
+        "core_idiom_14": 0.6951849572360516,
+        "core_idiom_15": 0.7049535028636456,
+        "core_idiom_16": 0.5347399115562439,
+        "core_idiom_17": 0.2370847910642624,
+        "core_idiom_18": 0.34355640411376953,
+        "core_idiom_19": 0.6852822378277779,
+        "core_idiom_20": 0.6361206769943237,
+        "core_idiom_21": 0.3945684880018234,
+        "core_idiom_22": 0.2383202388882637,
+        "core_idiom_23": 0.7511563077569008,
+        "core_idiom_24": 0.4112420678138733,
+        "core_idiom_25": 0.6093318909406662,
+        "offtopic_plain_11": 0.713810384273529,
+        "offtopic_plain_12": 0.6249135136604309,
+        "offtopic_plain_13": 0.7271024137735367,
+        "offtopic_plain_14": 0.5865603387355804,
+        "offtopic_plain_15": 0.5177894905209541,
+        "offtopic_plain_16": 0.6041417494416237,
+        "offtopic_plain_17": 0.5261669121682644,
+        "offtopic_plain_18": 0.3466450534760952,
+        "offtopic_plain_19": 0.6104016080498695,
+        "offtopic_plain_20": 0.44946998357772827,
+        "offtopic_plain_21": 0.5300528258085251,
+        "offtopic_plain_22": 0.480818510055542,
+        "offtopic_plain_23": 0.46883800625801086,
+        "offtopic_plain_24": 0.6230256333947182,
+        "offtopic_plain_25": 0.5989905297756195,
+        "offtopic_idiom_11": 0.6190578788518906,
+        "offtopic_idiom_12": 0.6667653620243073,
+        "offtopic_idiom_13": 0.6249912306666374,
+        "offtopic_idiom_14": 0.3478629067540169,
+        "offtopic_idiom_15": 0.3507256507873535,
+        "offtopic_idiom_16": 0.3850782960653305,
+        "offtopic_idiom_17": 0.3620964363217354,
+        "offtopic_idiom_18": 0.6338823810219765,
+        "offtopic_idiom_19": 0.64069514721632,
+        "offtopic_idiom_20": 0.5712837129831314,
+        "offtopic_idiom_21": 0.6379114203155041,
+        "offtopic_idiom_22": 0.40960682928562164,
+        "offtopic_idiom_23": 0.6582590043544769,
+        "offtopic_idiom_24": 0.4753972291946411,
+        "offtopic_idiom_25": 0.3454435169696808
+      },
+      "overall_dP": {
+        "n": 100,
+        "mean_delta": -0.009503332655876875,
+        "std": 0.05032252511848902,
+        "t_stat": -1.8884848551419873,
+        "p_value": 0.06188839982795923
+      },
+      "overall_logodds": {
+        "n": 100,
+        "mean_delta": -0.04102703864216745,
+        "std": 0.22121607381682143,
+        "t_stat": -1.854613814190555,
+        "p_value": 0.06662773452955296
+      },
+      "sign_test_tol": {
+        "pos": 30,
+        "neg": 50,
+        "ties": 20,
+        "n": 80,
+        "p_two_sided": 0.03299261842647618
+      },
+      "planned": {
+        "topic_marginal": {
+          "n_a": 50,
+          "n_b": 50,
+          "mean_a": -0.02107371041213495,
+          "mean_b": -0.06098036687219996,
+          "t": 0.9011269526298001,
+          "p": 0.36973007590610796
+        },
+        "phrasing_marginal": {
+          "n_a": 50,
+          "n_b": 50,
+          "mean_a": -0.0019949433720062174,
+          "mean_b": -0.0800591339123287,
+          "t": 1.7837700370507679,
+          "p": 0.0775563289066707
+        },
+        "offtopic_plain_vs_zero": {
+          "n": 25,
+          "mean": -0.10191568846346827,
+          "t": -2.617804195638296,
+          "p": 0.015084129243461386
+        },
+        "descriptive": {
+          "core": {
+            "n": 50,
+            "mean": -0.02107371041213495,
+            "t": -0.6614354018120757,
+            "p": 0.5114315679748285
+          },
+          "offtopic": {
+            "n": 50,
+            "mean": -0.06098036687219996,
+            "t": -1.982548783432485,
+            "p": 0.05303933962354151
+          },
+          "idiom": {
+            "n": 50,
+            "mean": -0.0019949433720062174,
+            "t": -0.06573924952182979,
+            "p": 0.9478529102767351
+          },
+          "plain": {
+            "n": 50,
+            "mean": -0.0800591339123287,
+            "t": -2.5388694533386706,
+            "p": 0.014347210426652416
+          }
+        }
+      },
+      "baseline_confound": {
+        "per_cell": {
+          "core_plain": {
+            "baseline": 0.5192046704888343,
+            "mean_delta": -0.058202579361189104
+          },
+          "core_idiom": {
+            "baseline": 0.49262738689780233,
+            "mean_delta": 0.016055158536919203
+          },
+          "offtopic_plain": {
+            "baseline": 0.5718693704903126,
+            "mean_delta": -0.10191568846346827
+          },
+          "offtopic_idiom": {
+            "baseline": 0.5247635530680418,
+            "mean_delta": -0.020045045280931637
+          }
+        },
+        "pearson_r": -0.9194268957495713,
+        "p": 0.08057310425042874,
+        "n_cells": 4,
+        "note": "4 cells only \u2014 this is a flag, not a test with power. A large |r| means report the imbalance alongside every cell comparison."
+      },
+      "holm": {
+        "offtopic_plain_vs_zero": {
+          "p": 0.015084129243461386,
+          "holm_threshold": 0.016666666666666666,
+          "significant": true,
+          "rank": 1
+        },
+        "phrasing_marginal": {
+          "p": 0.0775563289066707,
+          "holm_threshold": 0.025,
+          "significant": false,
+          "rank": 2
+        },
+        "topic_marginal": {
+          "p": 0.36973007590610796,
+          "holm_threshold": 0.05,
+          "significant": false,
+          "rank": 3
+        }
+      },
+      "exceeds_control": {
+        "topic_marginal": {
+          "control_nonphil": true,
+          "control_neutral": false
+        },
+        "phrasing_marginal": {
+          "control_nonphil": false,
+          "control_neutral": false
+        },
+        "offtopic_plain_vs_zero": {
+          "control_nonphil": true,
+          "control_neutral": false
+        }
+      },
+      "exceeds_all_controls": {
+        "topic_marginal": false,
+        "phrasing_marginal": false,
+        "offtopic_plain_vs_zero": false
+      }
+    },
+    "seneca": {
+      "adapter": "lora_seneca_clean",
+      "steered_mean": 0.5269514446798712,
+      "steered_p_target": {
+        "core_plain_01": 0.30962038040161133,
+        "core_idiom_01": 0.41504915058612823,
+        "core_plain_02": 0.6287164092063904,
+        "core_idiom_02": 0.5387456566095352,
+        "core_plain_03": 0.450528547167778,
+        "core_idiom_03": 0.565135583281517,
+        "core_plain_04": 0.6042270362377167,
+        "core_idiom_04": 0.4843839257955551,
+        "core_plain_05": 0.5825741812586784,
+        "core_idiom_05": 0.4036923870444298,
+        "core_plain_06": 0.47729913890361786,
+        "core_idiom_06": 0.373583622276783,
+        "core_plain_07": 0.4980684518814087,
+        "core_idiom_07": 0.6723224371671677,
+        "core_plain_08": 0.39726459980010986,
+        "core_idiom_08": 0.5621889531612396,
+        "core_plain_09": 0.5166716203093529,
+        "core_idiom_09": 0.7096400652080774,
+        "core_plain_10": 0.3230436220765114,
+        "core_idiom_10": 0.3641957938671112,
+        "offtopic_plain_01": 0.6490261293947697,
+        "offtopic_idiom_01": 0.8536433726549149,
+        "offtopic_plain_02": 0.5344827696681023,
+        "offtopic_idiom_02": 0.7222167178988457,
+        "offtopic_plain_03": 0.5331539213657379,
+        "offtopic_idiom_03": 0.7885520681738853,
+        "offtopic_plain_04": 0.6185992397367954,
+        "offtopic_idiom_04": 0.7093876302242279,
+        "offtopic_plain_05": 0.34917305409908295,
+        "offtopic_idiom_05": 0.46580009162425995,
+        "offtopic_plain_06": 0.4776982516050339,
+        "offtopic_idiom_06": 0.46400581300258636,
+        "offtopic_plain_07": 0.6051940470933914,
+        "offtopic_idiom_07": 0.5595254674553871,
+        "offtopic_plain_08": 0.5420537292957306,
+        "offtopic_idiom_08": 0.37027013301849365,
+        "offtopic_plain_09": 0.5481411218643188,
+        "offtopic_idiom_09": 0.7705987878143787,
+        "offtopic_plain_10": 0.7886410504579544,
+        "offtopic_idiom_10": 0.18886897340416908,
+        "core_plain_11": 0.4866968244314194,
+        "core_plain_12": 0.6311427354812622,
+        "core_plain_13": 0.7272377610206604,
+        "core_plain_14": 0.5192445293068886,
+        "core_plain_15": 0.4251106530427933,
+        "core_plain_16": 0.4179760068655014,
+        "core_plain_17": 0.6452854014933109,
+        "core_plain_18": 0.5030683893710375,
+        "core_plain_19": 0.4028259292244911,
+        "core_plain_20": 0.5769394338130951,
+        "core_plain_21": 0.20740453340113163,
+        "core_plain_22": 0.42066892236471176,
+        "core_plain_23": 0.6990313678979874,
+        "core_plain_24": 0.5594817847013474,
+        "core_plain_25": 0.37295037508010864,
+        "core_idiom_11": 0.5765871033072472,
+        "core_idiom_12": 0.3158643189817667,
+        "core_idiom_13": 0.4774489849805832,
+        "core_idiom_14": 0.6951849572360516,
+        "core_idiom_15": 0.5834703929722309,
+        "core_idiom_16": 0.35902538150548935,
+        "core_idiom_17": 0.1717512160539627,
+        "core_idiom_18": 0.41558416560292244,
+        "core_idiom_19": 0.6250524967908859,
+        "core_idiom_20": 0.5603194609284401,
+        "core_idiom_21": 0.41843829303979874,
+        "core_idiom_22": 0.36381637305021286,
+        "core_idiom_23": 0.7984365411102772,
+        "core_idiom_24": 0.41494421660900116,
+        "core_idiom_25": 0.6279056072235107,
+        "offtopic_plain_11": 0.7498916536569595,
+        "offtopic_plain_12": 0.6648363769054413,
+        "offtopic_plain_13": 0.7994702309370041,
+        "offtopic_plain_14": 0.545866072177887,
+        "offtopic_plain_15": 0.5426876693964005,
+        "offtopic_plain_16": 0.5643025934696198,
+        "offtopic_plain_17": 0.46367632783949375,
+        "offtopic_plain_18": 0.2859016265720129,
+        "offtopic_plain_19": 0.6390575543045998,
+        "offtopic_plain_20": 0.42465391755104065,
+        "offtopic_plain_21": 0.43231329321861267,
+        "offtopic_plain_22": 0.4640740156173706,
+        "offtopic_plain_23": 0.3909190446138382,
+        "offtopic_plain_24": 0.6183357834815979,
+        "offtopic_plain_25": 0.6063075363636017,
+        "offtopic_idiom_11": 0.597808949649334,
+        "offtopic_idiom_12": 0.7576986998319626,
+        "offtopic_idiom_13": 0.6311339884996414,
+        "offtopic_idiom_14": 0.3160124532878399,
+        "offtopic_idiom_15": 0.373583622276783,
+        "offtopic_idiom_16": 0.38507671654224396,
+        "offtopic_idiom_17": 0.42714887484908104,
+        "offtopic_idiom_18": 0.6232218220829964,
+        "offtopic_idiom_19": 0.734067271463573,
+        "offtopic_idiom_20": 0.5963554531335831,
+        "offtopic_idiom_21": 0.6425429228693247,
+        "offtopic_idiom_22": 0.4961469918489456,
+        "offtopic_idiom_23": 0.6520805284380913,
+        "offtopic_idiom_24": 0.4761950969696045,
+        "offtopic_idiom_25": 0.3788992911577225
+      },
+      "overall_dP": {
+        "n": 100,
+        "mean_delta": -0.00016480055637657642,
+        "std": 0.08471037079795161,
+        "t_stat": -0.019454590367648524,
+        "p_value": 0.9845176173705693
+      },
+      "overall_logodds": {
+        "n": 100,
+        "mean_delta": 0.007974799737449028,
+        "std": 0.37775682999614074,
+        "t_stat": 0.21110934612434407,
+        "p_value": 0.8332358954290825
+      },
+      "sign_test_tol": {
+        "pos": 42,
+        "neg": 44,
+        "ties": 14,
+        "n": 86,
+        "p_two_sided": 0.9142116370824501
+      },
+      "planned": {
+        "topic_marginal": {
+          "n_a": 50,
+          "n_b": 50,
+          "mean_a": -0.0331122600576222,
+          "mean_b": 0.049061859532520256,
+          "t": -1.0886759062131135,
+          "p": 0.27896685101722046
+        },
+        "phrasing_marginal": {
+          "n_a": 50,
+          "n_b": 50,
+          "mean_a": 0.09923663113686773,
+          "mean_b": -0.08328703166196968,
+          "t": 2.4778044724838306,
+          "p": 0.014929886126853833
+        },
+        "offtopic_plain_vs_zero": {
+          "n": 25,
+          "mean": -0.06980932877113266,
+          "t": -1.1008178330206322,
+          "p": 0.28189464946827814
+        },
+        "descriptive": {
+          "core": {
+            "n": 50,
+            "mean": -0.0331122600576222,
+            "t": -0.625373919325221,
+            "p": 0.5346275617078898
+          },
+          "offtopic": {
+            "n": 50,
+            "mean": 0.049061859532520256,
+            "t": 0.912020954644528,
+            "p": 0.3662230465724521
+          },
+          "idiom": {
+            "n": 50,
+            "mean": 0.09923663113686773,
+            "t": 1.8229348356379889,
+            "p": 0.0744172493979097
+          },
+          "plain": {
+            "n": 50,
+            "mean": -0.08328703166196968,
+            "t": -1.6782642946386537,
+            "p": 0.09966320050664275
+          }
+        }
+      },
+      "baseline_confound": {
+        "per_cell": {
+          "core_plain": {
+            "baseline": 0.5192046704888343,
+            "mean_delta": -0.0967647345528067
+          },
+          "core_idiom": {
+            "baseline": 0.49262738689780233,
+            "mean_delta": 0.03054021443756229
+          },
+          "offtopic_plain": {
+            "baseline": 0.5718693704903126,
+            "mean_delta": -0.06980932877113266
+          },
+          "offtopic_idiom": {
+            "baseline": 0.5247635530680418,
+            "mean_delta": 0.1679330478361732
+          }
+        },
+        "pearson_r": -0.32108770310863977,
+        "p": 0.6789122968913603,
+        "n_cells": 4,
+        "note": "4 cells only \u2014 this is a flag, not a test with power. A large |r| means report the imbalance alongside every cell comparison."
+      },
+      "holm": {
+        "phrasing_marginal": {
+          "p": 0.014929886126853833,
+          "holm_threshold": 0.016666666666666666,
+          "significant": true,
+          "rank": 1
+        },
+        "topic_marginal": {
+          "p": 0.27896685101722046,
+          "holm_threshold": 0.025,
+          "significant": false,
+          "rank": 2
+        },
+        "offtopic_plain_vs_zero": {
+          "p": 0.28189464946827814,
+          "holm_threshold": 0.05,
+          "significant": false,
+          "rank": 3
+        }
+      },
+      "exceeds_control": {
+        "topic_marginal": {
+          "control_nonphil": true,
+          "control_neutral": true
+        },
+        "phrasing_marginal": {
+          "control_nonphil": true,
+          "control_neutral": true
+        },
+        "offtopic_plain_vs_zero": {
+          "control_nonphil": false,
+          "control_neutral": false
+        }
+      },
+      "exceeds_all_controls": {
+        "topic_marginal": true,
+        "phrasing_marginal": true,
+        "offtopic_plain_vs_zero": false
+      }
+    },
+    "epictetus": {
+      "adapter": "lora_epictetus_clean",
+      "steered_mean": 0.5250281579419971,
+      "steered_p_target": {
+        "core_plain_01": 0.2598707377910614,
+        "core_idiom_01": 0.2425888404250145,
+        "core_plain_02": 0.5959755629301071,
+        "core_idiom_02": 0.5128196403384209,
+        "core_plain_03": 0.5069208443164825,
+        "core_idiom_03": 0.6150811910629272,
+        "core_plain_04": 0.6055281162261963,
+        "core_idiom_04": 0.5038530230522156,
+        "core_plain_05": 0.5521915853023529,
+        "core_idiom_05": 0.35861897468566895,
+        "core_plain_06": 0.4047330766916275,
+        "core_idiom_06": 0.336278960108757,
+        "core_plain_07": 0.5222605764865875,
+        "core_idiom_07": 0.6636667400598526,
+        "core_plain_08": 0.350440114736557,
+        "core_idiom_08": 0.49218861758708954,
+        "core_plain_09": 0.5990721136331558,
+        "core_idiom_09": 0.618534505367279,
+        "core_plain_10": 0.3301994055509567,
+        "core_idiom_10": 0.34566734731197357,
+        "offtopic_plain_01": 0.576056320220232,
+        "offtopic_idiom_01": 0.6385150328278542,
+        "offtopic_plain_02": 0.46237659454345703,
+        "offtopic_idiom_02": 0.6257265657186508,
+        "offtopic_plain_03": 0.5171283185482025,
+        "offtopic_idiom_03": 0.7212624922394753,
+        "offtopic_plain_04": 0.5466999933123589,
+        "offtopic_idiom_04": 0.6303322538733482,
+        "offtopic_plain_05": 0.3924933224916458,
+        "offtopic_idiom_05": 0.4981537014245987,
+        "offtopic_plain_06": 0.5444445759057999,
+        "offtopic_idiom_06": 0.5531565845012665,
+        "offtopic_plain_07": 0.5953307598829269,
+        "offtopic_idiom_07": 0.5863932222127914,
+        "offtopic_plain_08": 0.6795095130801201,
+        "offtopic_idiom_08": 0.24274621903896332,
+        "offtopic_plain_09": 0.5426046401262283,
+        "offtopic_idiom_09": 0.5954476445913315,
+        "offtopic_plain_10": 0.7094042599201202,
+        "offtopic_idiom_10": 0.24335800111293793,
+        "core_plain_11": 0.5920241475105286,
+        "core_plain_12": 0.6735439673066139,
+        "core_plain_13": 0.6817900575697422,
+        "core_plain_14": 0.6730257570743561,
+        "core_plain_15": 0.2554383873939514,
+        "core_plain_16": 0.41877417266368866,
+        "core_plain_17": 0.6167303696274757,
+        "core_plain_18": 0.554966613650322,
+        "core_plain_19": 0.6636488884687424,
+        "core_plain_20": 0.6279494017362595,
+        "core_plain_21": 0.2860768511891365,
+        "core_plain_22": 0.4906422793865204,
+        "core_plain_23": 0.6842991560697556,
+        "core_plain_24": 0.5907221287488937,
+        "core_plain_25": 0.394387349486351,
+        "core_idiom_11": 0.47804319858551025,
+        "core_idiom_12": 0.3740403652191162,
+        "core_idiom_13": 0.5303873270750046,
+        "core_idiom_14": 0.6856674328446388,
+        "core_idiom_15": 0.6476857140660286,
+        "core_idiom_16": 0.5429490655660629,
+        "core_idiom_17": 0.2137322649359703,
+        "core_idiom_18": 0.35100559890270233,
+        "core_idiom_19": 0.7192745991051197,
+        "core_idiom_20": 0.6778058484196663,
+        "core_idiom_21": 0.39836855232715607,
+        "core_idiom_22": 0.24262110143899918,
+        "core_idiom_23": 0.7838428318500519,
+        "core_idiom_24": 0.396165207028389,
+        "core_idiom_25": 0.6074378937482834,
+        "offtopic_plain_11": 0.7605350315570831,
+        "offtopic_plain_12": 0.567935585975647,
+        "offtopic_plain_13": 0.7165004536509514,
+        "offtopic_plain_14": 0.5565078854560852,
+        "offtopic_plain_15": 0.5096408203244209,
+        "offtopic_plain_16": 0.5974492728710175,
+        "offtopic_plain_17": 0.5341949313879013,
+        "offtopic_plain_18": 0.31348203867673874,
+        "offtopic_plain_19": 0.6291436553001404,
+        "offtopic_plain_20": 0.5019506961107254,
+        "offtopic_plain_21": 0.6342742890119553,
+        "offtopic_plain_22": 0.4944413900375366,
+        "offtopic_plain_23": 0.5212345123291016,
+        "offtopic_plain_24": 0.6297298669815063,
+        "offtopic_plain_25": 0.6273901350796223,
+        "offtopic_idiom_11": 0.564302608370781,
+        "offtopic_idiom_12": 0.6326567083597183,
+        "offtopic_idiom_13": 0.5904626846313477,
+        "offtopic_idiom_14": 0.3759988099336624,
+        "offtopic_idiom_15": 0.3431203067302704,
+        "offtopic_idiom_16": 0.3906681090593338,
+        "offtopic_idiom_17": 0.2977399304509163,
+        "offtopic_idiom_18": 0.531570240855217,
+        "offtopic_idiom_19": 0.6825056746602058,
+        "offtopic_idiom_20": 0.6037150621414185,
+        "offtopic_idiom_21": 0.7108118049800396,
+        "offtopic_idiom_22": 0.4169458746910095,
+        "offtopic_idiom_23": 0.6558074355125427,
+        "offtopic_idiom_24": 0.5269932746887207,
+        "offtopic_idiom_25": 0.4144301861524582
+      },
+      "overall_dP": {
+        "n": 100,
+        "mean_delta": -0.002088087294250727,
+        "std": 0.015845999133622325,
+        "t_stat": -1.3177378571352978,
+        "p_value": 0.19063266900970088
+      },
+      "overall_logodds": {
+        "n": 100,
+        "mean_delta": -0.010179679399422905,
+        "std": 0.0693573889419865,
+        "t_stat": -1.4677137583621591,
+        "p_value": 0.1453519113549986
+      },
+      "sign_test_tol": {
+        "pos": 19,
+        "neg": 28,
+        "ties": 53,
+        "n": 47,
+        "p_two_sided": 0.24296021728332562
+      },
+      "planned": {
+        "topic_marginal": {
+          "n_a": 50,
+          "n_b": 50,
+          "mean_a": -0.0034497421589179877,
+          "mean_b": -0.01690961663992782,
+          "t": 0.9700380549334023,
+          "p": 0.33441557849959047
+        },
+        "phrasing_marginal": {
+          "n_a": 50,
+          "n_b": 50,
+          "mean_a": -0.003483355062584735,
+          "mean_b": -0.016876003736261077,
+          "t": 0.9651469981350553,
+          "p": 0.33684685458408303
+        },
+        "offtopic_plain_vs_zero": {
+          "n": 25,
+          "mean": -0.02494557803796065,
+          "t": -2.39037977406865,
+          "p": 0.025031141230386817
+        },
+        "descriptive": {
+          "core": {
+            "n": 50,
+            "mean": -0.0034497421589179877,
+            "t": -0.2997560152562294,
+            "p": 0.7656311930864136
+          },
+          "offtopic": {
+            "n": 50,
+            "mean": -0.01690961663992782,
+            "t": -2.1814391165505342,
+            "p": 0.03397804233659085
+          },
+          "idiom": {
+            "n": 50,
+            "mean": -0.003483355062584735,
+            "t": -0.40951390173126884,
+            "p": 0.6839472881952556
+          },
+          "plain": {
+            "n": 50,
+            "mean": -0.016876003736261077,
+            "t": -1.5392929896525929,
+            "p": 0.13016622581902035
+          }
+        }
+      },
+      "baseline_confound": {
+        "per_cell": {
+          "core_plain": {
+            "baseline": 0.5192046704888343,
+            "mean_delta": -0.0088064294345615
+          },
+          "core_idiom": {
+            "baseline": 0.49262738689780233,
+            "mean_delta": 0.0019069451167255252
+          },
+          "offtopic_plain": {
+            "baseline": 0.5718693704903126,
+            "mean_delta": -0.02494557803796065
+          },
+          "offtopic_idiom": {
+            "baseline": 0.5247635530680418,
+            "mean_delta": -0.008873655241894995
+          }
+        },
+        "pearson_r": -0.9969572224390164,
+        "p": 0.0030427775609835894,
+        "n_cells": 4,
+        "note": "4 cells only \u2014 this is a flag, not a test with power. A large |r| means report the imbalance alongside every cell comparison."
+      },
+      "holm": {
+        "offtopic_plain_vs_zero": {
+          "p": 0.025031141230386817,
+          "holm_threshold": 0.016666666666666666,
+          "significant": false,
+          "rank": 1
+        },
+        "topic_marginal": {
+          "p": 0.33441557849959047,
+          "holm_threshold": 0.025,
+          "significant": false,
+          "rank": 2
+        },
+        "phrasing_marginal": {
+          "p": 0.33684685458408303,
+          "holm_threshold": 0.05,
+          "significant": false,
+          "rank": 3
+        }
+      },
+      "exceeds_control": {
+        "topic_marginal": {
+          "control_nonphil": true,
+          "control_neutral": false
+        },
+        "phrasing_marginal": {
+          "control_nonphil": false,
+          "control_neutral": false
+        },
+        "offtopic_plain_vs_zero": {
+          "control_nonphil": false,
+          "control_neutral": false
+        }
+      },
+      "exceeds_all_controls": {
+        "topic_marginal": false,
+        "phrasing_marginal": false,
+        "offtopic_plain_vs_zero": false
+      }
+    },
+    "control_nonphil": {
+      "adapter": "lora_control_nonphil",
+      "steered_mean": 0.5183234008215368,
+      "steered_p_target": {
+        "core_plain_01": 0.2833130359649658,
+        "core_idiom_01": 0.33462172746658325,
+        "core_plain_02": 0.5253771841526031,
+        "core_idiom_02": 0.4641015902161598,
+        "core_plain_03": 0.4145412966609001,
+        "core_idiom_03": 0.567489817738533,
+        "core_plain_04": 0.6022101640701294,
+        "core_idiom_04": 0.534683883190155,
+        "core_plain_05": 0.5933223813772202,
+        "core_idiom_05": 0.3868461847305298,
+        "core_plain_06": 0.4442153424024582,
+        "core_idiom_06": 0.34411753714084625,
+        "core_plain_07": 0.5231023132801056,
+        "core_idiom_07": 0.6331602036952972,
+        "core_plain_08": 0.4132925719022751,
+        "core_idiom_08": 0.5638825297355652,
+        "core_plain_09": 0.6247155759483576,
+        "core_idiom_09": 0.5773700475692749,
+        "core_plain_10": 0.3434896618127823,
+        "core_idiom_10": 0.3730093091726303,
+        "offtopic_plain_01": 0.5750317201018333,
+        "offtopic_idiom_01": 0.6914391592144966,
+        "offtopic_plain_02": 0.45642952620983124,
+        "offtopic_idiom_02": 0.6735762506723404,
+        "offtopic_plain_03": 0.42824307084083557,
+        "offtopic_idiom_03": 0.7254366502165794,
+        "offtopic_plain_04": 0.5521071776747704,
+        "offtopic_idiom_04": 0.6112204492092133,
+        "offtopic_plain_05": 0.35956157743930817,
+        "offtopic_idiom_05": 0.4963007867336273,
+        "offtopic_plain_06": 0.5344895273447037,
+        "offtopic_idiom_06": 0.4797762781381607,
+        "offtopic_plain_07": 0.5476009249687195,
+        "offtopic_idiom_07": 0.5846844613552094,
+        "offtopic_plain_08": 0.5896737799048424,
+        "offtopic_idiom_08": 0.26763856410980225,
+        "offtopic_plain_09": 0.5721125602722168,
+        "offtopic_idiom_09": 0.6722180172801018,
+        "offtopic_plain_10": 0.7081059366464615,
+        "offtopic_idiom_10": 0.22689741849899292,
+        "core_plain_11": 0.5363777279853821,
+        "core_plain_12": 0.5712317265570164,
+        "core_plain_13": 0.7326446510851383,
+        "core_plain_14": 0.6147195994853973,
+        "core_plain_15": 0.3029625564813614,
+        "core_plain_16": 0.34634529054164886,
+        "core_plain_17": 0.6535539478063583,
+        "core_plain_18": 0.5233336379751563,
+        "core_plain_19": 0.5341748297214508,
+        "core_plain_20": 0.5252575427293777,
+        "core_plain_21": 0.19856297876685858,
+        "core_plain_22": 0.5797759518027306,
+        "core_plain_23": 0.7123555690050125,
+        "core_plain_24": 0.6152859255671501,
+        "core_plain_25": 0.3217255771160126,
+        "core_idiom_11": 0.6807395685464144,
+        "core_idiom_12": 0.28266798332333565,
+        "core_idiom_13": 0.5128243863582611,
+        "core_idiom_14": 0.7184816105291247,
+        "core_idiom_15": 0.7332050194963813,
+        "core_idiom_16": 0.40727105736732483,
+        "core_idiom_17": 0.18176133185625076,
+        "core_idiom_18": 0.35795573238283396,
+        "core_idiom_19": 0.7039629630744457,
+        "core_idiom_20": 0.627090223133564,
+        "core_idiom_21": 0.42562630772590637,
+        "core_idiom_22": 0.2243831269443035,
+        "core_idiom_23": 0.8146945647895336,
+        "core_idiom_24": 0.3225851207971573,
+        "core_idiom_25": 0.5792011767625809,
+        "offtopic_plain_11": 0.7896996214985847,
+        "offtopic_plain_12": 0.6146631091833115,
+        "offtopic_plain_13": 0.7381961569190025,
+        "offtopic_plain_14": 0.6593809127807617,
+        "offtopic_plain_15": 0.5405593849718571,
+        "offtopic_plain_16": 0.5487150065600872,
+        "offtopic_plain_17": 0.4794246330857277,
+        "offtopic_plain_18": 0.29915862530469894,
+        "offtopic_plain_19": 0.6122160889208317,
+        "offtopic_plain_20": 0.3913133293390274,
+        "offtopic_plain_21": 0.5710133165121078,
+        "offtopic_plain_22": 0.47897037863731384,
+        "offtopic_plain_23": 0.4787009358406067,
+        "offtopic_plain_24": 0.5963715733960271,
+        "offtopic_plain_25": 0.6079750955104828,
+        "offtopic_idiom_11": 0.6052536219358444,
+        "offtopic_idiom_12": 0.6481480002403259,
+        "offtopic_idiom_13": 0.6265687197446823,
+        "offtopic_idiom_14": 0.29841137677431107,
+        "offtopic_idiom_15": 0.3531949296593666,
+        "offtopic_idiom_16": 0.41111086308956146,
+        "offtopic_idiom_17": 0.3956817388534546,
+        "offtopic_idiom_18": 0.5114706084132195,
+        "offtopic_idiom_19": 0.62979806214571,
+        "offtopic_idiom_20": 0.5877051874995232,
+        "offtopic_idiom_21": 0.7416301295161247,
+        "offtopic_idiom_22": 0.47463464736938477,
+        "offtopic_idiom_23": 0.6930454596877098,
+        "offtopic_idiom_24": 0.5,
+        "offtopic_idiom_25": 0.3091646879911423
+      },
+      "overall_dP": {
+        "n": 100,
+        "mean_delta": -0.008792844414711,
+        "std": 0.05849178381584643,
+        "t_stat": -1.5032614567533271,
+        "p_value": 0.1359550086008342
+      },
+      "overall_logodds": {
+        "n": 100,
+        "mean_delta": -0.036286931595131286,
+        "std": 0.25212073257974016,
+        "t_stat": -1.4392680531996527,
+        "p_value": 0.15322897949781983
+      },
+      "sign_test_tol": {
+        "pos": 37,
+        "neg": 47,
+        "ties": 16,
+        "n": 84,
+        "p_two_sided": 0.32613417119198296
+      },
+      "planned": {
+        "topic_marginal": {
+          "n_a": 50,
+          "n_b": 50,
+          "mean_a": -0.03468161547872743,
+          "mean_b": -0.03789224771153514,
+          "t": 0.06335141777170736,
+          "p": 0.9496157098682466
+        },
+        "phrasing_marginal": {
+          "n_a": 50,
+          "n_b": 50,
+          "mean_a": 0.011929021904809798,
+          "mean_b": -0.08450288509507237,
+          "t": 1.9388829293401015,
+          "p": 0.05539210683198784
+        },
+        "offtopic_plain_vs_zero": {
+          "n": 25,
+          "mean": -0.09351635334110803,
+          "t": -2.2008935032529013,
+          "p": 0.03760588401823066
+        },
+        "descriptive": {
+          "core": {
+            "n": 50,
+            "mean": -0.03468161547872743,
+            "t": -0.8642662436160434,
+            "p": 0.39165291277349845
+          },
+          "offtopic": {
+            "n": 50,
+            "mean": -0.03789224771153514,
+            "t": -1.2241494953131968,
+            "p": 0.2267492217822662
+          },
+          "idiom": {
+            "n": 50,
+            "mean": 0.011929021904809798,
+            "t": 0.3266195495581011,
+            "p": 0.7453467319805087
+          },
+          "plain": {
+            "n": 50,
+            "mean": -0.08450288509507237,
+            "t": -2.5030402998066776,
+            "p": 0.015696185723957718
+          }
+        }
+      },
+      "baseline_confound": {
+        "per_cell": {
+          "core_plain": {
+            "baseline": 0.5192046704888343,
+            "mean_delta": -0.07548941684903672
+          },
+          "core_idiom": {
+            "baseline": 0.49262738689780233,
+            "mean_delta": 0.006126185891581849
+          },
+          "offtopic_plain": {
+            "baseline": 0.5718693704903126,
+            "mean_delta": -0.09351635334110803
+          },
+          "offtopic_idiom": {
+            "baseline": 0.5247635530680418,
+            "mean_delta": 0.017731857918037747
+          }
+        },
+        "pearson_r": -0.689085403230882,
+        "p": 0.31091459676911803,
+        "n_cells": 4,
+        "note": "4 cells only \u2014 this is a flag, not a test with power. A large |r| means report the imbalance alongside every cell comparison."
+      },
+      "holm": {
+        "offtopic_plain_vs_zero": {
+          "p": 0.03760588401823066,
+          "holm_threshold": 0.016666666666666666,
+          "significant": false,
+          "rank": 1
+        },
+        "phrasing_marginal": {
+          "p": 0.05539210683198784,
+          "holm_threshold": 0.025,
+          "significant": false,
+          "rank": 2
+        },
+        "topic_marginal": {
+          "p": 0.9496157098682466,
+          "holm_threshold": 0.05,
+          "significant": false,
+          "rank": 3
+        }
+      }
+    },
+    "control_neutral": {
+      "adapter": "lora_control_neutral",
+      "steered_mean": 0.48634350703214296,
+      "steered_p_target": {
+        "core_plain_01": 0.35380426049232483,
+        "core_idiom_01": 0.5134701132774353,
+        "core_plain_02": 0.2074325829744339,
+        "core_idiom_02": 0.3168825265020132,
+        "core_plain_03": 0.055863536428660154,
+        "core_idiom_03": 0.11187580553814769,
+        "core_plain_04": 0.8639076948165894,
+        "core_idiom_04": 0.7732134386897087,
+        "core_plain_05": 0.5350898951292038,
+        "core_idiom_05": 0.27507296949625015,
+        "core_plain_06": 0.47125087678432465,
+        "core_idiom_06": 0.5689203888177872,
+        "core_plain_07": 0.076358487829566,
+        "core_idiom_07": 0.25653810426592827,
+        "core_plain_08": 0.6072991192340851,
+        "core_idiom_08": 0.5225510150194168,
+        "core_plain_09": 0.8329600431025028,
+        "core_idiom_09": 0.43039436638355255,
+        "core_plain_10": 0.574515089392662,
+        "core_idiom_10": 0.305743470788002,
+        "offtopic_plain_01": 0.6584002375602722,
+        "offtopic_idiom_01": 0.41216588765382767,
+        "offtopic_plain_02": 0.6990701854228973,
+        "offtopic_idiom_02": 0.6364843919873238,
+        "offtopic_plain_03": 0.15543600264936686,
+        "offtopic_idiom_03": 0.4163636267185211,
+        "offtopic_plain_04": 0.31871090084314346,
+        "offtopic_idiom_04": 0.5469656586647034,
+        "offtopic_plain_05": 0.16960501670837402,
+        "offtopic_idiom_05": 0.30792132019996643,
+        "offtopic_plain_06": 0.411446288228035,
+        "offtopic_idiom_06": 0.3932285010814667,
+        "offtopic_plain_07": 0.5820779949426651,
+        "offtopic_idiom_07": 0.6454262286424637,
+        "offtopic_plain_08": 0.6458759754896164,
+        "offtopic_idiom_08": 0.2834010608494282,
+        "offtopic_plain_09": 0.5801355987787247,
+        "offtopic_idiom_09": 0.7722513303160667,
+        "offtopic_plain_10": 0.8343641459941864,
+        "offtopic_idiom_10": 0.14384112507104874,
+        "core_plain_11": 0.4729214459657669,
+        "core_plain_12": 0.5648526251316071,
+        "core_plain_13": 0.4151182174682617,
+        "core_plain_14": 0.6199490539729595,
+        "core_plain_15": 0.29017912596464157,
+        "core_plain_16": 0.3445866331458092,
+        "core_plain_17": 0.6838818043470383,
+        "core_plain_18": 0.3789127692580223,
+        "core_plain_19": 0.8261907137930393,
+        "core_plain_20": 0.737045980989933,
+        "core_plain_21": 0.35193974152207375,
+        "core_plain_22": 0.4146452620625496,
+        "core_plain_23": 0.7591511458158493,
+        "core_plain_24": 0.5565800815820694,
+        "core_plain_25": 0.30353303253650665,
+        "core_idiom_11": 0.4371706247329712,
+        "core_idiom_12": 0.25577464886009693,
+        "core_idiom_13": 0.753511480987072,
+        "core_idiom_14": 0.6543747298419476,
+        "core_idiom_15": 0.6529875658452511,
+        "core_idiom_16": 0.31906014680862427,
+        "core_idiom_17": 0.196064330637455,
+        "core_idiom_18": 0.4060648940503597,
+        "core_idiom_19": 0.5387314260005951,
+        "core_idiom_20": 0.5242714732885361,
+        "core_idiom_21": 0.5031274706125259,
+        "core_idiom_22": 0.2927946448326111,
+        "core_idiom_23": 0.6788920499384403,
+        "core_idiom_24": 0.3087932616472244,
+        "core_idiom_25": 0.5686203092336655,
+        "offtopic_plain_11": 0.8049856843426824,
+        "offtopic_plain_12": 0.4672178849577904,
+        "offtopic_plain_13": 0.517128974199295,
+        "offtopic_plain_14": 0.5087627172470093,
+        "offtopic_plain_15": 0.4878468029201031,
+        "offtopic_plain_16": 0.565587617456913,
+        "offtopic_plain_17": 0.4664421882480383,
+        "offtopic_plain_18": 0.02334584586787969,
+        "offtopic_plain_19": 0.5748113337904215,
+        "offtopic_plain_20": 0.43707410991191864,
+        "offtopic_plain_21": 0.2937769517302513,
+        "offtopic_plain_22": 0.5713987946510315,
+        "offtopic_plain_23": 0.38681401312351227,
+        "offtopic_plain_24": 0.4974789824336767,
+        "offtopic_plain_25": 0.6877161487936974,
+        "offtopic_idiom_11": 0.6018713191151619,
+        "offtopic_idiom_12": 0.6904051154851913,
+        "offtopic_idiom_13": 0.682833656668663,
+        "offtopic_idiom_14": 0.42968861758708954,
+        "offtopic_idiom_15": 0.35892437398433685,
+        "offtopic_idiom_16": 0.2191690243780613,
+        "offtopic_idiom_17": 0.4436180554330349,
+        "offtopic_idiom_18": 0.4490653919056058,
+        "offtopic_idiom_19": 0.7028543278574944,
+        "offtopic_idiom_20": 0.6778442971408367,
+        "offtopic_idiom_21": 0.7000884842127562,
+        "offtopic_idiom_22": 0.5680672749876976,
+        "offtopic_idiom_23": 0.7259405385702848,
+        "offtopic_idiom_24": 0.6072787567973137,
+        "offtopic_idiom_25": 0.41027146577835083
+      },
+      "overall_dP": {
+        "n": 100,
+        "mean_delta": -0.040772738204104826,
+        "std": 0.16553305119550393,
+        "t_stat": -2.463117661979776,
+        "p_value": 0.015499390399911628
+      },
+      "overall_logodds": {
+        "n": 100,
+        "mean_delta": -0.20467339534499251,
+        "std": 0.8276808986805027,
+        "t_stat": -2.4728539183553098,
+        "p_value": 0.015107886197293427
+      },
+      "sign_test_tol": {
+        "pos": 42,
+        "neg": 57,
+        "ties": 1,
+        "n": 99,
+        "p_two_sided": 0.15906965188123784
+      },
+      "planned": {
+        "topic_marginal": {
+          "n_a": 50,
+          "n_b": 50,
+          "mean_a": -0.18131289386807675,
+          "mean_b": -0.22803389682190825,
+          "t": 0.28092440245900946,
+          "p": 0.7793606266248895
+        },
+        "phrasing_marginal": {
+          "n_a": 50,
+          "n_b": 50,
+          "mean_a": -0.134533064983526,
+          "mean_b": -0.274813725706459,
+          "t": 0.8462159971690377,
+          "p": 0.3994938288986012
+        },
+        "offtopic_plain_vs_zero": {
+          "n": 25,
+          "mean": -0.4024663654077245,
+          "t": -2.46487778742849,
+          "p": 0.021247782038085278
+        },
+        "descriptive": {
+          "core": {
+            "n": 50,
+            "mean": -0.18131289386807675,
+            "t": -1.3631884722124816,
+            "p": 0.1790544694921402
+          },
+          "offtopic": {
+            "n": 50,
+            "mean": -0.22803389682190825,
+            "t": -2.2838995010634915,
+            "p": 0.026749331372020294
+          },
+          "idiom": {
+            "n": 50,
+            "mean": -0.134533064983526,
+            "t": -1.3338437388980795,
+            "p": 0.18842199025162076
+          },
+          "plain": {
+            "n": 50,
+            "mean": -0.274813725706459,
+            "t": -2.088883564421507,
+            "p": 0.041934694276843945
+          }
+        }
+      },
+      "baseline_confound": {
+        "per_cell": {
+          "core_plain": {
+            "baseline": 0.5192046704888343,
+            "mean_delta": -0.14716108600519356
+          },
+          "core_idiom": {
+            "baseline": 0.49262738689780233,
+            "mean_delta": -0.21546470173095994
+          },
+          "offtopic_plain": {
+            "baseline": 0.5718693704903126,
+            "mean_delta": -0.4024663654077245
+          },
+          "offtopic_idiom": {
+            "baseline": 0.5247635530680418,
+            "mean_delta": -0.05360142823609203
+          }
+        },
+        "pearson_r": -0.6363505765459835,
+        "p": 0.3636494234540164,
+        "n_cells": 4,
+        "note": "4 cells only \u2014 this is a flag, not a test with power. A large |r| means report the imbalance alongside every cell comparison."
+      },
+      "holm": {
+        "offtopic_plain_vs_zero": {
+          "p": 0.021247782038085278,
+          "holm_threshold": 0.016666666666666666,
+          "significant": false,
+          "rank": 1
+        },
+        "phrasing_marginal": {
+          "p": 0.3994938288986012,
+          "holm_threshold": 0.025,
+          "significant": false,
+          "rank": 2
+        },
+        "topic_marginal": {
+          "p": 0.7793606266248895,
+          "holm_threshold": 0.05,
+          "significant": false,
+          "rank": 3
+        }
+      }
+    }
+  }
+}

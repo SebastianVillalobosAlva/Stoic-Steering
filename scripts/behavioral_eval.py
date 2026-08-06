@@ -183,7 +183,7 @@ def run(arms: list[str] | None = None) -> dict:
     print("gates: item set frozen, 2x2 intact, control adapter present ✓")
 
     model, tokenizer = load_model()
-    print("\nbase model on v3 ...")
+    print(f"\nbase model on {ITEMS.stem} ...")
     baseline = eval_dilemmas(model, tokenizer, items)
     print(f"  base mean P(target) = {mean(baseline):.6f}")
 
