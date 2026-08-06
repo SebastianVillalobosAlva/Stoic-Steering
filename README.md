@@ -4,6 +4,17 @@ Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on
 
 **Core finding:** the two methods give different results. Under matched decoding at coefficient 0.11, LoRA moves the judge-free decision instrument, plus judge-scored style and content (single eval). CAA moves none of them, and leaves the circuit unchanged too. See the artifact for more details - [docs/measurement-artifact.md](docs/measurement-artifact.md).
 
+> **⚠ Superseded in part (v4, 2026-07-31) — awaiting prose revision.** A
+> pre-registered, powered eval (100 items, 25/cell) shows the LoRA decision
+> shift is **lexical echo, not reasoning**: Seneca moves idiom-worded items
+> (+0.099 log-odds) and moves plain-worded items the other way (−0.083), and the
+> off-topic/plain reasoning cell is bounded-null (95% CI excludes an idiom-sized
+> effect). The v2 numbers below stand as a v2 result; their *interpretation* has
+> narrowed to "weight adaptation moves the choice through register, not
+> reasoning." The claims below are left intact as receipts pending rewrite. Full
+> map + numbers: [docs/claim-revision-v4.md](docs/claim-revision-v4.md),
+> `results/v4_behavioral/`.
+
 ![Three-depths dissociation — CAA is flat at style, content, and decision; LoRA moves all three (Epictetus decision null)](results/figures/fig_three_depths.png)
 
 ------------------------------------------------------------------------
@@ -14,7 +25,7 @@ Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on
 
 -   **CAA "content effect" — a measurement artifact.** An early measurement reported a large positive effect. Steered text was sampled and truncated to ~13 tokens while baselines were greedy at 100, so the judge was scoring the decoding difference instead of the steering. Under identical decoding, the content effect is null for all three philosophers. Full mechanism and numbers in [docs/measurement-artifact.md](docs/measurement-artifact.md).
 
--   **LoRA reaches decisions.** On the forced-choice instrument, where CAA is flat, weight-level adaptation moved the choice — measured judge-free from the frozen adapters:
+-   **LoRA reaches decisions.** *(v2 result, n=40 — [narrowed by v4](docs/claim-revision-v4.md): on 100 items Seneca's overall effect is t=0.21, and the movement is register-driven, not reasoning. Table kept as the v2 receipt.)* On the forced-choice instrument, where CAA is flat, weight-level adaptation moved the choice — measured judge-free from the frozen adapters:
 
     | Author | ΔP(stoic) | Δlog-odds | t       | Stance buckets     |
     |--------|-----------|-----------|---------|--------------------|
@@ -27,7 +38,7 @@ Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on
 
 ![LoRA decision shift by author and stance bucket — Seneca moves both, Marcus accepting-only, Epictetus null](results/figures/fig_lora_decision_shift.png)
 
--   **LoRA does not install uniform Stoic reasoning.** The effects differ by philosopher. Marcus is a broad *passivity prior*: it moves only the "accepting" dilemmas and is flat on the "active" ones. Seneca moves the choice on average, but that average is carried by a handful of items shifting a lot rather than a steady push across all 40 — the per-item sign test is not significant (25 of 40 positive, p = 0.15). Epictetus shows no decision effect at all, but it also has by far the smallest corpus (123 chunks, the Enchiridion only) and a terse, aphoristic style unlike Seneca's letters or Marcus's reflections. A possible Senecan-idiom lexical-echo confound in the decision instrument is also open.
+-   **LoRA does not install uniform Stoic reasoning.** The effects differ by philosopher. Marcus is a broad *passivity prior*: it moves only the "accepting" dilemmas and is flat on the "active" ones. Seneca moves the choice on average, but that average is carried by a handful of items shifting a lot rather than a steady push across all 40 — the per-item sign test is not significant (25 of 40 positive, p = 0.15). Epictetus shows no decision effect at all, but it also has by far the smallest corpus (123 chunks, the Enchiridion only) and a terse, aphoristic style unlike Seneca's letters or Marcus's reflections. A possible Senecan-idiom lexical-echo confound in the decision instrument is also open. *(v4 update: this confound is no longer open — a pre-registered powered test **confirmed it as the dominant effect**. See [docs/claim-revision-v4.md](docs/claim-revision-v4.md).)*
 
 ![Seneca vs Marcus per-item circuit node shift, with medians and tie flags](results/figures/fig_exp12c_node_shift.png)
 
