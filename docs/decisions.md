@@ -12,6 +12,12 @@ newest first.
 
 ---
 
+## 2026-10-16 — Supersedes the 2026-07-27 "New blocker" entry
+
+The hardcoded ModelLens path in exp12_circuit_analysis.py was replaced with importlib.util.find_spec plus a sibling fallback in commit fe0a38f (2026-07-28). The harness runs; a full end-to-end exp12 re-run through the fixed import is still pending.
+
+---
+
 ## 2026-07-27 — Behavioral axis becomes a config directory
 
 **Decision.** An axis (arms, layers, coefficients, dilemma set, field maps,

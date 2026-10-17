@@ -29,7 +29,7 @@ confound-caught, not with the loss.
 | control_nonphil | −0.036 (−1.44) | +0.012 / −0.085 (0.055) | −0.094 (0.038) | — |
 | control_neutral | −0.205 (−2.47) | (ns) | −0.402 (0.021) | — |
 
-Base integrity: v2 ruler 0.541609 → 0.541609, drift 0. Seneca R6 clean
+Base integrity: v2 ruler 0.541609 → 0.541609 (torch 2.8 drift value; the published fixture is 0.541602, see docs/decisions.md), drift 0. Seneca R6 clean
 (r=−0.32, p=0.68). Reading, per the pre-registered §4: **ECHO**.
 
 Two honesty notes to keep with any restatement:
