@@ -23,8 +23,7 @@ pipeline against them and checks the result. Run with the `stoic-llm` conda env
 
 Vectors are extracted at the same site they inject (`layers[L].mlp`), from the
 frozen fixture pairs, and match the frozen `.pt` vectors to 4 decimals in both
-direction (cosine) and magnitude (norm ratio 1.000). CAA moves decisions
-**not at all** — the decision-level null.
+direction (cosine) and magnitude (norm ratio 1.000). CAA produces no measurable decision movement (|ΔP| < 0.001) at coefficient 0.11.
 
 ## Reference repair (Stage 2 prerequisite)
 
@@ -68,8 +67,7 @@ JSONs: `stage3_content_judge/content_20260704_192154.json` (greedy),
 
 The earlier stylistic-authenticity deltas (Marcus +1.00, Seneca +1.42,
 Epictetus +1.58) — the effect once treated as "the robust, valid result" — were
-re-tested under matched decoding at the canonical clean configs (pre-registered
-rule: survives if seed-averaged style delta > 2σ above zero in either regime;
+re-tested under matched decoding at the canonical clean configs (a fixed ≥2σ survival rule (the verdict does not depend on it: the effect is ≈0) in either regime;
 n=5 seeds, same hardened Gemini judge):
 
 | Author | earlier (artifact) | Matched greedy | Matched sampled | Verdict |
@@ -165,7 +163,7 @@ Findings:
    the behavioral nulls at every level.
 2. **LoRA rewires the circuit in proportion to its behavioral decision
    effect: Seneca > Marcus > Epictetus ≈ 0** — the same ordering as the Stage 4
-   LoRA dilemma shifts. Seneca's raw sensitivity to which-option-is-stoic
+   LoRA dilemma shifts. (Single item, ctrl_03. The Seneca-largest ordering is supported at the median in the 10-item Exp 12c sweep: 0.386 vs 0.174.) Seneca's raw sensitivity to which-option-is-stoic
    *compresses* (−8.97 → −6.73) even as it chooses the Stoic option more.
 3. The "circuit topology predicts the behavioral split" claim now
    rests on `discover_circuit` with a content metric and clean adapters.
