@@ -17,6 +17,8 @@ Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on
 
 ![Three-depths dissociation — CAA is flat at style, content, and decision; LoRA moves all three (Epictetus decision null)](results/figures/fig_three_depths.png)
 
+*v2 decision result. The v4 powered test shows this movement is lexical echo, not reasoning; see docs/claim-revision-v4.md.*
+
 ------------------------------------------------------------------------
 
 ## Key findings
@@ -34,9 +36,11 @@ Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on
 
     The circuit analysis (Exp 12 via ModelLens) shows the same split. CAA leaves the stoic-content circuit essentially untouched. LoRA's circuit perturbation is ordered Seneca > Marcus > Epictetus ≈ 0 — the same ordering as the decision shift. It is robust at the median, and acts on content discrimination in an item-dependent way rather than as a directional push. Full analysis in [results/README.md](results/README.md).
 
-    **Caveat:** the two methods also train on different objectives (CAA is contrastive, LoRA is continued pretraining), so method and objective are confounded. The non-philosophical control adapter in v3 is what separates them.
+    **Caveat:** the two methods also train on different objectives (CAA is contrastive, LoRA is continued pretraining), so method and objective are confounded. A non-philosophical control adapter separated them: it moved −0.036 (n.s.) and matched Marcus's one significant cell, so that cell is generic fine-tuning drift, not an axis effect.
 
 ![LoRA decision shift by author and stance bucket — Seneca moves both, Marcus accepting-only, Epictetus null](results/figures/fig_lora_decision_shift.png)
+
+*v2 decision result. The v4 powered test shows this movement is lexical echo, not reasoning; see docs/claim-revision-v4.md.*
 
 -   **LoRA does not install uniform Stoic reasoning.** The effects differ by philosopher. Marcus is a broad *passivity prior*: it moves only the "accepting" dilemmas and is flat on the "active" ones. Seneca moves the choice on average, but that average is carried by a handful of items shifting a lot rather than a steady push across all 40 — the per-item sign test is not significant (25 of 40 positive, p = 0.15). Epictetus shows no decision effect at all, but it also has by far the smallest corpus (123 chunks, the Enchiridion only) and a terse, aphoristic style unlike Seneca's letters or Marcus's reflections. A possible Senecan-idiom lexical-echo confound in the decision instrument is also open. *(v4 update: this confound is no longer open — a pre-registered powered test **confirmed it as the dominant effect**. See [docs/claim-revision-v4.md](docs/claim-revision-v4.md).)*
 
@@ -125,18 +129,16 @@ Setup notes: `meta-llama/Llama-3.2-3B` is gated on Hugging Face (accept the lice
 -   The judge-scored CAA effects are a single decoding-asymmetry artifact: content (+0.41…+0.77 → null) and style (+1.0…+1.6 → null) both collapse under matched decoding. Mechanism + numbers: [docs/measurement-artifact.md](docs/measurement-artifact.md) - full record in [results/README.md](results/README.md).
 -   Corpus acquisition is self-contained: `python -m stoic corpus` re-downloads and re-chunks the source texts, reproducing the frozen chunk counts exactly (437 / 540 / 123; the stage compares counts, not byte-level chunk content).
 
-**In progress / next (priority order):**
+Done: axis-agnostic refactor (verified byte-identical), ModelLens import fix, dilemmas_v3 build + calibration, v3 eval (underpowered), v4 powered eval (headline).
 
-1.  Refactor so the behavioral axis is set in a config file rather than hardcoded. Adding a new axis should not require touching the pipeline code. Existing results have to come out identical afterward.
-2.  Regression tests for ModelLens — mainly that hooks get removed properly when something errors out. Step 5 runs through those hooks, so this comes first.
-3.  `dilemmas_v3` — a new dilemma set built to answer one question: when a LoRA adapter shifts the model's choice, is that reasoning, or is the model just matching Senecan wording in the option text? Four groups of items, crossing topics Seneca writes about against topics he doesn't, and plain wording against Stoic wording. Calibrated so the base model is near 50/50 on every group before anything is measured.
-4.  Run the LoRA adapters against v3 — all three authors, plus a control adapter trained on non-philosophical text of the same length. Without the control, "LoRA moves decisions" can't be separated from "any fine-tuning moves decisions."
-5.  Repeat the circuit analysis on v3 items. The current circuit results are one item per stance, which is a pilot, not a finding. Gated on step 2.
-6.  Figure 1 — the CAA and LoRA circuits side by side, with the unmodified model as a reference panel.
-7.  Add a second behavioral axis: sycophancy. Same three measurements and the same circuit comparison, on something that isn't philosophy. This is what shows whether the result is about intervention methods or just about Stoicism. Gated on step 1.
-8.  Vary temperature and random seed to see whether the decision results hold up, on both axes. Gated on step 3: if v3 says the philosophy result is just wording, run this on sycophancy only. If both axes come back empty, drop it.
-9.  Pass B — rebuild the contrastive pairs from the source texts and re-run stages 2–4, to check the pipeline gives the same answer on fresh data.
-10. Remaining figures, then the write-up.
+Next:
+1. End-to-end exp12 re-run through the fixed ModelLens import
+2. Stance-balanced circuit sweep on v4 items
+3. Sycophancy axis
+4. Figure 1 (CAA vs LoRA circuit, side by side)
+5. Write-up
+
+Stability sweep: per the pre-registered Tier 2 gate, the philosophy axis showed lexical echo, so the sweep runs on the sycophancy axis only.
 
 Descoped: retraining Epictetus on the full corpus. That adapter shows no decision effect, but it also has the smallest corpus by far (123 chunks against 437 and 540), so it's an underpowered arm rather than a real null. Whether corpus size explains it stays an open question in the write-up, not a work item.
 
