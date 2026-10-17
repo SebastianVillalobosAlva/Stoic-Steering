@@ -48,12 +48,12 @@ Two honesty notes to keep with any restatement:
 
 | # | Line(s) | Current claim | Why it changes | Proposed direction |
 |---|---|---|---|---|
-| R1 | 3 (tagline) | "Only LoRA changes the circuit, **and reaches decisions**." | "reaches decisions" is the narrowed claim. | "…and moves decisions **through register, not reasoning** (n=100 powered test)." |
-| R2 | 5 (core finding) | "LoRA moves the judge-free decision instrument…" | True on v2; on the powered set the movement is phrasing-driven. | Keep the CAA/LoRA split; add that the decision movement is register-dependent, one clause. |
+| R1 | 3 (tagline) | "Only LoRA changes the circuit, **and reaches decisions**." | "reaches decisions" is the narrowed claim. | "…and moves decisions **through register, not reasoning** (n=100 powered test)." Applied 2026-10-16 in commit 160bc35. |
+| R2 | 5 (core finding) | "LoRA moves the judge-free decision instrument…" | True on v2; on the powered set the movement is phrasing-driven. | Keep the CAA/LoRA split; add that the decision movement is register-dependent, one clause. Applied 2026-10-16 in commit 160bc35. |
 | R3 | 17–24 ("LoRA reaches decisions" table) | v2 numbers presented as the decision result. | v2 numbers are correct **as v2**; they do not survive at n=100. | Keep the table, relabel it "v2 (n=40)", add the v4 row / a one-line "superseded — see v4" note under it. Receipts rule: do not delete. |
-| R4 | 26 (caveat) | "The non-philosophical control adapter in v3 is what separates them." | It now exists and separated them — and it is not inert. | Update to past tense with the result: control moved −0.036, Marcus's cell matched it. |
+| R4 | 26 (caveat) | "The non-philosophical control adapter in v3 is what separates them." | It now exists and separated them — and it is not inert. | Update to past tense with the result: control moved −0.036, Marcus's cell matched it. Applied 2026-10-16 in commit 48471e5. |
 | R5 | 30 ("LoRA does not install uniform Stoic reasoning") | "…a possible Senecan-idiom lexical-echo confound in the decision instrument is also open." | The confound is no longer *open* — it was tested and **confirmed as the dominant effect**. | This sentence becomes the headline of the paragraph, not its final caveat. |
-| R6 | 7, 28, 32–34 (figures) | Three-depths + LoRA-shift figures reflect v2. | The decision panel is now echo. | New figure (task): v4 idiom-vs-plain by arm with controls. The three-depths figure needs a v4 footnote or a decision-panel redraw. |
+| R6 | 7, 28, 32–34 (figures) | Three-depths + LoRA-shift figures reflect v2. | The decision panel is now echo. | New figure (task): v4 idiom-vs-plain by arm with controls. The three-depths figure needs a v4 footnote or a decision-panel redraw. Applied 2026-10-16 in commit 48471e5. |
 
 ### results/README.md
 
