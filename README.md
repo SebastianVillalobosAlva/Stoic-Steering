@@ -129,14 +129,15 @@ Setup notes: `meta-llama/Llama-3.2-3B` is gated on Hugging Face (accept the lice
 -   The judge-scored CAA effects are a single decoding-asymmetry artifact: content (+0.41…+0.77 → null) and style (+1.0…+1.6 → null) both collapse under matched decoding. Mechanism + numbers: [docs/measurement-artifact.md](docs/measurement-artifact.md) - full record in [results/README.md](results/README.md).
 -   Corpus acquisition is self-contained: `python -m stoic corpus` re-downloads and re-chunks the source texts, reproducing the frozen chunk counts exactly (437 / 540 / 123; the stage compares counts, not byte-level chunk content).
 
-Done: axis-agnostic refactor (verified byte-identical), ModelLens import fix, dilemmas_v3 build + calibration, v3 eval (underpowered), v4 powered eval (headline).
+Done: axis-agnostic refactor (verified byte-identical), ModelLens import fix + regression tests (33 passed, 1 skipped), dilemmas_v3 build + calibration, v3 eval (underpowered), v4 powered eval (headline).
 
 Next:
 1. End-to-end exp12 re-run through the fixed ModelLens import
 2. Stance-balanced circuit sweep on v4 items
 3. Sycophancy axis
-4. Figure 1 (CAA vs LoRA circuit, side by side)
-5. Write-up
+4. Figures: Figure 1 (CAA vs LoRA circuit, side by side), then Figures 2–3
+5. Pass B: rebuild the contrastive pairs and re-run stages 2–4 on fresh data (built, not run; either outcome is reportable)
+6. Write-up
 
 Stability sweep: per the pre-registered Tier 2 gate, the philosophy axis showed lexical echo, so the sweep runs on the sycophancy axis only.
 
