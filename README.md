@@ -1,6 +1,6 @@
 # Weight space vs Activation space - Do they install the same behavior?
 
-Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on the same behavioral axis. In a 3B model, activation steering (CAA) is a no-op under matched decoding. LoRA moves forced-choice decisions, but a pre-registered powered test shows the shift is lexical echo, not reasoning.
+Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on the same behavioral axis. In a 3B model, CAA is a no-op under matched decoding. LoRA moves forced-choice decisions, but a pre-registered powered test shows the shift is lexical echo, not reasoning.
 
 **Core finding:** Under matched decoding, CAA (coefficient 0.11) produces no measurable change in style, content, or forced-choice decisions. An earlier positive result was a decoding artifact (docs/measurement-artifact.md). LoRA is the only intervention that moves the judge-free decision instrument (it also shifts judge-scored style and content in a single eval). A pre-registered test at n=100 (docs/pre-registration-v4.md) shows that the decision movement tracks Seneca's phrasing rather than the dilemma's content: lexical echo, not reasoning. A pilot circuit analysis shows the same split: CAA leaves the circuit essentially untouched; LoRA perturbs it.
 

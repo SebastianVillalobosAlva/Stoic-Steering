@@ -279,8 +279,7 @@ register reaching the choice through the option's wording.
    writeup + the clean reproduction. Primary credibility signal; never bury it.
 2. "One method changes the circuit, the other changes nothing" — CAA at coeff
    0.11 leaves the stoic-content circuit essentially untouched (deviations from
-   base are within threshold-flicker size), while LoRA shifts clean logit diff
-   by up to 1.43 and drops up to 7 nodes. Same split as the behavior. n=2 items
+   base are within threshold-flicker size), while LoRA perturbs it: on ctrl_03 (n=1, accepting) Seneca reduces the clean logit diff by 1.43 (3.88 → 2.45), and on duty_01 (n=1, active) Marcus drops 7 nodes (22 → 15). Same split as the behavior. n=2 items
    — pilot, not settled, until the v3 sweep. **Supersedes** the earlier beat 2
    ("CAA and LoRA produce comparable surface behavior through different circuit
    topologies"), which was written pre-null and is contradicted by Exp 12: CAA
