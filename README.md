@@ -139,7 +139,7 @@ Next:
 5. Pass B: rebuild the contrastive pairs and re-run stages 2–4 on fresh data (built, not run; either outcome is reportable)
 6. Write-up
 
-Stability sweep: per the pre-registered Tier 2 gate, the philosophy axis showed lexical echo, so the sweep runs on the sycophancy axis only.
+Stability sweep: per the Tier 2 gate set in the build plan before the v4 eval, the philosophy axis showed lexical echo, so the sweep runs on the sycophancy axis only.
 
 Descoped: retraining Epictetus on the full corpus. That adapter shows no decision effect, but it also has the smallest corpus by far (123 chunks against 437 and 540), so it's an underpowered arm rather than a real null. Whether corpus size explains it stays an open question in the write-up, not a work item.
 
