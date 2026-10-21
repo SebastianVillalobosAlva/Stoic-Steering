@@ -16,9 +16,9 @@ Nothing else can be verified end-to-end until this is done.
 
 | Action | Where |
 |---|---|
-| Fix the ModelLens import | `exp12_circuit_analysis.py:37` hardcodes a path under `DSAN/Spring 2026/…` that no longer exists. Replace with `pip install -e ../modellens` and delete the `sys.path` insertion |
-| Delete the dead hotfix | `exp12_circuit_analysis.py:49,149`; `exp12_sweep.py:63` |
-| Fix the false provenance string | `exp12_circuit_analysis.py:214` writes `"upstream fix pending"` into every future result JSON; the fix landed upstream as `44d9b77` |
+| Fix the ModelLens import — done in fe0a38f | `exp12_circuit_analysis.py:37` hardcodes a path under `DSAN/Spring 2026/…` that no longer exists. Replace with `pip install -e ../modellens` and delete the `sys.path` insertion |
+| Delete the dead hotfix — done in fe0a38f | `exp12_circuit_analysis.py:49,149`; `exp12_sweep.py:63` |
+| Fix the false provenance string — done in fe0a38f | `exp12_circuit_analysis.py:214` writes `"upstream fix pending"` into every future result JSON; the fix landed upstream as `44d9b77` |
 
 **Why first:** 20 of the `AUTHORS` call sites are in the exp12 scripts, and they
 cannot even be imported today. Renaming them blind is the riskiest move in this

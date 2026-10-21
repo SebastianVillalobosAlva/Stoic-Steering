@@ -45,7 +45,7 @@ At coeff 0.11 the steered greedy output is byte-identical to baseline (greedy te
 only visibly changes at coeff ≥ 1.0), so the residual is judge noise.
 
 **Style / register effect** — stylistic-authenticity delta, canonical clean
-configs, matched decoding, pre-registered "survives if > 2σ" rule:
+configs, matched decoding, a fixed ≥2σ survival rule (the verdict does not depend on it: the effect is ≈0):
 
 | Author | Earlier (asymmetric) | Matched greedy | Matched sampled |
 |---|---|---|---|
