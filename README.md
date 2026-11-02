@@ -1,8 +1,8 @@
 # Weight space vs Activation space - Do they install the same behavior?
 
-Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on the same behavioral axis. In a 3B model, CAA is a no-op under matched decoding. LoRA moves forced-choice decisions, but a pre-registered powered test shows the shift is lexical echo, not reasoning.
+Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on the same behavioral axis. In a 3B model, CAA at coefficient 0.11 is a no-op under matched decoding. LoRA moves forced-choice decisions, but a pre-registered powered test shows the shift is lexical echo, not reasoning.
 
-**Core finding:** Under matched decoding, CAA (coefficient 0.11) produces no measurable change in style, content, or forced-choice decisions. An earlier positive result was a decoding artifact (docs/measurement-artifact.md). LoRA is the only intervention that moves the judge-free decision instrument (it also shifts judge-scored style and content in a single eval). A pre-registered test at n=100 (docs/pre-registration-v4.md) shows that the decision movement tracks Seneca's phrasing rather than the dilemma's content: lexical echo, not reasoning. A pilot circuit analysis shows the same split: CAA leaves the circuit essentially untouched; LoRA perturbs it.
+**Core finding:** Under matched decoding, CAA (coefficient 0.11) produces no measurable change in style, content, or forced-choice decisions. An earlier positive result was a decoding artifact (docs/measurement-artifact.md). On the v2 items, LoRA is the only intervention that moves the judge-free decision instrument; CAA has not been run on the v3 or v4 items. An older set of LoRA adapters, trained before the corpus was cleaned, also shifted judge-scored style and content in a single eval; the clean adapters have not been judge-scored. A pre-registered test at n=100 (docs/pre-registration-v4.md) shows that the decision movement tracks Seneca's phrasing rather than the dilemma's content: lexical echo, not reasoning. A pilot circuit analysis shows the same split: CAA leaves the circuit essentially untouched; LoRA perturbs it.
 
 > **⚠ Superseded in part (v4, 2026-07-31) — awaiting prose revision.** A
 > pre-registered, powered eval (100 items, 25/cell) shows the LoRA decision
@@ -15,15 +15,21 @@ Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on
 > map + numbers: [docs/claim-revision-v4.md](docs/claim-revision-v4.md),
 > `results/v4_behavioral/`.
 
+> **Caveat on the v4 result (added 2026-11-02).** The 100 items include the 40 v3
+> items where the pattern first appeared, as the pre-registration declares. On the
+> 60 new items alone, Seneca's idiom-vs-plain contrast is +0.148 log-odds, p=0.117
+> (exploratory, not pre-registered). Details:
+> [audit/2026-11-02_resolution.md](audit/2026-11-02_resolution.md).
+
 ![Three-depths dissociation — CAA is flat at style, content, and decision; LoRA moves all three (Epictetus decision null)](results/figures/fig_three_depths.png)
 
-*v2 decision result. The v4 powered test shows this movement is lexical echo, not reasoning; see docs/claim-revision-v4.md.*
+*The LoRA style and content panels use older adapters trained before the corpus was cleaned; the decision panel uses the clean adapters. v2 decision result. For Seneca, the v4 powered test shows this movement is lexical echo, not reasoning; see docs/claim-revision-v4.md.*
 
 ------------------------------------------------------------------------
 
 ## Key findings
 
--   **CAA — no measurable movement.** At coefficient 0.11, decisions, style, and content show no measurable effect. A coefficient sweep at the decision level has not been done, so whether a stronger coefficient would produce real Stoic register is still unclear.
+-   **CAA — no measurable movement.** At coefficient 0.11, decisions, style, and content show no measurable effect. A decision-level coefficient sweep has only been run for Epictetus, on the v2 items in the earlier codebase, up to coefficient 1.5 (ΔP −0.011; Δlog-odds −0.063, t=−1.16; raw output not saved). Marcus and Seneca have not been swept, and whether a stronger coefficient would produce real Stoic register is still unclear.
 
 -   **CAA "content effect" — a measurement artifact.** An early measurement reported a large positive effect. Steered text was sampled and truncated to ~13 tokens while baselines were greedy at 100, so the judge was scoring the decoding difference instead of the steering. Under identical decoding, the content effect is null for all three philosophers. Full mechanism and numbers in [docs/measurement-artifact.md](docs/measurement-artifact.md).
 
@@ -36,11 +42,11 @@ Comparing activation addition (CAA) against low-rank weight adaptation (LoRA) on
 
     The circuit analysis (Exp 12 via ModelLens) shows the same split. CAA leaves the stoic-content circuit essentially untouched. LoRA's circuit perturbation is ordered Seneca > Marcus > Epictetus ≈ 0 — the same ordering as the decision shift. It is robust at the median, and acts on content discrimination in an item-dependent way rather than as a directional push. Full analysis in [results/README.md](results/README.md).
 
-    **Caveat:** the two methods also train on different objectives (CAA is contrastive, LoRA is continued pretraining), so method and objective are confounded. A non-philosophical control adapter separated them: it moved −0.036 (n.s.) and matched Marcus's one significant cell, so that cell is generic fine-tuning drift, not an axis effect.
+    **Caveat:** the two methods also train on different objectives (CAA is contrastive, LoRA is continued pretraining), so method and objective are confounded. A non-philosophical control adapter moved −0.036 log-odds overall (n.s.). Marcus's one significant v4 cell (−0.102) is close to that control's −0.094 on the same cell, and it fails the pre-registered test against the neutral control (−0.402), so it does not count as an axis effect.
 
 ![LoRA decision shift by author and stance bucket — Seneca moves both, Marcus accepting-only, Epictetus null](results/figures/fig_lora_decision_shift.png)
 
-*v2 decision result. The v4 powered test shows this movement is lexical echo, not reasoning; see docs/claim-revision-v4.md.*
+*v2 decision result. For Seneca, the v4 powered test shows this movement is lexical echo, not reasoning; see docs/claim-revision-v4.md.*
 
 -   **LoRA does not install uniform Stoic reasoning.** The effects differ by philosopher. Marcus is a broad *passivity prior*: it moves only the "accepting" dilemmas and is flat on the "active" ones. Seneca moves the choice on average, but that average is carried by a handful of items shifting a lot rather than a steady push across all 40 — the per-item sign test is not significant (25 of 40 positive, p = 0.15). Epictetus shows no decision effect at all, but it also has by far the smallest corpus (123 chunks, the Enchiridion only) and a terse, aphoristic style unlike Seneca's letters or Marcus's reflections. A possible Senecan-idiom lexical-echo confound in the decision instrument is also open. *(v4 update: this confound is no longer open — a pre-registered powered test **confirmed it as the dominant effect**. See [docs/claim-revision-v4.md](docs/claim-revision-v4.md).)*
 
@@ -139,7 +145,7 @@ Next:
 5. Pass B: rebuild the contrastive pairs and re-run stages 2–4 on fresh data (built, not run; either outcome is reportable)
 6. Write-up
 
-Stability sweep: per the Tier 2 gate set in the build plan before the v4 eval, the philosophy axis showed lexical echo, so the sweep runs on the sycophancy axis only.
+Stability sweep: runs on the sycophancy axis only, because the philosophy axis showed lexical echo for Seneca. This follows the gate in CLAUDE.md step 7, committed before the v4 eval; the earlier build plan said to cancel the sweep on echo.
 
 Descoped: retraining Epictetus on the full corpus. That adapter shows no decision effect, but it also has the smallest corpus by far (123 chunks against 437 and 540), so it's an underpowered arm rather than a real null. Whether corpus size explains it stays an open question in the write-up, not a work item.
 
